@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          Django에서 ajax요청하기 - nevercaution
+        
+    </title>
+
+    <link rel="canonical" href="https://nevercaution.github.io/2016/03/27/django-ajax/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('null')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#django" title="django">django</a>
+                            
+                              <a class="tag" href="/tags/#ajax" title="ajax">ajax</a>
+                            
+                        </div>
+                        <h1>Django에서 ajax요청하기</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by teddy on
+                            2016-03-27
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">nevercaution</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <p>View에서 get, post요청을 할 때 template단에서 ajax요청을 날려야할 때가 있다.<br>
+APIVIew, View 두개의 경우를 살펴보자.<br>
+1.APIView ↔ ajax (post, get)<br>
+(post의 케이스로 설명을 하였지만 get도 동일한 방식이다.)<br>
+가장 빈번하게 사용하는 케이스이다. template 에서 버튼을 눌러 요청을 ajax로 날려 결과값을 받아와서 전체 화면을 다시 그리지 않고 필요한 부분만 갱신해줄 수 있다.</p>
+<ul>
+<li>template.html</li>
+</ul>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">$.ajax(&#123;</div><div class="line">    url: <span class="string">"&#123;% url 'request:url' %&#125;"</span>,</div><div class="line">    <span class="built_in">type</span>: <span class="string">'POST'</span>,</div><div class="line">    data: &#123;</div><div class="line">        <span class="string">'user_id'</span>: user_id</div><div class="line">    &#125;,</div><div class="line">    success: <span class="function"><span class="keyword">function</span> <span class="params">(response)</span></span> &#123;</div><div class="line">        // TODO: <span class="keyword">do</span> something.</div><div class="line">    &#125;,</div><div class="line">    <span class="built_in">error</span>: <span class="function"><span class="keyword">function</span> <span class="params">(err)</span></span> &#123;</div><div class="line">        console.<span class="built_in">log</span>(err);</div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<ul>
+<li><a href="http://url.py" target="_blank" rel="external">url.py</a></li>
+</ul>
+ <figure class="highlight awk"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">url(<span class="string">r'^request/url$'</span>, views.TestView.as_view(), name=<span class="string">'url'</span>),</div></pre></td></tr></table></figure>
+<ul>
+<li><a href="http://view.py" target="_blank" rel="external">view.py</a></li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">TestView</span>(<span class="title">APIView</span>):</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">post</span><span class="params">(<span class="keyword">self</span>, request)</span></span>:</div><div class="line">        user_id = request.POST.get(<span class="string">'user_id'</span>)</div><div class="line">      <span class="comment"># do something</span></div><div class="line">       <span class="keyword">return</span> Response()</div></pre></td></tr></table></figure>
+<p>View class를 상속받고 post 메소드로 받는다면 ajax 요청시 csrf 토큰이 없다고 하면서 403에러가 발생한다.<br>
+이를 해결해주기 위해 APIView를 상속받아서 처리하면 csrf 인증을 피해갈 수 있다.  (피해간다기보단 이미 인증이 되어있는 요청이라고 판단하는 것이지만)<br>
+이는 APIView의 as_view() 메소드를 보면 알 수 있는데</p>
+<ul>
+<li>api_view.py</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">as_view</span><span class="params">(cls, **initkwargs)</span>:</span></div><div class="line">    <span class="string">"""</span></div><div class="line">    Store the original class on the view function.</div><div class="line"> </div><div class="line">    This allows us to discover information about the view when we do URL</div><div class="line">    reverse lookups.  Used for breadcrumb generation.</div><div class="line">    """</div><div class="line">    <span class="keyword">if</span> isinstance(getattr(cls, <span class="string">'queryset'</span>, <span class="keyword">None</span>), models.query.QuerySet):</div><div class="line">        <span class="function"><span class="keyword">def</span> <span class="title">force_evaluation</span><span class="params">()</span>:</span></div><div class="line">            <span class="keyword">raise</span> RuntimeError(</div><div class="line">                <span class="string">'Do not evaluate the `.queryset` attribute directly, '</span></div><div class="line">                <span class="string">'as the result will be cached and reused between requests. '</span></div><div class="line">                <span class="string">'Use `.all()` or call `.get_queryset()` instead.'</span></div><div class="line">            )</div><div class="line">        cls.queryset._fetch_all = force_evaluation</div><div class="line">        cls.queryset._result_iter = force_evaluation  <span class="comment"># Django &lt;= 1.5</span></div><div class="line"> </div><div class="line">    view = super(APIView, cls).as_view(**initkwargs)</div><div class="line">    view.cls = cls</div><div class="line"> </div><div class="line">    <span class="comment"># <span class="doctag">Note:</span> session based authentication is explicitly CSRF validated,</span></div><div class="line">    <span class="comment"># all other authentication is CSRF exempt.</span></div><div class="line">    <span class="keyword">return</span> csrf_exempt(view)</div></pre></td></tr></table></figure>
+<p>마지막 라인에 csrf_exempt로 view를 감싸준다. 이는 해당 API요청이 csrf 인증이 되어있다고 명시해주는 것이다.<br>
+그리고, 내부로 파고 들어가면  APIView에서 authentication_classes = api_settings.DEFAULT_AUTHENTICATION_CLASSES 로 설정이 되어있는데, restframework의 setting을 살펴보면 아래와 같이 정의가 되어있음을 알 수 있다.</p>
+<ul>
+<li>api_settings.py</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="string">'DEFAULT_AUTHENTICATION_CLASSES'</span>: (</div><div class="line">    <span class="string">'rest_framework.authentication.SessionAuthentication'</span>,</div><div class="line">    <span class="string">'rest_framework.authentication.BasicAuthentication'</span></div><div class="line">),</div><div class="line">  </div><div class="line"><span class="comment"># Authentication</span></div><div class="line"><span class="string">'UNAUTHENTICATED_USER'</span>: <span class="string">'django.contrib.auth.models.AnonymousUser'</span>,</div><div class="line"><span class="string">'UNAUTHENTICATED_TOKEN'</span>: <span class="keyword">None</span>,</div></pre></td></tr></table></figure>
+<p>인증 처리를 rest_framework의 SessionAuthentication으로 하겠다는 내용과 인증 유저를 AnonymousUser 로 설정을 해준다.<br>
+기존의 인증절차에서 default인증 객체를 검사하게 되는데, 이 때 user객체의 active를 검사할 때 이 객체가 유효하지 않으면 unauthenticated_user로 AnonymousUser객체를 생성하게 된다. 접근 허용 체크를 할 때는 APIView에 정의된 permission class로 체크를 하는데 아래와 같다.</p>
+<ul>
+<li>api_settings.py</li>
+</ul>
+<figure class="highlight 1c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">'DEFAULT_PERMISSION_CLASSES': (</div><div class="line">    'rest_framework.permissions.AllowAny',</div><div class="line">),</div></pre></td></tr></table></figure>
+<p>AllowAny Class는 permission요청에 대해 무조건 True를 반환해주므로, APIView의 check_permissions 메소드에서 권한 체크를 할 때 권한이 있다고 판단을 한다.</p>
+<ul>
+<li><a href="http://permissions.py" target="_blank" rel="external">permissions.py</a></li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">AllowAny</span><span class="params">(BasePermission)</span>:</span></div><div class="line">    <span class="string">"""</span></div><div class="line">    Allow any access.</div><div class="line">    This isn't strictly required, since you could use an empty</div><div class="line">    permission_classes list, but it's useful because it makes the intention</div><div class="line">    more explicit.</div><div class="line">    """</div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">has_permission</span><span class="params">(self, request, view)</span>:</span></div><div class="line">        <span class="keyword">return</span> <span class="keyword">True</span></div></pre></td></tr></table></figure>
+<p>즉, APIView는 기존의 django 에서 체크하고 있는 csrf 공격방어에 대한 인증을 제외하고 따로 인증절차를 진행하게되는데, 인증 유저를 익명유저로 설정하여 유저에 대한 권한검사를 하지 않고 default로 설정이 된 권한체크 클래스로 검사를 한다.<br>
+AllowAny는 접근 허용여부를 모두 True로 반환하여 접근에 대해 유효하다고 판단하여 csrf토큰 없이 요청 수행이 가능한 것이다.<br>
+데이터를 모두 처리하고 나서의 응답값은 Response 객체를 반환함으로서 처리한다.</p>
+<p>2.View ↔ ajax (post, get)<br>
+ajax를 통해 View class에 메소드를 호출하는 경우는 많지는 않았는데, 이유는 굳이 ajax로 호출하지 않아도 할 수 있는 방법들이 있었기 때문이었다.<br>
+하지만 종종 사용해야할 경우가 있었는데, 이를테면 내부 검색창에서 검색결과를 내부 포멧에 맞게 내용을 채워줘야 하는데 그 template가 별도의 파일로 있는 경우였다.</p>
+<ul>
+<li>template.html</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">$(<span class="string">"#searchFrom"</span>).submit(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> user_id = $(<span class="string">"input[name=user_id]"</span>).val();</div><div class="line"> </div><div class="line">    $.ajax(&#123;</div><div class="line">        <span class="attr">url</span>: <span class="string">"&#123;% url 'user:search' %&#125;"</span>,</div><div class="line">        <span class="attr">type</span>: <span class="string">"POST"</span>,</div><div class="line">        <span class="attr">data</span>: &#123;</div><div class="line">            <span class="string">"csrfmiddlewaretoken"</span>: <span class="string">"\&#123;\&#123; csrf_token \&#125;\&#125;"</span>,</div><div class="line">            <span class="string">'user_id'</span>: user_id,</div><div class="line">        &#125;,</div><div class="line">        <span class="attr">success</span>: <span class="function"><span class="keyword">function</span> (<span class="params">response</span>) </span>&#123;</div><div class="line">            $(<span class="string">'#user_list tbody'</span>).html(response);</div><div class="line">        &#125;,</div><div class="line">        <span class="attr">error</span>: <span class="function"><span class="keyword">function</span> (<span class="params">err</span>) </span>&#123;</div><div class="line">            <span class="built_in">console</span>.log(err);</div><div class="line">        &#125;</div><div class="line">    &#125;);</div><div class="line"> </div><div class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+
+위의 tempalate에서 입력받은 데이터를 통해 ajax로 호출을 한다. 이 때 호출되는 class는 View를 상속받은 class 이다. form의 submit으로 호출을 한 경우인데 form에 {% csrf_token %}이 들어가있기 때문에 post요청을 날릴 경우엔 403이 떨어진다.(get요청은 안넣어도 상관없다.)
+이런 경우를 방지하기 위해 data필드에 csrf token 을 넣어준다.
+
+<figure class="highlight 1c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="string">"csrfmiddlewaretoken"</span>: <span class="string">"&#123;&#123; csrf_token &#125;&#125;"</span>,</div></pre></td></tr></table></figure>
+<p>요청을 받고 데이터를 만들고 나면 TemplateResponse를 사용하여 분리되어 생성된 페이지를 반환하게 된다.</p>
+<ul>
+<li><a href="http://view.py" target="_blank" rel="external">view.py</a></li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">UserSearchView</span>(<span class="title">View</span>):</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">post</span><span class="params">(<span class="keyword">self</span>, request)</span></span>:</div><div class="line">        user_id = request.POST.get(<span class="string">'user_id'</span>)</div><div class="line">        user_list = service.search_user(user_id)</div><div class="line">        context = &#123;</div><div class="line">            <span class="string">'user_list'</span>: user_list</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> TemplateResponse(request, <span class="string">'user/user_list.html'</span>, context)</div></pre></td></tr></table></figure>
+<p>다시 template에서는 넘어온 html덩어리를 미리 정의해둔 위치에 그대로 붙여줌으로서 화면을 다시 그리지 않고, 필요한 부분만 넣어줄 수 있다.<br>
+(APIView등을 통해 데이터만 받아와 다시 그리는 방법도 있지만 성격이 맞지 않는다고 생각하였고, 일반 호출을 하게 되면 페이지로딩을 다시 하므로 그 방법은 피했다)</p>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2016/05/06/django-sso/" data-toggle="tooltip" data-placement="top" title="Django에서 SSO하기">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2016/03/11/store-inapp-in-python/" data-toggle="tooltip" data-placement="top" title="Python에서 iOS, Android 스토어 인앱 결제 검증하기">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                    <div class="comment">
+                        <div id="disqus_thread" class="disqus-thread"></div>
+                    </div>
+                
+                <!-- disqus comment end -->
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="nav">none</ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#django" title="django">django</a>
+                        
+                          <a class="tag" href="/tags/#ajax" title="ajax">ajax</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus embedded js code start (one page only need to embed once) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "nevercaution";
+    var disqus_identifier = "https://nevercaution.github.io/2016/03/27/django-ajax/";
+    var disqus_url = "https://nevercaution.github.io/2016/03/27/django-ajax/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus embedded js code start end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/hoguen.yoon">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/nevercaution">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; teddy 2017 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    re-Ported by <a href="http://beantech.org">BeanTech</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=YenYuHsuan&repo=hexo-theme-beantech&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://nevercaution.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="https://nevercaution.github.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
