@@ -139,14 +139,14 @@
 
                         
                         <li>
-                            <a href="/archive/">Archives</a>
+                            <a href="/tags/">Tags</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/tags/">Tags</a>
+                            <a href="/archive/">Archives</a>
                         </li>
                         
                     
@@ -215,6 +215,30 @@
 
              <!-- 归档列表 -->
 
+            
+            <div class="one-tag-list">
+                <span class="fa fa-calendar-times-o listing-seperator" id="2017">
+                    <span class="tag-text">2017</span>
+                </span>
+                <ul>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <li >
+                    06-23
+                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                    <a href="/2017/06/23/django-orm-standalone/" style="color: #0085a1">
+                        <span>
+                            Django orm standalone feat(docker)
+                        </span>
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </li>
+                
+                </ul>
+            </div>
             
             <div class="one-tag-list">
                 <span class="fa fa-calendar-times-o listing-seperator" id="2016">
@@ -297,9 +321,15 @@
     <div class="tags">
         
             
-            <a href="/tags/#django" title="django" rel="2">django</a>
+            <a href="/tags/#django" title="django" rel="3">django</a>
             
         
+            
+        
+            
+        
+            
+            <a href="/tags/#python" title="python" rel="2">python</a>
             
         
             
@@ -369,6 +399,10 @@
   <h5>RECENT POSTS</h3>
   <div class="widget">
     <ul>
+      
+        <li>
+          <a href="/2017/06/23/django-orm-standalone/">Django orm standalone feat(docker)</a>
+        </li>
       
         <li>
           <a href="/2016/05/06/django-sso/">Django에서 SSO하기</a>
