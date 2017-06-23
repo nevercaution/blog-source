@@ -67,7 +67,7 @@ pytz==2017.2
 six==1.10.0  
 ~~~
 
-[django-extension](https://github.com/django-extensions/django-extensions, "django-extension") 을 사용해서 스크립트들을 돌리고, mysql 의 데이터를 사용하기 위해 둘다 설치해주었다. 각자 필요한 부분이 있다면 추가해주면 된다.  
+[django-extension](https://github.com/django-extensions/django-extensions) 을 사용해서 스크립트들을 돌리고, mysql 의 데이터를 사용하기 위해 둘다 설치해주었다. 각자 필요한 부분이 있다면 추가해주면 된다.  
 이번에는 설정파일을 보도록 하자.
 
 - settings.py
@@ -190,7 +190,7 @@ Docker iamge 로 만드는 작업은 완전 단순하다. 사용법도 전혀 �
 FROM python:3.5-onbuild
 ~~~
 
-사족으로 [pythpn:3.5-onbuild](https://github.com/docker-library/python/blob/9a9021f2134d953165b31d98cacb95aa34076f90/3.5/onbuild/Dockerfile, "pythpn:3.5-onbuild") 에서 하는 일은 아래와 같다. 
+사족으로 [pythpn:3.5-onbuild](https://github.com/docker-library/python/blob/9a9021f2134d953165b31d98cacb95aa34076f90/3.5/onbuild/Dockerfile) 에서 하는 일은 아래와 같다. 
 
 ~~~
 #
@@ -239,4 +239,5 @@ container 내부에서는 host에 바로 접근할 수가 없기 때문에 mysql
 ### 결론
 이미 django project 를 구동해본 경험이 있다면 큰 어려움 없이 사용할 수 있을 것이다.   
 물론 해당 프로젝트에서 배치 스크립트를 작성할 수도 있지만, 성격이 맞지 않을 수 있기 때문에 굳이 억지로 넣을 필요는 없다.  
-cursor로 작업하는게 간단하고 편할 수도 있지만, 여러 패키지를 함께 써야하고 여러 db 설정을 바라봐야 한다면 django 의 골격을 그대로 사용하는 방법이 손쉬울 수 있겠다. 해당 예제는 [django-orm standalone](https://github.com/nevercaution/django-orm, "django-orm standalone") 에서 확인할 수 있다.  
+cursor로 작업하는게 간단하고 편할 수도 있지만, 여러 패키지를 함께 써야하고 여러 db 설정을 바라봐야 한다면 django 의 골격을 그대로 사용하는 방법이 손쉬울 수 있겠다.   
+해당 예제는 [django-orm standalone](https://github.com/nevercaution/django-orm) 에서 확인할 수 있다.  

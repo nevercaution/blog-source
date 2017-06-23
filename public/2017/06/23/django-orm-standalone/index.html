@@ -243,7 +243,7 @@
 <li>requirements.txt</li>
 </ul>
 <figure class="highlight ini"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="attr">Django</span>==<span class="number">1.11</span>.<span class="number">2</span>    </div><div class="line"><span class="attr">django-extensions</span>==<span class="number">1.7</span>.<span class="number">9</span>  </div><div class="line"><span class="attr">mysqlclient</span>==<span class="number">1.3</span>.<span class="number">10</span>  </div><div class="line"><span class="attr">pytz</span>==<span class="number">2017.2</span>  </div><div class="line"><span class="attr">six</span>==<span class="number">1.10</span>.<span class="number">0</span></div></pre></td></tr></table></figure>
-<p><a href="https://github.com/django-extensions/django-extensions," title="django-extension" target="_blank" rel="external">django-extension</a> 을 사용해서 스크립트들을 돌리고, mysql 의 데이터를 사용하기 위해 둘다 설치해주었다. 각자 필요한 부분이 있다면 추가해주면 된다.<br>
+<p><a href="https://github.com/django-extensions/django-extensions" target="_blank" rel="external">django-extension</a> 을 사용해서 스크립트들을 돌리고, mysql 의 데이터를 사용하기 위해 둘다 설치해주었다. 각자 필요한 부분이 있다면 추가해주면 된다.<br>
 이번에는 설정파일을 보도록 하자.</p>
 <ul>
 <li><a href="http://settings.py" target="_blank" rel="external">settings.py</a></li>
@@ -278,7 +278,7 @@
 <li>Dockerfile</li>
 </ul>
 <figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">FROM</span> python:<span class="number">3.5</span>-<span class="keyword">onbuild</span></div></pre></td></tr></table></figure>
-<p>사족으로 <a href="https://github.com/docker-library/python/blob/9a9021f2134d953165b31d98cacb95aa34076f90/3.5/onbuild/Dockerfile," title="pythpn:3.5-onbuild" target="_blank" rel="external">pythpn:3.5-onbuild</a> 에서 하는 일은 아래와 같다.</p>
+<p>사족으로 <a href="https://github.com/docker-library/python/blob/9a9021f2134d953165b31d98cacb95aa34076f90/3.5/onbuild/Dockerfile" target="_blank" rel="external">pythpn:3.5-onbuild</a> 에서 하는 일은 아래와 같다.</p>
 <figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#</span></div><div class="line"><span class="comment"># <span class="doctag">NOTE:</span> THIS DOCKERFILE IS GENERATED VIA "update.sh"</span></div><div class="line"><span class="comment">#</span></div><div class="line"><span class="comment"># PLEASE DO NOT EDIT IT DIRECTLY.</span></div><div class="line"><span class="comment">#</span></div><div class="line"></div><div class="line"><span class="keyword">FROM</span> python:<span class="number">3.5</span></div><div class="line"></div><div class="line"><span class="keyword">RUN</span><span class="bash"> mkdir -p /usr/src/app</span></div><div class="line"><span class="keyword">WORKDIR</span><span class="bash"> /usr/src/app</span></div><div class="line"></div><div class="line"><span class="keyword">ONBUILD</span> <span class="keyword">COPY</span><span class="bash"> requirements.txt /usr/src/app/</span></div><div class="line"><span class="keyword">ONBUILD</span> <span class="keyword">RUN</span><span class="bash"> pip install --no-cache-dir -r requirements.txt</span></div><div class="line"></div><div class="line"><span class="keyword">ONBUILD</span> <span class="keyword">COPY</span><span class="bash"> . /usr/src/app</span></div></pre></td></tr></table></figure>
 <p>이렇게만 써주고 build 하면 끝이다.</p>
 <figure class="highlight crmsh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ docker build --<span class="keyword">tag</span> <span class="title">django-orm</span>:<span class="number">0.1</span> .</div></pre></td></tr></table></figure>
@@ -293,7 +293,8 @@
 <h3 id="결론">결론</h3>
 <p>이미 django project 를 구동해본 경험이 있다면 큰 어려움 없이 사용할 수 있을 것이다.<br>
 물론 해당 프로젝트에서 배치 스크립트를 작성할 수도 있지만, 성격이 맞지 않을 수 있기 때문에 굳이 억지로 넣을 필요는 없다.<br>
-cursor로 작업하는게 간단하고 편할 수도 있지만, 여러 패키지를 함께 써야하고 여러 db 설정을 바라봐야 한다면 django 의 골격을 그대로 사용하는 방법이 손쉬울 수 있겠다. 해당 예제는 <a href="https://github.com/nevercaution/django-orm," title="django-orm standalone" target="_blank" rel="external">django-orm standalone</a> 에서 확인할 수 있다.</p>
+cursor로 작업하는게 간단하고 편할 수도 있지만, 여러 패키지를 함께 써야하고 여러 db 설정을 바라봐야 한다면 django 의 골격을 그대로 사용하는 방법이 손쉬울 수 있겠다.<br>
+해당 예제는 <a href="https://github.com/nevercaution/django-orm" target="_blank" rel="external">django-orm standalone</a> 에서 확인할 수 있다.</p>
 
                 
 
