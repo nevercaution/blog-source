@@ -157,3 +157,6 @@ deploy:
   type: git
   repository: https://github.com/nevercaution/nevercaution.github.io.git
   branch: master
+
+nofollow:
+  enable: true

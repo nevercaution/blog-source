@@ -5,10 +5,10 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
-    <meta name="keyword"  content="">
+    <meta name="keyword" content="">
     <link rel="shortcut icon" href="/img/ironman-draw.png">
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
@@ -76,7 +76,7 @@
     
 </style>
 
-<header class="intro-header" >
+<header class="intro-header">
     <!-- Signature -->
     <div id="signature">
         <div class="container">
@@ -212,7 +212,7 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <p>회사에서 필요에 의해 <a href="https://ko.wikipedia.org/wiki/%ED%86%B5%ED%95%A9_%EC%9D%B8%EC%A6%9D," title="Single Sign On" target="_blank" rel="external">Single Sign On</a>을 구현해야 할 일이 있었다. 3개의 독립된 사이트가 있었고, 각자 로그인을 따로 해야 한다는 점이 사용자 입장에서는 번거로운 일이 될 수 있다는 이유에서 였다.</p>
+                <p>회사에서 필요에 의해 <a href="https://ko.wikipedia.org/wiki/%ED%86%B5%ED%95%A9_%EC%9D%B8%EC%A6%9D," title="Single Sign On" target="_blank" rel="external nofollow noopener noreferrer">Single Sign On</a>을 구현해야 할 일이 있었다. 3개의 독립된 사이트가 있었고, 각자 로그인을 따로 해야 한다는 점이 사용자 입장에서는 번거로운 일이 될 수 있다는 이유에서 였다.</p>
 <p>3개의 사이트는 하나의 유저테이블을 바라보고 있었기 때문에 충분히 합당한 이유였다. 하지만 django에서 제공하는 기본 유저 테이블을 사용하지 않기 때문에 찾아봤었던 다른 인증 툴들은 그대로 사용하기 까다로워 보였다. 내가 구현해야 하는 상황에는 몇가지 제약사항이 있었다.</p>
 <ol>
 <li>
@@ -225,17 +225,17 @@
 <p>이미 테이블이 존재하고 <u>django 프로젝트에서 migration 을 할 수 없는 상황이다.</u> 기존에 생성되어 있는 테이블들의 구성을 변경할 수는 있지만 그 과정과 절차가 까다롭고 (회사의 사정에 의해), 외래키를 사용하지 않았기 때문에 모델과 테이블간의 100% 싱크가 맞지 않는 상황이었다.</p>
 </li>
 <li>
-<p>위와 같은 이유로 찾아봤었던 <a href="https://github.com/jbittel/django-mama-cas," title="MamaCas" target="_blank" rel="external">MamaCAS</a> 같은 외부 인증툴을 사용할 수 없었다. (migration을 할 수 없었기에 인증을 위해 별도의 테이블을 생성하기 까다로운 상황이었다.)</p>
+<p>위와 같은 이유로 찾아봤었던 <a href="https://github.com/jbittel/django-mama-cas," title="MamaCas" target="_blank" rel="external nofollow noopener noreferrer">MamaCAS</a> 같은 외부 인증툴을 사용할 수 없었다. (migration을 할 수 없었기에 인증을 위해 별도의 테이블을 생성하기 까다로운 상황이었다.)</p>
 </li>
 </ol>
 <p>3개의 프로젝트들이 출시가 얼마 남지 않은 상황이고, 인증을 위해서 별도의 커다란 작업이 있는 것은 별로 좋은 선택이 아니였다. 물론 외부의 다른 툴들을 이용할 수도 있었지만, 단순 인증을 위해 외부툴을 사용하기엔 부담스러운 부분이 있었고, 볼륨을 크게 잡고 싶지 않았다.</p>
 <p>여러 방법을 찾아보면서 몇가지 아이디어가 나왔었다.</p>
 <ol>
 <li>
-<p><a href="https://redis.io/," title="redis" target="_blank" rel="external">redis</a> 를 이용해서 인증 정보를 저장하는 방식</p>
+<p><a href="https://redis.io/," title="redis" target="_blank" rel="external nofollow noopener noreferrer">redis</a> 를 이용해서 인증 정보를 저장하는 방식</p>
 </li>
 <li>
-<p><a href="https://jwt.io/," title="jwt" target="_blank" rel="external">jwt</a>를 이용해서 javascript 내부에서 localStorage 에 인증 정보를 저장하는 방식</p>
+<p><a href="https://jwt.io/," title="jwt" target="_blank" rel="external nofollow noopener noreferrer">jwt</a>를 이용해서 javascript 내부에서 localStorage 에 인증 정보를 저장하는 방식</p>
 </li>
 <li>
 <p>cookie에 저장하는 방식</p>
@@ -248,14 +248,14 @@
 <p>여러 개의 사이트가 공유하는 유저 정보가 있고, 이 정보로 로그인을 하기 때문에 모든 사이트에서 한번의 로그인을 하면 되는 기능이 필요했다.추가적으로 각 사이트 별로는 각자의 허가 정보가 있으므로 이 정보는 공유하지 않고 각자 구현한다. (템플릿만 제공)</p>
 <p>한마디로 요약하면 쿠키에 암호화된 토큰 정보를 도메인이 같은 사이트들끼리 로그인 정보를 공유를 해서 사용하는 방법이다.</p>
 <h2 id="예상-시나리오">예상 시나리오</h2>
-<p><a href="http://alpha.mysite.com" target="_blank" rel="external">alpha.mysite.com</a>, <a href="http://beta.mysite.com" target="_blank" rel="external">beta.mysite.com</a>, <a href="http://charlie.mysite.com" target="_blank" rel="external">charlie.mysite.com</a> 3개의 사이트가 있다.<br>
+<p><a href="http://alpha.mysite.com" target="_blank" rel="external nofollow noopener noreferrer">alpha.mysite.com</a>, <a href="http://beta.mysite.com" target="_blank" rel="external nofollow noopener noreferrer">beta.mysite.com</a>, <a href="http://charlie.mysite.com" target="_blank" rel="external nofollow noopener noreferrer">charlie.mysite.com</a> 3개의 사이트가 있다.<br>
 beta 에서 로그인을 하고 charlie 사이트에 접속할 경우 이미 로그인이 되어 있다.<br>
 3개의 사이트는 각자 permission 이 따로 존재한다.<br>
 alpha 에서 로그아웃을 할 경우, 나머지 사이트에서도 모두 로그아웃이 된다.<br>
 로그인 정보가 만료되었을 경우에도 로그아웃 처리된다.</p>
 <h2 id="시나리오-순서-별-설명">시나리오 순서 별 설명</h2>
 <ol>
-<li>로그인 시 : <u>jwt token</u> 을 발급해서 request cookie에 저장한다. (이 때, <u>cookie</u> 의 domain은 main domain 값을 넣어준다.&lt;<a href="http://mysite.com" target="_blank" rel="external">mysite.com</a>&gt;)</li>
+<li>로그인 시 : <u>jwt token</u> 을 발급해서 request cookie에 저장한다. (이 때, <u>cookie</u> 의 domain은 main domain 값을 넣어준다.&lt;<a href="http://mysite.com" target="_blank" rel="external nofollow noopener noreferrer">mysite.com</a>&gt;)</li>
 <li>인증이 필요한 페이지에 접속할 경우<br>
 rest framework 의 <u>authentication</u> class 에서 cookie 에 저장되어 있는 token 값의 유효성을 검사한다.<br>
 rest framework 의 <u>permission</u> class 에서 해당 유저가 기능에 접근 허가 여부를 판단한다.</li>
@@ -285,26 +285,26 @@ rest framework 의 <u>permission</u> class 에서 해당 유저가 기능에 접
 jwt_util.py</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> calendar <span class="keyword">import</span> timegm</div><div class="line"><span class="keyword">from</span> datetime <span class="keyword">import</span> datetime</div><div class="line"> </div><div class="line"><span class="keyword">import</span> jwt</div><div class="line"><span class="keyword">from</span> rest_framework_jwt.settings <span class="keyword">import</span> api_settings</div><div class="line"> </div><div class="line"><span class="keyword">from</span> user.models.CustomUser <span class="keyword">import</span> CustomUser</div><div class="line"> </div><div class="line"> </div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">obtain_token</span><span class="params">(user: CustomUser)</span>:</span></div><div class="line">    jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER</div><div class="line">    jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER</div><div class="line"> </div><div class="line">    payload = jwt_payload_handler(user)</div><div class="line"> </div><div class="line">    <span class="comment"># Include original issued at time for a brand new token,</span></div><div class="line">    <span class="comment"># to allow token refresh</span></div><div class="line">    <span class="keyword">if</span> api_settings.JWT_ALLOW_REFRESH:</div><div class="line">        payload[<span class="string">'orig_iat'</span>] = timegm(</div><div class="line">            datetime.utcnow().utctimetuple()</div><div class="line">        )</div><div class="line"> </div><div class="line">    <span class="keyword">return</span> jwt_encode_handler(payload)</div></pre></td></tr></table></figure>
 <p>jwt 변수들에 대한 자세한 설정은 Rest Framework JWT 에서 확인 할 수 있다. 그리고 default 로 설정된 변수들을 재선언 하고 싶다면 setting 에 해주면 된다.</p>
-<p><a href="http://settings.py" target="_blank" rel="external">settings.py</a></p>
+<p><a href="http://settings.py" target="_blank" rel="external nofollow noopener noreferrer">settings.py</a></p>
 <figure class="highlight gcode"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">JWT_AUTH = &#123;</div><div class="line">    <span class="string">'JWT_EXPIRATION_DELTA'</span>: datetime.timedelta<span class="comment">(hours=24)</span>,</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <h4 id="쿠키에-저장하기">쿠키에 저장하기</h4>
-<p>사용자가 입력한 아이디와 암호가 맞을 경우 이 정보를 cookie 에 저장을 한다. 저장할 때 domain option 을 main domain(<a href="http://mysite.com" target="_blank" rel="external">mysite.com</a>) 로 설정해준다. domain 설정을 해주지 않을 경우 다른 사이트에서 쿠키정보를 공유할 수 없다.</p>
-<p><a href="http://view.py" target="_blank" rel="external">view.py</a></p>
+<p>사용자가 입력한 아이디와 암호가 맞을 경우 이 정보를 cookie 에 저장을 한다. 저장할 때 domain option 을 main domain(<a href="http://mysite.com" target="_blank" rel="external nofollow noopener noreferrer">mysite.com</a>) 로 설정해준다. domain 설정을 해주지 않을 경우 다른 사이트에서 쿠키정보를 공유할 수 없다.</p>
+<p><a href="http://view.py" target="_blank" rel="external nofollow noopener noreferrer">view.py</a></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">LoginView</span><span class="params">(View)</span>:</span></div><div class="line"> </div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get</span><span class="params">(self, request)</span>:</span></div><div class="line">        <span class="keyword">return</span> TemplateResponse(request, <span class="string">'account/login.html'</span>)</div><div class="line"> </div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">post</span><span class="params">(self, request)</span>:</span></div><div class="line">        username = request.POST.get(<span class="string">'username'</span>)</div><div class="line">        password = request.POST.get(<span class="string">'password'</span>)</div><div class="line"> </div><div class="line">        <span class="keyword">try</span>:</div><div class="line">            admin = CustomUser.objects.get(username=username)</div><div class="line">            <span class="comment"># 유저 암호 검사하기.</span></div><div class="line">            <span class="keyword">if</span> security.matches_password(password, admin.password):</div><div class="line">                <span class="comment"># obtain jwt token</span></div><div class="line">                token = obtain_token(admin)</div><div class="line"> </div><div class="line">                <span class="comment"># set cookie</span></div><div class="line">                response = HttpResponseRedirect(reverse(<span class="string">'root'</span>))</div><div class="line">                response.set_cookie(key=<span class="string">'token'</span>, value=token, domain=settings.COOKIE_DOMAIN)</div><div class="line">                <span class="keyword">return</span> response</div><div class="line">            <span class="keyword">else</span>:</div><div class="line">                context = &#123;</div><div class="line">                    <span class="string">'error'</span>: <span class="string">'비밀번호가 일치하지 않습니다.'</span></div><div class="line">                &#125;</div><div class="line">        <span class="keyword">except</span> TAdmin.DoesNotExist:</div><div class="line">            context = &#123;</div><div class="line">                <span class="string">'error'</span>: <span class="string">'존재하지 않는 ID입니다.'</span></div><div class="line">            &#125;</div><div class="line"> </div><div class="line">        <span class="keyword">return</span> TemplateResponse(request, <span class="string">'account/login.html'</span>, context)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>공통으로 사용할 메인 도메인 이름은 각 사이트 마다 통일 해줘야 한다.</p>
-<p><a href="http://settings.py" target="_blank" rel="external">settings.py</a></p>
+<p><a href="http://settings.py" target="_blank" rel="external nofollow noopener noreferrer">settings.py</a></p>
 <figure class="highlight ini"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="attr">COOKIE_DOMAIN</span> = <span class="string">'mysite.com'</span></div></pre></td></tr></table></figure>
 <p>쿠키에 토큰 값을 저장 했으므로 이제 각 사이트에 로그인 되었다고 할 수 있는 첫번 째 단계는 달성했다.</p>
 <h4 id="페이지-인증정보-확인하기">페이지 인증정보 확인하기</h4>
 <p>로그인이 되어 있어야 접근할 수 있는 페이지의 경우 로그인 정보를 확인한 후에 정보를 로드한다. RestFramework 에서 제공하는 APIView 를 사용해서 인증 정보를 확인한다.</p>
-<p><a href="http://view.py" target="_blank" rel="external">view.py</a></p>
+<p><a href="http://view.py" target="_blank" rel="external nofollow noopener noreferrer">view.py</a></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">RootView</span><span class="params">(APIView)</span>:</span></div><div class="line">    authentication_classes = (CustomAuthentication, )</div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get</span><span class="params">(self, request)</span>:</span></div><div class="line">        <span class="string">"""</span></div><div class="line">        :param request:</div><div class="line">        :return:</div><div class="line">        """</div><div class="line">        redirect_url = <span class="string">"/home"</span></div><div class="line">        <span class="keyword">return</span> HttpResponseRedirect(redirect_url)</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>여기서 authentication class 를 명시적으로 선언해주었는데, 모든 APIView(인증과 허가가 필요한 페이지의 경우) 에 적용될 수 있도록 settings 에 선언해줄 수 있다.</p>
 <p>(인증 실패나 허가 요청 실패시 처리해줄 수 있는 핸들러도 미리 추가해놓자.)</p>
-<p><a href="http://settings.py" target="_blank" rel="external">settings.py</a></p>
+<p><a href="http://settings.py" target="_blank" rel="external nofollow noopener noreferrer">settings.py</a></p>
 <figure class="highlight roboconf"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">REST_FRAMEWORK = &#123;</div><div class="line">    '<span class="attribute">DEFAULT_AUTHENTICATION_CLASSES'</span>: (</div><div class="line">        'common<span class="variable">.utils</span><span class="variable">.authentication</span><span class="variable">.CustomAuthentication</span>',</div><div class="line">    ),</div><div class="line">    'EXCEPTION_HANDLER': 'common<span class="variable">.utils</span><span class="variable">.custom_exception_handler</span><span class="variable">.custom_exception_handler</span>'</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>인증 확인은 쿠키에 저장되어 있는 토큰 정보로 확인한다. 토큰으로 정상적인 유저를 가져올 수 있다면 유효한 유저라고 판단한다.</p>
-<p><a href="http://authentication.py" target="_blank" rel="external">authentication.py</a></p>
+<p><a href="http://authentication.py" target="_blank" rel="external nofollow noopener noreferrer">authentication.py</a></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> rest_framework <span class="keyword">import</span> authentication</div><div class="line"> </div><div class="line"><span class="keyword">from</span> common.utils.jwt_util <span class="keyword">import</span> obtain_user</div><div class="line"> </div><div class="line"> </div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">CustomAuthentication</span><span class="params">(authentication.BaseAuthentication)</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">authenticate</span><span class="params">(self, request)</span>:</span></div><div class="line">        <span class="string">"""</span></div><div class="line">        쿠키에 저장되어 있는 token 값으로 유저를 가져옵니다. 가져오는 상황에서 예외가 발생할 수 있으며 정상적으로 가져온 경우에는 인증된 유저라고 판단합니다.</div><div class="line">        :param request:</div><div class="line">        :return:</div><div class="line">        """</div><div class="line">        token = request.COOKIES.get(<span class="string">'token'</span>, <span class="keyword">None</span>)</div><div class="line">        user = obtain_user(token)</div><div class="line">        <span class="keyword">return</span> (user, <span class="keyword">None</span>)</div></pre></td></tr></table></figure>
 <p>쿠키에 저장되어 있는 토큰을 decode 하여 유효한 정보인지를 판단한다.</p>
 <p>jwt_util.py</p>
@@ -315,14 +315,14 @@ jwt_util.py</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> django.conf <span class="keyword">import</span> settings</div><div class="line"><span class="keyword">from</span> django.core.urlresolvers <span class="keyword">import</span> reverse</div><div class="line"><span class="keyword">from</span> django.http <span class="keyword">import</span> HttpResponseRedirect</div><div class="line"><span class="keyword">from</span> rest_framework <span class="keyword">import</span> status</div><div class="line"><span class="keyword">from</span> rest_framework.views <span class="keyword">import</span> exception_handler</div><div class="line"> </div><div class="line"> </div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">custom_exception_handler</span><span class="params">(exc, context)</span>:</span></div><div class="line">    <span class="comment"># 발생한 exception을 가져온다.</span></div><div class="line">    response = exception_handler(exc, context)</div><div class="line"> </div><div class="line">    <span class="keyword">if</span> response <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:</div><div class="line">        <span class="comment"># response_data = response.data['detail']</span></div><div class="line">        <span class="comment"># print('response : ', response.__dict__)</span></div><div class="line"> </div><div class="line">        <span class="comment"># 예외가 발생할 경우엔 token쿠키를 지워준다</span></div><div class="line">        response.delete_cookie(<span class="string">'token'</span>, domain=settings.COOKIE_DOMAIN)</div><div class="line"> </div><div class="line">        <span class="keyword">return</span> HttpResponseRedirect(reverse(<span class="string">'login'</span>))</div><div class="line">    <span class="keyword">else</span>:</div><div class="line">        <span class="keyword">return</span> <span class="keyword">None</span></div></pre></td></tr></table></figure>
 <h4 id="페이지-접근-허가-정보-확인하기">페이지 접근 허가 정보 확인하기</h4>
 <p>접근하고자 하는 페이지가 각 유저별로 인증 정보가 필요하다면 유저의 인증 정보를 확인할 수 있어야 한다.</p>
-<p><a href="http://permission.py" target="_blank" rel="external">permission.py</a></p>
+<p><a href="http://permission.py" target="_blank" rel="external nofollow noopener noreferrer">permission.py</a></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> rest_framework.permissions <span class="keyword">import</span> BasePermission</div><div class="line"> </div><div class="line"> </div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">CustomPermission</span><span class="params">(BasePermission)</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">has_permission</span><span class="params">(self, request, view)</span>:</span></div><div class="line">        <span class="comment"># <span class="doctag">TODO:</span> do something</span></div><div class="line">        print(<span class="string">'CustomPermission user : '</span>, request.user)</div><div class="line">        <span class="keyword">return</span> <span class="keyword">True</span></div></pre></td></tr></table></figure>
 <p>(현재는 어떤 허가 정보도 판단하지 않지만 이 부분에서 유저 정보를 가지고 해당 페이지에 대한 허가 정보를 판단해서 boolean 값으로 반환해준다. True일 경우 허가된 경우고 False일 경우엔 허가되지 않는 유저이다.)</p>
 <p>APIView 에서 허가 정보도 명시적으로 선언해서 확인할 수 있다.</p>
-<p><a href="http://view.py" target="_blank" rel="external">view.py</a></p>
+<p><a href="http://view.py" target="_blank" rel="external nofollow noopener noreferrer">view.py</a></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">RootView</span><span class="params">(APIView)</span>:</span></div><div class="line">    authentication_classes = (CustomAuthentication, )</div><div class="line">    permission_classes = (CustomPermission, )</div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get</span><span class="params">(self, request)</span>:</span></div><div class="line">        <span class="string">"""</span></div><div class="line">        :param request:</div><div class="line">        :return:</div><div class="line">        """</div><div class="line">        redirect_url = <span class="string">"/home"</span></div><div class="line">        <span class="keyword">return</span> HttpResponseRedirect(redirect_url)</div></pre></td></tr></table></figure>
 <p>마찬가지로 모든 APIView 에서 허가 정보를 확인해야 한다면 settings 에 설정해줄 수 있다. 좀 전에 인증 정보를 작성한 부분에 추가해주자.</p>
-<p><a href="http://settings.py" target="_blank" rel="external">settings.py</a></p>
+<p><a href="http://settings.py" target="_blank" rel="external nofollow noopener noreferrer">settings.py</a></p>
 <figure class="highlight roboconf"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">REST_FRAMEWORK = &#123;</div><div class="line">    '<span class="attribute">DEFAULT_AUTHENTICATION_CLASSES'</span>: (</div><div class="line">        'common<span class="variable">.utils</span><span class="variable">.authentication</span><span class="variable">.CustomAuthentication</span>',</div><div class="line">    ),</div><div class="line">    'DEFAULT_PERMISSION_CLASSES': (</div><div class="line">        'common<span class="variable">.utils</span><span class="variable">.permission</span><span class="variable">.CustomPermission</span>',</div><div class="line">    ),</div><div class="line">    'EXCEPTION_HANDLER': 'common<span class="variable">.utils</span><span class="variable">.custom_exception_handler</span><span class="variable">.custom_exception_handler</span>'</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>허가 요청에 대한 부분이 추가되었으므로 예외 처리 핸들러에서 이 부분에 대한 처리도 추가해줘야 한다. 요청이 실패할 경우 403 에러가 발생하는데 이 부분에 대한 처리를 해준다.</p>
 <p>custom_exception_handler.py</p>
@@ -333,7 +333,7 @@ jwt_util.py</p>
 이 부분은 각 사이트의 상황에 맞게 처리해주면 된다.</p>
 <h4 id="로그아웃-하기">로그아웃 하기</h4>
 <p>로그아웃은 간단하다. 단지 쿠키에 저장되어 있는 토큰 값을 지워버리면 되기 때문이다.</p>
-<p><a href="http://view.py" target="_blank" rel="external">view.py</a></p>
+<p><a href="http://view.py" target="_blank" rel="external nofollow noopener noreferrer">view.py</a></p>
 <figure class="highlight ruby"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">LogoutView</span>(<span class="title">View</span>):</span></div><div class="line"> </div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get</span><span class="params">(<span class="keyword">self</span>, request)</span></span>:</div><div class="line">        response = HttpResponseRedirect(reverse(<span class="string">'login'</span>))</div><div class="line">        response.delete_cookie(<span class="string">'token'</span>, domain=settings.COOKIE_DOMAIN)</div><div class="line">        <span class="keyword">return</span> response</div></pre></td></tr></table></figure>
 <h4 id="요약">요약</h4>
 <p>지금까지 추가된 파일들과 클래스를 정리하자면 다음과 같다.</p>
@@ -497,7 +497,7 @@ jwt_util.py</p>
 
                 
                     <li>
-                        <a target="_blank" href="https://www.facebook.com/hoguen.yoon">
+                        <a target="_blank" href="https://www.facebook.com/hoguen.yoon" rel="external nofollow noopener noreferrer">
                             <span class="fa-stack fa-lg">
                                 <i class="fa fa-circle fa-stack-2x"></i>
                                 <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
@@ -508,7 +508,7 @@ jwt_util.py</p>
 
                 
                     <li>
-                        <a target="_blank"  href="https://github.com/nevercaution">
+                        <a target="_blank" href="https://github.com/nevercaution" rel="external nofollow noopener noreferrer">
                             <span class="fa-stack fa-lg">
                                 <i class="fa fa-circle fa-stack-2x"></i>
                                 <i class="fa fa-github fa-stack-1x fa-inverse"></i>
@@ -523,15 +523,12 @@ jwt_util.py</p>
                 <p class="copyright text-muted">
                     Copyright &copy; teddy 2018 
                     <br>
-                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    Theme by <a href="http://huangxuan.me" rel="external nofollow noopener noreferrer" target="_blank">Hux</a> 
                     <span style="display: inline-block; margin: 0 5px;">
                         <i class="fa fa-heart"></i>
                     </span> 
-                    re-Ported by <a href="http://beantech.org">BeanTech</a> | 
-                    <iframe
-                        style="margin-left: 2px; margin-bottom:-5px;"
-                        frameborder="0" scrolling="0" width="91px" height="20px"
-                        src="https://ghbtns.com/github-btn.html?user=YenYuHsuan&repo=hexo-theme-beantech&type=star&count=true" >
+                    re-Ported by <a href="http://beantech.org" rel="external nofollow noopener noreferrer" target="_blank">BeanTech</a> | 
+                    <iframe style="margin-left: 2px; margin-bottom:-5px;" frameborder="0" scrolling="0" width="91px" height="20px" src="https://ghbtns.com/github-btn.html?user=YenYuHsuan&repo=hexo-theme-beantech&type=star&count=true">
                     </iframe>
                 </p>
             </div>
@@ -632,10 +629,10 @@ jwt_util.py</p>
 
 
 	<a id="rocket" href="#top" class=""></a>
-	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
-    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async></script>
 <!-- Image to hack wechat -->
-<img src="https://nevercaution.github.io/img/icon_wechat.png" width="0" height="0" />
+<img src="https://nevercaution.github.io/img/icon_wechat.png" width="0" height="0">
 <!-- Migrate from head to bottom, no longer block render and still work -->
 
 </body>

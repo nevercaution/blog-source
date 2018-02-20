@@ -5,10 +5,10 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
-    <meta name="keyword"  content="">
+    <meta name="keyword" content="">
     <link rel="shortcut icon" href="/img/ironman-draw.png">
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
@@ -76,7 +76,7 @@
     
 </style>
 
-<header class="intro-header" >
+<header class="intro-header">
     <!-- Signature -->
     <div id="signature">
         <div class="container">
@@ -222,11 +222,11 @@ APIVIew, View 두개의 경우를 살펴보자.<br>
 </ul>
 <figure class="highlight lua"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">$.ajax(&#123;</div><div class="line">    url: <span class="string">"&#123;% url 'request:url' %&#125;"</span>,</div><div class="line">    <span class="built_in">type</span>: <span class="string">'POST'</span>,</div><div class="line">    data: &#123;</div><div class="line">        <span class="string">'user_id'</span>: user_id</div><div class="line">    &#125;,</div><div class="line">    success: <span class="function"><span class="keyword">function</span> <span class="params">(response)</span></span> &#123;</div><div class="line">        // TODO: <span class="keyword">do</span> something.</div><div class="line">    &#125;,</div><div class="line">    <span class="built_in">error</span>: <span class="function"><span class="keyword">function</span> <span class="params">(err)</span></span> &#123;</div><div class="line">        console.<span class="built_in">log</span>(err);</div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
 <ul>
-<li><a href="http://url.py" target="_blank" rel="external">url.py</a></li>
+<li><a href="http://url.py" target="_blank" rel="external nofollow noopener noreferrer">url.py</a></li>
 </ul>
  <figure class="highlight awk"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">url(<span class="string">r'^request/url$'</span>, views.TestView.as_view(), name=<span class="string">'url'</span>),</div></pre></td></tr></table></figure>
 <ul>
-<li><a href="http://view.py" target="_blank" rel="external">view.py</a></li>
+<li><a href="http://view.py" target="_blank" rel="external nofollow noopener noreferrer">view.py</a></li>
 </ul>
 <figure class="highlight ruby"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">TestView</span>(<span class="title">APIView</span>):</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">post</span><span class="params">(<span class="keyword">self</span>, request)</span></span>:</div><div class="line">        user_id = request.POST.get(<span class="string">'user_id'</span>)</div><div class="line">      <span class="comment"># do something</span></div><div class="line">       <span class="keyword">return</span> Response()</div></pre></td></tr></table></figure>
 <p>View class를 상속받고 post 메소드로 받는다면 ajax 요청시 csrf 토큰이 없다고 하면서 403에러가 발생한다.<br>
@@ -250,7 +250,7 @@ APIVIew, View 두개의 경우를 살펴보자.<br>
 <figure class="highlight 1c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">'DEFAULT_PERMISSION_CLASSES': (</div><div class="line">    'rest_framework.permissions.AllowAny',</div><div class="line">),</div></pre></td></tr></table></figure>
 <p>AllowAny Class는 permission요청에 대해 무조건 True를 반환해주므로, APIView의 check_permissions 메소드에서 권한 체크를 할 때 권한이 있다고 판단을 한다.</p>
 <ul>
-<li><a href="http://permissions.py" target="_blank" rel="external">permissions.py</a></li>
+<li><a href="http://permissions.py" target="_blank" rel="external nofollow noopener noreferrer">permissions.py</a></li>
 </ul>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">AllowAny</span><span class="params">(BasePermission)</span>:</span></div><div class="line">    <span class="string">"""</span></div><div class="line">    Allow any access.</div><div class="line">    This isn't strictly required, since you could use an empty</div><div class="line">    permission_classes list, but it's useful because it makes the intention</div><div class="line">    more explicit.</div><div class="line">    """</div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">has_permission</span><span class="params">(self, request, view)</span>:</span></div><div class="line">        <span class="keyword">return</span> <span class="keyword">True</span></div></pre></td></tr></table></figure>
 <p>즉, APIView는 기존의 django 에서 체크하고 있는 csrf 공격방어에 대한 인증을 제외하고 따로 인증절차를 진행하게되는데, 인증 유저를 익명유저로 설정하여 유저에 대한 권한검사를 하지 않고 default로 설정이 된 권한체크 클래스로 검사를 한다.<br>
@@ -270,7 +270,7 @@ ajax를 통해 View class에 메소드를 호출하는 경우는 많지는 않�
 <figure class="highlight 1c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="string">"csrfmiddlewaretoken"</span>: <span class="string">"&#123;&#123; csrf_token &#125;&#125;"</span>,</div></pre></td></tr></table></figure>
 <p>요청을 받고 데이터를 만들고 나면 TemplateResponse를 사용하여 분리되어 생성된 페이지를 반환하게 된다.</p>
 <ul>
-<li><a href="http://view.py" target="_blank" rel="external">view.py</a></li>
+<li><a href="http://view.py" target="_blank" rel="external nofollow noopener noreferrer">view.py</a></li>
 </ul>
 <figure class="highlight ruby"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">UserSearchView</span>(<span class="title">View</span>):</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">post</span><span class="params">(<span class="keyword">self</span>, request)</span></span>:</div><div class="line">        user_id = request.POST.get(<span class="string">'user_id'</span>)</div><div class="line">        user_list = service.search_user(user_id)</div><div class="line">        context = &#123;</div><div class="line">            <span class="string">'user_list'</span>: user_list</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> TemplateResponse(request, <span class="string">'user/user_list.html'</span>, context)</div></pre></td></tr></table></figure>
 <p>다시 template에서는 넘어온 html덩어리를 미리 정의해둔 위치에 그대로 붙여줌으로서 화면을 다시 그리지 않고, 필요한 부분만 넣어줄 수 있다.<br>
@@ -425,7 +425,7 @@ ajax를 통해 View class에 메소드를 호출하는 경우는 많지는 않�
 
                 
                     <li>
-                        <a target="_blank" href="https://www.facebook.com/hoguen.yoon">
+                        <a target="_blank" href="https://www.facebook.com/hoguen.yoon" rel="external nofollow noopener noreferrer">
                             <span class="fa-stack fa-lg">
                                 <i class="fa fa-circle fa-stack-2x"></i>
                                 <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
@@ -436,7 +436,7 @@ ajax를 통해 View class에 메소드를 호출하는 경우는 많지는 않�
 
                 
                     <li>
-                        <a target="_blank"  href="https://github.com/nevercaution">
+                        <a target="_blank" href="https://github.com/nevercaution" rel="external nofollow noopener noreferrer">
                             <span class="fa-stack fa-lg">
                                 <i class="fa fa-circle fa-stack-2x"></i>
                                 <i class="fa fa-github fa-stack-1x fa-inverse"></i>
@@ -451,15 +451,12 @@ ajax를 통해 View class에 메소드를 호출하는 경우는 많지는 않�
                 <p class="copyright text-muted">
                     Copyright &copy; teddy 2018 
                     <br>
-                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    Theme by <a href="http://huangxuan.me" rel="external nofollow noopener noreferrer" target="_blank">Hux</a> 
                     <span style="display: inline-block; margin: 0 5px;">
                         <i class="fa fa-heart"></i>
                     </span> 
-                    re-Ported by <a href="http://beantech.org">BeanTech</a> | 
-                    <iframe
-                        style="margin-left: 2px; margin-bottom:-5px;"
-                        frameborder="0" scrolling="0" width="91px" height="20px"
-                        src="https://ghbtns.com/github-btn.html?user=YenYuHsuan&repo=hexo-theme-beantech&type=star&count=true" >
+                    re-Ported by <a href="http://beantech.org" rel="external nofollow noopener noreferrer" target="_blank">BeanTech</a> | 
+                    <iframe style="margin-left: 2px; margin-bottom:-5px;" frameborder="0" scrolling="0" width="91px" height="20px" src="https://ghbtns.com/github-btn.html?user=YenYuHsuan&repo=hexo-theme-beantech&type=star&count=true">
                     </iframe>
                 </p>
             </div>
@@ -560,10 +557,10 @@ ajax를 통해 View class에 메소드를 호출하는 경우는 많지는 않�
 
 
 	<a id="rocket" href="#top" class=""></a>
-	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
-    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async></script>
 <!-- Image to hack wechat -->
-<img src="https://nevercaution.github.io/img/icon_wechat.png" width="0" height="0" />
+<img src="https://nevercaution.github.io/img/icon_wechat.png" width="0" height="0">
 <!-- Migrate from head to bottom, no longer block render and still work -->
 
 </body>
