@@ -23,7 +23,7 @@ SEOTitle: nevercaution
 email: nevercaution@gmail.com
 description: ""
 keyword: ""
-header-img: img/header_img/home-bg-2-dark.png
+header-img: 
 #signature: true #show signature
 #signature-img: img/signature/BeanTechSign-white.png 
 
@@ -45,13 +45,13 @@ disqus_username: nevercaution
 # Duoshuo settings
 # duoshuo_username: kaijun
 # Share component is depend on Comment so we can NOT use share only.
-duoshuo_share: true                     # set to false if you want to use Comment without Sharing
+duoshuo_share: false                     # set to false if you want to use Comment without Sharing
 
 
 # Analytics settings
 # Google Analytics
 ga_track_id: 'UA-100815581-1'          # Format: UA-xxxxxx-xx
-ga_domain: https://analytics.google.com/analytics/web/?authuser=0#report/defaultid/a100815581w147829782p152668621/
+ga_domain: nevercaution.github.io
 
 
 # Sidebar settings
@@ -62,9 +62,9 @@ widgets:
 - featured-tags
 - short-about
 - recent-posts
-- friends-blog
+#- friends-blog
 # - archive
-# - category
+- category
 
 # widget behavior
 ## Archive

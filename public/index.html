@@ -58,7 +58,17 @@
     <![endif]-->
 
     <!-- ga & ba script hoook -->
-    <script></script>
+    <!-- <script></script> -->
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-100815581-1"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-100815581-1');
+    </script>
+
 </head>
 
 
@@ -69,7 +79,7 @@
 <style type="text/css">
     header.intro-header{
         
-            background-image: url('/img/header_img/home-bg-2-dark.png') 
+            background-image: url('/null') 
             /*config*/
         
     }
@@ -475,7 +485,7 @@ APIVIew, View 두개의 경우를 살펴보자.
 </h5>
         <hr>
     
-        <!-- Friends Blog -->
+        <!-- Categories -->
 
         <hr>
     
@@ -610,7 +620,7 @@ APIVIew, View 두개의 경우를 살펴보자.
 <script>
     // dynamic User by Hux
     var _gaId = 'UA-100815581-1';
-    var _gaDomain = 'https://analytics.google.com/analytics/web/?authuser=0#report/defaultid/a100815581w147829782p152668621/';
+    var _gaDomain = 'nevercaution.github.io';
 
     // Originial
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -621,7 +631,6 @@ APIVIew, View 두개의 경우를 살펴보자.
     ga('create', _gaId, _gaDomain);
     ga('send', 'pageview');
 </script>
-
 
 
 
