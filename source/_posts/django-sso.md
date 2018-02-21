@@ -3,7 +3,7 @@ title: "Django에서 SSO하기"
 catalog: true
 date: 2016-05-06 16:59:58
 subtitle:
-header-img:
+header-img: "img/header_img/bg.png"
 tags:
 - django
 - sso

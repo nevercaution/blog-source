@@ -2,64 +2,64 @@
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
     <url>
-        <loc>https://nevercaution.github.io/tags/ios/</loc>
-        <lastmod>2017-06-09T07:45:49.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://nevercaution.github.io/tags/android/</loc>
-        <lastmod>2017-06-09T07:45:49.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://nevercaution.github.io/tags/inapp/</loc>
-        <lastmod>2017-06-09T07:45:49.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>https://nevercaution.github.io/tags/ajax/</loc>
-        <lastmod>2017-06-10T07:56:21.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://nevercaution.github.io/tags/sso/</loc>
-        <lastmod>2017-06-10T08:25:49.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://nevercaution.github.io/tags/django/</loc>
-        <lastmod>2017-06-23T13:39:33.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://nevercaution.github.io/tags/python/</loc>
-        <lastmod>2017-06-23T13:39:33.000Z</lastmod>
+        <lastmod>2018-02-21T01:54:42.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>https://nevercaution.github.io/tags/orm/</loc>
-        <lastmod>2017-06-23T13:39:33.000Z</lastmod>
+        <lastmod>2018-02-21T01:54:48.588Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>https://nevercaution.github.io/tags/docker/</loc>
-        <lastmod>2017-06-23T13:39:33.000Z</lastmod>
+        <lastmod>2018-02-21T01:54:48.588Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://nevercaution.github.io/tags/django/</loc>
+        <lastmod>2018-02-21T01:54:51.823Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://nevercaution.github.io/tags/sso/</loc>
+        <lastmod>2018-02-21T01:54:51.823Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://nevercaution.github.io/tags/python/</loc>
+        <lastmod>2018-02-21T01:54:54.998Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://nevercaution.github.io/tags/ios/</loc>
+        <lastmod>2018-02-21T01:54:54.998Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://nevercaution.github.io/tags/android/</loc>
+        <lastmod>2018-02-21T01:54:54.998Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://nevercaution.github.io/tags/inapp/</loc>
+        <lastmod>2018-02-21T01:54:54.998Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>

@@ -7,8 +7,8 @@
     </url>
 
     <url>
-        <loc>https://nevercaution.github.io/2017/06/23/django-orm-standalone/</loc>
-        <lastmod>2017-06-23T13:39:33.000Z</lastmod>
+        <loc>https://nevercaution.github.io/2016/03/11/store-inapp-in-python/</loc>
+        <lastmod>2018-02-21T01:54:54.998Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -16,7 +16,15 @@
 
     <url>
         <loc>https://nevercaution.github.io/2016/05/06/django-sso/</loc>
-        <lastmod>2017-06-10T08:25:49.000Z</lastmod>
+        <lastmod>2018-02-21T01:54:51.823Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://nevercaution.github.io/2017/06/23/django-orm-standalone/</loc>
+        <lastmod>2018-02-21T01:54:48.588Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -24,15 +32,7 @@
 
     <url>
         <loc>https://nevercaution.github.io/2016/03/27/django-ajax/</loc>
-        <lastmod>2017-06-10T07:56:21.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://nevercaution.github.io/2016/03/11/store-inapp-in-python/</loc>
-        <lastmod>2017-06-09T07:45:49.000Z</lastmod>
+        <lastmod>2018-02-21T01:54:42.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 

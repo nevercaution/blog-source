@@ -3,7 +3,7 @@ title: "Django에서 ajax요청하기"
 catalog: true
 date: 2016-03-27 16:08:12
 subtitle:
-header-img:
+header-img: "img/header_img/bg.png"
 tags:
 - django
 - ajax
