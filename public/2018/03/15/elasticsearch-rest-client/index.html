@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword" content="">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          Spring-boot 에서 Elasticsearch java rest client 사용하기 - nevercaution
+        
+    </title>
+
+    <link rel="canonical" href="https://nevercaution.github.io/2018/03/15/elasticsearch-rest-client/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <!-- <script></script> -->
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-100815581-1"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-100815581-1');
+    </script>
+
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('img/header_img/bg.png')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header">
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#springboot" title="springboot">springboot</a>
+                            
+                              <a class="tag" href="/tags/#elasticsearch" title="elasticsearch">elasticsearch</a>
+                            
+                              <a class="tag" href="/tags/#restclient" title="restclient">restclient</a>
+                            
+                              <a class="tag" href="/tags/#javaclient" title="javaclient">javaclient</a>
+                            
+                              <a class="tag" href="/tags/#transportlyer" title="transportlyer">transportlyer</a>
+                            
+                        </div>
+                        <h1>Spring-boot 에서 Elasticsearch java rest client 사용하기</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by teddy on
+                            2018-03-15
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">nevercaution</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h3><span id="elasticsearch-버전을-올려야-한다">elasticsearch 버전을 올려야 한다.</span></h3>
+<p>검색 서비스를 개선하면서 사내에서 elasticsearch 를 사용하고 있다.<br>
+처음에 사용했던 버전은 개발 당시의 가장 최근 버전인 <a href="%22https://www.elastic.co/guide/en/elasticsearch/reference/5.1/index.html%22">elasticsearch 5.1.1</a> 버전이다.<br>
+spring boot 에 연동했는데 <a href="%22https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-elasticsearch%22">spring-boot-data-elasticsearch-starter</a> 는 (글을 작성하는) 아직까지도 2.x 버전만 지원하고 있어 직접 <a href="%22https://www.elastic.co/guide/en/elasticsearch/client/java-api/5.1/client.html%22">client</a> 를 붙이기로 했다.</p>
+<p>개인적인 생각으로는 나중에 개발이 되어질 spring-boot-data-elasticsearch-starter 로 재구현해도 되긴 하겠지만 elasticsearch를 사용하면서 느낀점은 굳이 starter를 사용할 필요는 없다고 생각한다.<br>
+repository와 model로 나뉘어 orm처럼 사용하면 편하기야 할테지만 직접 쿼리를 만들면서 튜닝하는 부분이 재미있기도 하고 좀 더 세세하게 만질 수 있다고 생각하기 때문이다.</p>
+<p>elasticsearch 는 버전업이 빠른 편이다. 6.x 도 꾸준히 올라가는 추세고 곧있으면 7.x 이 나오고 9.x 까지 로드맵이 그려져 있다. 다행히 5.1.x 버전대에서 <a href="%22https://www.elastic.co/guide/en/elasticsearch/reference/5.6/rolling-upgrades.html%22">rolling upgrade</a> 가 가능하기 때문에 5.x 의 마지막 버전인 5.6.8 까지 따라 올라가야 겠다고 생각했다. 그러다가 문득 <a href="%22https://www.elastic.co/blog/state-of-the-official-elasticsearch-java-clients%22">State of the official Elasticsearch Java Clients</a> 라는 포스팅을 보게 되었다. 처음에 java client 를 붙이려면 공식 문서에서는 <a href="%22https://www.elastic.co/guide/en/elasticsearch/client/java-api/5.1/transport-client.html%22">transport client</a> 로 연동하도록 안내한다. 하지만 위의 포스팅의 여러 문제점으로 인해 앞으로는 <a href="%22https://www.elastic.co/guide/en/elasticsearch/client/java-api/6.2/client.html%22">Rest client 를 사용하도록 권장하고 있다.</a></p>
+<p>Java Rest Client 는 두가지 방식이 있다.</p>
+<ul>
+<li>Java Low Level REST Client</li>
+<li>Java High Level REST Client</li>
+</ul>
+<p>low level 에서는 요청을 직접 만들어서 호출하는 방식인데, 나는 high level로 작업하기로 했다.<br>
+(참고로 rest client는 5.6부터 제공되었다.)</p>
+<h3><span id="서론이-조금-길었다">서론이 조금 길었다.</span></h3>
+<p>내가 elasticsearch 버전을 올리기로 생각한 이유는 <a href="%22https://www.elastic.co/support/eol%22">elasticsearch 기술 지원</a> 때문이다.<br>
+내가 사용하고 있는 5.1.x 는 2018-06-08 까지만 공식지원을 하고 있다.<br>
+물론 공식 지원이 끊기더라도 검색 서비스를 구동함에는 큰 지장은 없지만, 메이져 버전이 두개 이상 차이가 나게 되었을 때 버전을 올려야 하는 상황이 오면 rolling upgrade도  사용할 수 없기 때문에 이참에 6.2 로 올라가기로 마음먹었다. 현재 버전에서 한번에 올라가는건 안되기 때문에 다음과 같이 버전올림 순서를 정하기로 했다.</p>
+<h2><span id="업데이트-순서">업데이트 순서</span></h2>
+<ol>
+<li>elasticsearch 5.1.1 -&gt; 5.6.8 로 rolling upgrade</li>
+<li>spring-boot elasticsearch java client 5.1.1 -&gt; 5.6.8 로 업데이트 후 배포</li>
+<li>elasticsearch 5.6.8 -&gt; 6.2.2 로 <a href="%22https://www.elastic.co/guide/en/elasticsearch/reference/current/setup-upgrade.html%22">rolling upgrade</a></li>
+<li>spring-boot elasticsearch java client 5.6.8 -&gt; 6.2.2 로 업데이트 후 배포</li>
+</ol>
+<p>메이져 버전별로의 <a href="%22https://www.elastic.co/guide/en/elasticsearch/client/java-rest/5.6/java-rest-high-compatibility.html%22">호환성</a>에 따라 5.x 버전끼리는 문제없이 통신을 할 수 있다. 물론 6.x 끼리의 버전도 문제가 없었는데, 테스트 결과 5.6.8 에서 6.2.2 도 호출이 가능했다.<br>
+클라이언트를 보니 모든 기능을 사용할 수 있지는 않고 부분적인 기능들만 사용가능할 것으로 보인다. 그리고 상위 버전 호환은 괜찮아도 하위 버전 호환은 기능이 구현되지 않을 가능성이 있어 문제의 여지가 있다.</p>
+<h3><span id="rolling-upgrade">rolling upgrade</span></h3>
+<p>현재 사용하고 있는 rolling upgrade 스크립트이다. 구글링 해보니 좀 더 유려한 스크립트 들이 많이 있는데 나는 간단한 동작들만 사용하는 중이다.</p>
+<p>일단 구동중인 es를 내린다.<br>
+<code>shut_down.sh</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/usr/bin/env bash</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># disable shard allocation</span></span><br><span class="line">curl -XPUT <span class="string">'localhost:9200/_cluster/settings?pretty=true'</span> -d <span class="string">'&#123;</span></span><br><span class="line"><span class="string">    "transient" : &#123;</span></span><br><span class="line"><span class="string">        "cluster.routing.allocation.enable" : "none"</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">&#125;'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># shutdown</span></span><br><span class="line">sudo service elasticsearch stop</span><br></pre></td></tr></table></figure>
+<p>정상적으로 내려간 것을 확인한 후 elasticsearch 버전을 올려 재설치하도록 한다. 그리고 다시 구동시켜 주자.</p>
+<p><code>start.sh</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/usr/bin/env bash</span></span><br><span class="line"></span><br><span class="line">sudo service elasticsearch start</span><br><span class="line"></span><br><span class="line">STATUS=<span class="string">""</span></span><br><span class="line"><span class="keyword">while</span> ! [[ <span class="string">"<span class="variable">$STATUS</span>"</span> =~ (\<span class="string">"tagline\" : \"You Know, for Search\") ]];</span></span><br><span class="line"><span class="string">do</span></span><br><span class="line"><span class="string">    echo "</span>fetching http://localhost:9200<span class="string">"</span></span><br><span class="line"><span class="string">    STATUS=`curl -sS -XGET http://localhost:9200`</span></span><br><span class="line"><span class="string">    sleep 1</span></span><br><span class="line"><span class="string">done</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">curl -XPUT 'localhost:9200/_cluster/settings?pretty=true' -d '&#123;</span></span><br><span class="line"><span class="string">    "</span>transient<span class="string">" : &#123;</span></span><br><span class="line"><span class="string">        "</span>cluster.routing.allocation.enable<span class="string">" : "</span>all<span class="string">"</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">&#125;'</span></span><br></pre></td></tr></table></figure>
+<p>자 이제 버전도 올렸으니 client 를 변경해보도록 하자.</p>
+<h2><span id="client-에서-rest-client">client 에서 rest client</span></h2>
+<p>위에서 설명한 것과 같이 앞으로는 rest client 를 써야만 하는 시점이 온다.<br>
+지금 당장은 바꾸지 않아도 되지만 (완성이 되지 않아 할 수도 없지만) 어떻게 바뀌는지 느낌만 살펴보자.<br>
+기존에 transport layer로 붙는 client를 rest client로 변경하는 작업을 해보자. 일단 설정부터 변경해야 한다.</p>
+<h3><span id="setting">setting</span></h3>
+<p><code>build.gradle</code></p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">dependencies</span> &#123;</span><br><span class="line">    <span class="keyword">compile</span> <span class="string">'org.elasticsearch:elasticsearch:6.2.2'</span></span><br><span class="line">    <span class="keyword">compile</span> <span class="string">'org.elasticsearch.client:elasticsearch-rest-high-level-client:6.2.2'</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>그리고 기존에 붙었던 <code>9300</code>포트가 아닌 <code>9200</code>포트로 접속해야 한다.<br>
+<code>application.yml</code></p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">elasticsearch:</span></span><br><span class="line"><span class="attr">  hosts:</span> <span class="string">host1.com,</span> <span class="string">host2.com</span></span><br><span class="line"><span class="attr">  port:</span> <span class="number">9200</span></span><br></pre></td></tr></table></figure>
+<h3><span id="configuration">configuration</span></h3>
+<p>설정파일을 고쳤으면 configuration쪽을 손봐주도록 하자.<br>
+기존의 config와 비교를 해보면 다음과 같다.</p>
+<p><code>기존 ElascitsearchConfig.java</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ElasticsearchConfig</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Value</span>(<span class="string">"#&#123;'$&#123;elasticsearch.hosts&#125;'.split(',')&#125;"</span>)</span><br><span class="line">    <span class="keyword">private</span> List&lt;String&gt; hosts;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Value</span>(<span class="string">"$&#123;elasticsearch.port&#125;"</span>)</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> port;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Client <span class="title">client</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="keyword">final</span> Settings settings = Settings.builder()</span><br><span class="line">                .put(<span class="string">"client.transport.sniff"</span>, <span class="keyword">true</span>)</span><br><span class="line">                .build();</span><br><span class="line"></span><br><span class="line">        PreBuiltTransportClient client = <span class="keyword">new</span> PreBuiltTransportClient(settings);</span><br><span class="line">        <span class="keyword">for</span>(String host : hosts) &#123;</span><br><span class="line">            InetSocketTransportAddress item = <span class="keyword">new</span> InetSocketTransportAddress(InetAddress.getByName(host), port);</span><br><span class="line">            client.addTransportAddresses(item);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> client;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>변경된 ElascitsearchConfig.java</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ElasticsearchConfig</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Value</span>(<span class="string">"#&#123;'$&#123;elasticsearch.hosts&#125;'.split(',')&#125;"</span>)</span><br><span class="line">    <span class="keyword">private</span> List&lt;String&gt; hosts;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Value</span>(<span class="string">"$&#123;elasticsearch.port&#125;"</span>)</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> port;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> RestHighLevelClient <span class="title">getRestClient</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        List&lt;HttpHost&gt; hostList = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span>(String host : hosts) &#123;</span><br><span class="line">            hostList.add(<span class="keyword">new</span> HttpHost(host, port, <span class="string">"http"</span>));</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        RestClientBuilder builder = RestClient.builder(hostList.toArray(<span class="keyword">new</span> HttpHost[hostList.size()]));</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> RestHighLevelClient(builder);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3><span id="service">service</span></h3>
+<p>약간씩 달라진 부분들을 살펴보자. 큰틀은 변경되진 않았고 호출하는 클래스나 메소드들이 조금씩 변경되었다.<br>
+개인 적인 느낌으로는 각 클래스별로 역할이 좀 더 충실해졌다고 생각이 들었다.</p>
+<p><code>create</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// before</span></span><br><span class="line">Client client;</span><br><span class="line">IndicesAdminClient adminClient = client.admin().indices();</span><br><span class="line">CreateIndexResponse createIndexResponse = adminClient.prepareCreate(<span class="string">"index_name"</span>)</span><br><span class="line">            .setSettings(seriesSettings())</span><br><span class="line">            .addMapping(<span class="string">"type name"</span>, seriesIndex()).get();</span><br><span class="line"></span><br><span class="line"><span class="comment">// after</span></span><br><span class="line">RestHighLevelClient client;</span><br><span class="line">CreateIndexRequest request = <span class="keyword">new</span> CreateIndexRequest(<span class="string">"index_name"</span>);</span><br><span class="line">request.settings(seriesSettings(), XContentType.JSON);</span><br><span class="line">request.mapping(<span class="string">"type_name"</span>, seriesIndex(), XContentType.JSON);</span><br><span class="line">client.indices().create(request);</span><br></pre></td></tr></table></figure>
+<p><code>search query</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// common</span></span><br><span class="line">QueryBuilder qb = QueryBuilders.matchQuery(<span class="string">"text"</span>, text);</span><br><span class="line"></span><br><span class="line"><span class="comment">// before</span></span><br><span class="line">Client client;</span><br><span class="line">SearchResponse response = client.prepareSearch(<span class="string">"index_name"</span>).setTypes(<span class="string">"type_name"</span>).setQuery(qb).get();</span><br><span class="line"></span><br><span class="line"><span class="comment">// after</span></span><br><span class="line">RestHighLevelClient client;</span><br><span class="line">SearchSourceBuilder searchSourceBuilder = <span class="keyword">new</span> SearchSourceBuilder().query(qb);</span><br><span class="line">SearchRequest searchRequest = <span class="keyword">new</span> SearchRequest(<span class="string">"index_name"</span>).types(<span class="string">"type_name"</span>).source(searchSourceBuilder);</span><br><span class="line">SearchResponse response = client.search(searchRequest);</span><br><span class="line"></span><br><span class="line"><span class="comment">// common</span></span><br><span class="line">response.getHits().forEach(item -&gt; &#123;</span><br><span class="line">	<span class="comment">// do something</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>간단하게 index 를 만들고 검색하는 부분까지의 메소드들을 보았다. 나는 여기에 추가로 alias, exists, multi_search 등을 사용하고 있지만 아직까지 6.2.x 에는 해당 메소드가 없다. 어떻게든 해보려고 엔진소스를 들어가서 한참을 살펴보다가 혹시나 해서 master 브랜치를 받아보니 해당 메소드들이 있더라… (현재 master 브랜치의 버전은 7.0.0-alpha1 이다.)</p>
+<h2><span id="결론">결론</span></h2>
+<p>미리 적용을 해놓을까 해서 버전별로 소스를 살펴 보았지만 아직까지 모든 메소드들이 구현되어 있지 않기도 하고 <a href="%22https://www.elastic.co/guide/en/elasticsearch/client/java-api/5.6/client.html%22">java client가 없어지려면 8.0 까지 올라가야 하니</a> 아직은 조금 여유가 있어보인다.<br>
+그래도 버전이 올라가는 속도를 보면 7.0 메이져 버전이 나오고 rest client가 완성이 되었을 때 슬슬 적용하면 될 것 같다. <s>세수하러 왔다가 물만 먹고 가는 느낌</s></p>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                    
+                        <li class="next">
+                            <a href="/2018/02/22/spring-boot-jsp/" data-toggle="tooltip" data-placement="top" title="spring boot 에서 jsp view 만들기 (feat freemarker)">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                    <div class="comment">
+                        <div id="disqus_thread" class="disqus-thread"></div>
+                    </div>
+                
+                <!-- disqus comment end -->
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">elasticsearch 버전을 올려야 한다.</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">서론이 조금 길었다.</span></a></li></ol><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number"></span> <span class="toc-nav-text">업데이트 순서</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">rolling upgrade</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number"></span> <span class="toc-nav-text">client 에서 rest client</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">setting</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">configuration</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">service</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number"></span> <span class="toc-nav-text">결론</span></a>
+        
+        </li></div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#springboot" title="springboot">springboot</a>
+                        
+                          <a class="tag" href="/tags/#elasticsearch" title="elasticsearch">elasticsearch</a>
+                        
+                          <a class="tag" href="/tags/#restclient" title="restclient">restclient</a>
+                        
+                          <a class="tag" href="/tags/#javaclient" title="javaclient">javaclient</a>
+                        
+                          <a class="tag" href="/tags/#transportlyer" title="transportlyer">transportlyer</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus embedded js code start (one page only need to embed once) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "nevercaution";
+    var disqus_identifier = "https://nevercaution.github.io/2018/03/15/elasticsearch-rest-client/";
+    var disqus_url = "https://nevercaution.github.io/2018/03/15/elasticsearch-rest-client/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus embedded js code start end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/hoguen.yoon" rel="external nofollow noopener noreferrer">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://github.com/nevercaution" rel="external nofollow noopener noreferrer">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; teddy 2018 
+                    <br>
+                    Theme by <a href="http://huangxuan.me" rel="external nofollow noopener noreferrer" target="_blank">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    re-Ported by <a href="http://beantech.org" rel="external nofollow noopener noreferrer" target="_blank">BeanTech</a> | 
+                    <iframe style="margin-left: 2px; margin-bottom:-5px;" frameborder="0" scrolling="0" width="91px" height="20px" src="https://ghbtns.com/github-btn.html?user=YenYuHsuan&repo=hexo-theme-beantech&type=star&count=true">
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://nevercaution.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-100815581-1';
+    var _gaDomain = 'nevercaution.github.io';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async></script>
+<!-- Image to hack wechat -->
+<img src="https://nevercaution.github.io/img/icon_wechat.png" width="0" height="0">
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

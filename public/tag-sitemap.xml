@@ -65,13 +65,6 @@
     </url>
 
     <url>
-        <loc>https://nevercaution.github.io/tags/springboot/</loc>
-        <lastmod>2018-02-26T05:21:35.158Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>https://nevercaution.github.io/tags/jsp/</loc>
         <lastmod>2018-02-26T05:21:35.158Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -88,6 +81,41 @@
     <url>
         <loc>https://nevercaution.github.io/tags/gradle/</loc>
         <lastmod>2018-02-26T05:21:35.158Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://nevercaution.github.io/tags/springboot/</loc>
+        <lastmod>2018-03-15T10:54:54.333Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://nevercaution.github.io/tags/elasticsearch/</loc>
+        <lastmod>2018-03-15T10:54:54.333Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://nevercaution.github.io/tags/restclient/</loc>
+        <lastmod>2018-03-15T10:54:54.333Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://nevercaution.github.io/tags/javaclient/</loc>
+        <lastmod>2018-03-15T10:54:54.333Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://nevercaution.github.io/tags/transportlyer/</loc>
+        <lastmod>2018-03-15T10:54:54.333Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
