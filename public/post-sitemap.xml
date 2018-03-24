@@ -7,16 +7,8 @@
     </url>
 
     <url>
-        <loc>https://nevercaution.github.io/2018/03/15/elasticsearch-rest-client/</loc>
-        <lastmod>2018-03-15T11:09:11.246Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://nevercaution.github.io/2018/02/22/spring-boot-jsp/</loc>
-        <lastmod>2018-02-26T05:21:35.158Z</lastmod>
+        <loc>https://nevercaution.github.io/2018/03/24/spring-boot-actuator/</loc>
+        <lastmod>2018-03-24T08:01:34.792Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -24,7 +16,7 @@
 
     <url>
         <loc>https://nevercaution.github.io/2016/03/11/store-inapp-in-python/</loc>
-        <lastmod>2018-02-21T01:54:54.998Z</lastmod>
+        <lastmod>2018-03-24T06:18:46.266Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -32,7 +24,23 @@
 
     <url>
         <loc>https://nevercaution.github.io/2016/05/06/django-sso/</loc>
-        <lastmod>2018-02-21T01:54:51.823Z</lastmod>
+        <lastmod>2018-03-24T06:18:46.264Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://nevercaution.github.io/2018/02/22/spring-boot-jsp/</loc>
+        <lastmod>2018-03-24T06:18:46.264Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://nevercaution.github.io/2018/03/15/elasticsearch-rest-client/</loc>
+        <lastmod>2018-03-24T06:18:46.264Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -40,7 +48,7 @@
 
     <url>
         <loc>https://nevercaution.github.io/2017/06/23/django-orm-standalone/</loc>
-        <lastmod>2018-02-21T01:54:48.588Z</lastmod>
+        <lastmod>2018-03-24T06:18:46.261Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -48,7 +56,7 @@
 
     <url>
         <loc>https://nevercaution.github.io/2016/03/27/django-ajax/</loc>
-        <lastmod>2018-02-21T01:54:42.000Z</lastmod>
+        <lastmod>2018-03-24T06:18:46.260Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 

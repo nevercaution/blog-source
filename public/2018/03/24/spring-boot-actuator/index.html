@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword" content="">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          Spring Boot Actuator 를 이용해 버전 정보 제공하기 - nevercaution
+        
+    </title>
+
+    <link rel="canonical" href="https://nevercaution.github.io/2018/03/24/spring-boot-actuator/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <!-- <script></script> -->
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-100815581-1"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-100815581-1');
+    </script>
+
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('img/header_img/bg.png')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header">
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#springboot" title="springboot">springboot</a>
+                            
+                              <a class="tag" href="/tags/#gradle" title="gradle">gradle</a>
+                            
+                              <a class="tag" href="/tags/#spring-boot-actuator" title="spring-boot-actuator">spring-boot-actuator</a>
+                            
+                        </div>
+                        <h1>Spring Boot Actuator 를 이용해 버전 정보 제공하기</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by teddy on
+                            2018-03-24
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">nevercaution</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h3><span id="지금-dev-서버에-배포되어-있는-서버-버전이-몇인가요">지금 dev 서버에 배포되어 있는 서버 버전이 몇인가요?</span></h3>
+<p>회사에 서버환경은 dev, sandbox, test, beta, alpha, real 으로 나뉘어 있다. 각 단계별로 기능 테스트를 하고 QA를 통해 모든 기능이 개발 완료 되고 QA도 끝나면 real 서버에 배포가 된다.<br>
+나와 클라이언트 개발자는 먼저 dev 서버에서 새로운 기능이나 버그 수정등을 테스트 하는데 일정에 쫓길 때는 메이져 버전과 마이너 버전이 동시에 작업되서 두개의 버전을 두고 개발해야 하는 상황이 생기기도 한다.<br>
+젠킨스를 통해 해당 서버에 어플리케이션을 배포하는데 지금까지는 배포된 버전을 보기 위해선 젠킨스의 배포이력을 찾아 배포된 버전을 찾았어야 했었다. 여간 귀찮은 일이 아닐 수가 없다. 하지만 이 방법밖에는 없으니 얼른 클라이언트 개발자에게 현재 배포된 버전을 찾아서 알려주자.<br>
+<code>build.gradle</code> 에 배포된 버전을 명시해놓고 있긴 하지만 jar로 묶인 패키지에는 버전을 알 수 있는 방법이 없다. 이런 설정정보들을 쉽게 확인할 수 있었으면 좋겠다.</p>
+<h3><span id="지금-필요한-기능과-제약을-정리해보자">지금 필요한 기능과 제약을 정리해보자.</span></h3>
+<p>처음엔 무작정 덤벼들까도 했지만 침착하게 숨을 고르고 내가 해야할 일을 정리해보았다.</p>
+<ul>
+<li>배포되는 서버환경별로 어플리케이션의 버전정보를 알고 싶다.</li>
+<li>알기 쉽게 endpoint등의 방법으로 버전을 알려주고 싶다.</li>
+<li>모듈이 여러개가 있기 때문에 현재 돌아가고 있는 어플리케이션의 이름정보등 여러가지를 알고 싶다.</li>
+</ul>
+<h2><span id="프로젝트의-구조를-살펴보자">프로젝트의 구조를 살펴보자</span></h2>
+<p>spring-boot 로 구성된 프로젝트는 여러개의 모듈로 구성되어 있다. 각 프로젝트별로 기능들을 모아놓고 있으며 jar로 묶여 runnable한 모듈도 있고 common 이나 utils 같이 기능들을 모아놓은 모듈도 있다.<br>
+프로젝트의 설정은 아래와 같이 구성되어 있다.</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">├── README.md</span><br><span class="line">├── api</span><br><span class="line">│   ├── README.md</span><br><span class="line">│   ├── build.gradle</span><br><span class="line">│   └── src</span><br><span class="line">├── batch</span><br><span class="line">│   ├── build.gradle</span><br><span class="line">│   └── src</span><br><span class="line">├── build.gradle</span><br><span class="line">├── common</span><br><span class="line">│   ├── build.gradle</span><br><span class="line">│   └── src</span><br><span class="line">├── elasticsearch</span><br><span class="line">│   ├── build.gradle</span><br><span class="line">│   └── src</span><br><span class="line">├── gradle</span><br><span class="line">│   └── wrapper</span><br><span class="line">├── gradlew</span><br><span class="line">├── gradlew.bat</span><br><span class="line">├── mongodb</span><br><span class="line">│   ├── build.gradle</span><br><span class="line">│   └── src</span><br><span class="line">├── mysql</span><br><span class="line">│   ├── build</span><br><span class="line">│   ├── build.gradle</span><br><span class="line">│   └── src</span><br><span class="line">├── redis</span><br><span class="line">│   ├── build.gradle</span><br><span class="line">│   └── src</span><br><span class="line">├── settings.gradle</span><br><span class="line">└── utils</span><br><span class="line">    ├── build.gradle</span><br><span class="line">    └── src</span><br></pre></td></tr></table></figure>
+<p>runnable한 모듈들의 <code>build.gradle</code> 에는 각자 버전들이 명시되어 있다. <code>api</code> 모듈의 <code>build.gradle</code>을 살펴보자.</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">apply plugin: <span class="string">'rebel'</span></span><br><span class="line">apply plugin: <span class="string">'org.springframework.boot'</span></span><br><span class="line"></span><br><span class="line">ext &#123;</span><br><span class="line">    baseName = <span class="string">'api'</span></span><br><span class="line">    version = <span class="string">'9.2.8-SNAPSHOT'</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">dependencies</span> &#123;</span><br><span class="line">    <span class="keyword">compile</span> <span class="keyword">project</span>(<span class="string">':common'</span>)</span><br><span class="line">    <span class="keyword">compile</span> <span class="keyword">project</span>(<span class="string">':mysql'</span>)</span><br><span class="line">    <span class="keyword">compile</span> <span class="keyword">project</span>(<span class="string">':mongodb'</span>)</span><br><span class="line">    <span class="keyword">compile</span> <span class="keyword">project</span>(<span class="string">':redis'</span>)</span><br><span class="line">    <span class="keyword">compile</span> <span class="keyword">project</span>(<span class="string">':utils'</span>)</span><br><span class="line">    <span class="keyword">compile</span> <span class="keyword">project</span>(<span class="string">':elasticsearch'</span>)</span><br><span class="line"></span><br><span class="line">	...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">bootRun &#123;</span><br><span class="line">    systemProperties System.properties</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>ext</code> 안에 모듈의 이름과 관리되고 있는 버전의 정보가 들어있다. 어떤 기능이 개발되어 질 때는 버전을 먼저 따고 그 버전에 기능들 개발해 넣게 된다. 클라이언트 개발자들과의 소통은 저 버전으로 하게 된다.<br>
+하지만 빌드를 하면 저 정보는 jar에 따라 오지 않기 때문에 jar파일만 가지고는 버전정보를 알 수가 없다. 안되는게 어디있는가 이제부터 저 정보들을 제공하는 방법들을 알아보도록 하자.</p>
+<h2><span id="spring-boot-actuator">Spring boot actuator</span></h2>
+<p>spring boot 에서 제공하고 있는 공식 모듈중에 <a href="https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#production-ready" rel="external nofollow noopener noreferrer" target="_blank">spring boot actuator</a> 라는 모듈이 있다. 이게 무엇인고 하고 살펴보니 아래와 같이 정의가 되어 있다.</p>
+<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Definition <span class="keyword">of</span> Actuator</span><br><span class="line"></span><br><span class="line">An actuator is <span class="keyword">a</span> manufacturing term that refers <span class="built_in">to</span> <span class="keyword">a</span> mechanical device <span class="keyword">for</span> moving <span class="keyword">or</span> controlling something.   </span><br><span class="line">Actuators can generate <span class="keyword">a</span> large amount <span class="keyword">of</span> motion <span class="built_in">from</span> <span class="keyword">a</span> small change.</span><br></pre></td></tr></table></figure>
+<p>여러 정보들을 작은 작업으로 제공해준다니 내가 찾고 있던 것이 틀림없다. 기본적으로 여러 endpoint 들을 제공하고 있고 info 뿐만 아니라 health 나 metrics 등 여러 기능들을 제공하고 있다. 지금 필요한건 버전에 대한 정보들만 표시할 수있으면 되기 때문에 옆길로 새지말고 직진하도록 하자.<br>
+아무런 설정을 하고 않고 빌드를 하게 되면 build.gradle 에 명시되어 있는 버전 정보들은 빠지고 빌드가 되게 된다. actuator 을 추가해보자.</p>
+<p><code>build.gradle</code></p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 1 </span></span><br><span class="line">ext &#123;</span><br><span class="line">   baseName = <span class="string">'api'</span></span><br><span class="line">   version = <span class="string">'9.2.8-SNAPSHOT'</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">dependencies &#123;</span><br><span class="line">	...</span><br><span class="line">	<span class="comment">// 2</span></span><br><span class="line">	compile <span class="string">'org.springframework.boot:spring-boot-starter-actuator'</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 3</span></span><br><span class="line">springBoot&#123;</span><br><span class="line">    buildInfo &#123;</span><br><span class="line">        additionalProperties = [</span><br><span class="line">                <span class="string">'version'</span>: <span class="string">"<span class="subst">$&#123;project.ext.version&#125;</span>"</span>,</span><br><span class="line">                <span class="string">'name'</span>: <span class="string">"<span class="subst">$&#123;project.ext.baseName&#125;</span>"</span></span><br><span class="line">        ]</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li><code>ext</code>에는 해당 모듈의 이름과 버전 정보가 들어가게 된다. 클라이언트와 QA가 원하는 값은 저 버전 정보이다.</li>
+<li>모듈을 추가만 해주면 끝이다. 이제 여러 정보들을 endpoint로 제공받을 수 있다. 하지만 이번 포스팅에서는 다른 기능들을 알아보는건 스킵하도록 한다. (조금 써보았는데 굉장히 많은 정보들을 제공해주고 있다. 나중에 좀 더 깊게 살펴보는게 좋겠다.)</li>
+<li><a href="https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#howto-build-info" rel="external nofollow noopener noreferrer" target="_blank">buildInfo</a> 값을 넣어주면 gradle 로 빌드할 때 기본적인 빌드 정보들을 <code>build-info.properties</code> 파일 안에 적어주는데 추가적인 정보들을 넣어줄 수 있다.</li>
+</ol>
+<p>이제 빌드를 해서 결과값을 살펴보자. <code>build/resources/main/META-INF/build-info.properties</code> 안에 buildInfo의 기본적인 값들과 추가적으로 기술해준 정보들이 아래와 같이 들어가있다.</p>
+<p><code>build-info.properties</code></p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#Properties</span></span><br><span class="line"><span class="comment">#Sat Mar 24 16:17:58 KST 2018</span></span><br><span class="line">build.<span class="attribute">time</span>=2018-03-24T16\:17\:58+0900</span><br><span class="line">build.<span class="attribute">artifact</span>=api</span><br><span class="line">build.<span class="attribute">group</span>=teddy</span><br><span class="line">build.<span class="attribute">name</span>=api</span><br><span class="line">build.<span class="attribute">version</span>=9.2.8</span><br></pre></td></tr></table></figure>
+<h3><span id="dev-서버에-배포된-버전은-928입니다">dev 서버에 배포된 버전은 9.2.8입니다.</span></h3>
+<p>값이 잘 들어와있음을 확인했다. 이제 actuator에서 제공하는 endpoint <code>info</code>로 이 값들을 확인할 수 있다.</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> &gt; curl localhost:8080/info</span></span><br><span class="line">&#123;</span><br><span class="line">	"build":&#123;</span><br><span class="line">		"version":"9.2.8-SNAPSHOT",</span><br><span class="line">		"artifact":"teddy",</span><br><span class="line">		"name":"api",</span><br><span class="line">		"group":"com.nevercaution",</span><br><span class="line">		"time":1521877296000</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>설정과 적용이 완료 되었다. 이제 어느 누가 서버의 버전을 묻는다면 버벅이지 말고 자신있게 버전을 알려주도록 하자.</p>
+<h2><span id="결론">결론</span></h2>
+<p>요즘 <a href="https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#production-ready" rel="external nofollow noopener noreferrer" target="_blank">spring boot reference guide</a> 를 읽고 있는데 개인적인 느낌으로는 <a href="https://docs.djangoproject.com/en/2.0/" rel="external nofollow noopener noreferrer" target="_blank">django document</a> 보다 훨씬 상세하고 직관적으로 문서를 작성해놓았다고 생각한다. <s>django문서보면서 추상적인 표현에 적잖이 당황했었다</s><br>
+그리고 spring boot starter 에 많은 기능들이 있어 따로 작업해야 하는 부분이 줄어들었고 적용도 간단히 된다.<br>
+조금 뜬금없는 생각이지만 spring boot 모듈을 한번쯤은 만들어 봐야 겠다는 생각이 들었다.</p>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                    
+                        <li class="next">
+                            <a href="/2018/03/15/elasticsearch-rest-client/" data-toggle="tooltip" data-placement="top" title="Spring-boot 에서 Elasticsearch java rest client 사용하기">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                    <div class="comment">
+                        <div id="disqus_thread" class="disqus-thread"></div>
+                    </div>
+                
+                <!-- disqus comment end -->
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">지금 dev 서버에 배포되어 있는 서버 버전이 몇인가요?</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">지금 필요한 기능과 제약을 정리해보자.</span></a></li></ol><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number"></span> <span class="toc-nav-text">프로젝트의 구조를 살펴보자</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number"></span> <span class="toc-nav-text">Spring boot actuator</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">dev 서버에 배포된 버전은 9.2.8입니다.</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number"></span> <span class="toc-nav-text">결론</span></a>
+        
+        </li></div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#springboot" title="springboot">springboot</a>
+                        
+                          <a class="tag" href="/tags/#gradle" title="gradle">gradle</a>
+                        
+                          <a class="tag" href="/tags/#spring-boot-actuator" title="spring-boot-actuator">spring-boot-actuator</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus embedded js code start (one page only need to embed once) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "nevercaution";
+    var disqus_identifier = "https://nevercaution.github.io/2018/03/24/spring-boot-actuator/";
+    var disqus_url = "https://nevercaution.github.io/2018/03/24/spring-boot-actuator/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus embedded js code start end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/hoguen.yoon" rel="external nofollow noopener noreferrer">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://github.com/nevercaution" rel="external nofollow noopener noreferrer">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; teddy 2018 
+                    <br>
+                    Theme by <a href="http://huangxuan.me" rel="external nofollow noopener noreferrer" target="_blank">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    re-Ported by <a href="http://beantech.org" rel="external nofollow noopener noreferrer" target="_blank">BeanTech</a> | 
+                    <iframe style="margin-left: 2px; margin-bottom:-5px;" frameborder="0" scrolling="0" width="91px" height="20px" src="https://ghbtns.com/github-btn.html?user=YenYuHsuan&repo=hexo-theme-beantech&type=star&count=true">
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://nevercaution.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-100815581-1';
+    var _gaDomain = 'nevercaution.github.io';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async></script>
+<!-- Image to hack wechat -->
+<img src="https://nevercaution.github.io/img/icon_wechat.png" width="0" height="0">
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
