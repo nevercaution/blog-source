@@ -3,7 +3,7 @@ title: "Django orm standalone feat(docker)"
 catalog: true
 date: 2017-06-23 21:26:55
 subtitle:
-header-img: "img/header_img/bg.png"
+header-img: "/img/header_img/bg.png"
 tags:
 - python
 - django

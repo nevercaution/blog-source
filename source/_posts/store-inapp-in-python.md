@@ -3,7 +3,7 @@ title: "Python에서 iOS, Android 스토어 인앱 결제 검증하기"
 catalog: true
 date: 2016-03-11 16:43:24
 subtitle:
-header-img: "img/header_img/bg.png"
+header-img: "/img/header_img/bg.png"
 tags:
 - python
 - ios

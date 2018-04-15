@@ -3,7 +3,7 @@ title: "spring boot 에서 jsp view 만들기 (feat freemarker)"
 catalog: true
 date: 2018-02-22 11:33:19
 subtitle:
-header-img: "img/header_img/bg.png"
+header-img: "/img/header_img/bg.png"
 tags:
 - springboot
 - jsp

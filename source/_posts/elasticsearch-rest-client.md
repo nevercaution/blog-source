@@ -3,7 +3,7 @@ title: Spring-boot 에서 Elasticsearch java rest client 사용하기
 catalog: true
 date: 2018-03-15 15:33:02
 subtitle:
-header-img: "img/header_img/bg.png"
+header-img: "/img/header_img/bg.png"
 tags:
 - springboot
 - elasticsearch

@@ -3,7 +3,7 @@ title: Spring Boot Actuator 를 이용해 버전 정보 제공하기
 catalog: true
 date: 2018-03-24 15:23:14
 subtitle:
-header-img: "img/header_img/bg.png"
+header-img: "/img/header_img/bg.png"
 tags:
 - springboot
 - gradle
