@@ -121,27 +121,6 @@
     </url>
 
     <url>
-        <loc>https://nevercaution.github.io/tags/elasticsearch/</loc>
-        <lastmod>2018-04-29T13:24:14.728Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://nevercaution.github.io/tags/kakaopage/</loc>
-        <lastmod>2018-04-29T13:24:14.728Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://nevercaution.github.io/tags/%EC%9D%80%EC%A0%84%ED%95%9C%EB%8B%A2/</loc>
-        <lastmod>2018-04-29T13:24:14.728Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>https://nevercaution.github.io/tags/springboot/</loc>
         <lastmod>2018-05-20T09:08:45.598Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -158,6 +137,27 @@
     <url>
         <loc>https://nevercaution.github.io/tags/logging/</loc>
         <lastmod>2018-05-20T09:08:45.598Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://nevercaution.github.io/tags/elasticsearch/</loc>
+        <lastmod>2018-05-20T09:15:59.470Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://nevercaution.github.io/tags/kakaopage/</loc>
+        <lastmod>2018-05-20T09:15:59.470Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://nevercaution.github.io/tags/%EC%9D%80%EC%A0%84%ED%95%9C%EB%8B%A2/</loc>
+        <lastmod>2018-05-20T09:15:59.470Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
