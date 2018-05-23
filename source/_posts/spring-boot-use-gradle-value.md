@@ -29,15 +29,29 @@ ext {
 ```
 사내에서 장애 알림은 [sentry](https://sentry.io/) 를 사용하는데, 어떤 에러가 발생했을 때 현재 배포되어 있는 버전을 함께 표시해주면 해당 에러가 어떤 버전에서 최초 발생했는지 추적이 가능하다. (장애상황에서도 활용이 가능하지만 필요에 따라 gradle 의 정보를 마음대로 사용할 수 있으면 상황에 따라 장점이 있다고 생각한다.)  
 
-### shut up and code
+### Shut up and code
 공식문서의 [Automatic Property Expansion Using Gradle](https://docs.spring.io/spring-boot/docs/current/reference/html/howto-properties-and-configuration.html#howto-automatic-expansion-gradle) 부분을 참고해서 만들었다. 잘 동작한다. :)  
-`build.gradle` 에 정의되어 있는 값들을 사용하기 위해선 다음과 같이 설정해주면 된다.  
+`build.gradle` 에 정의되어 있는 값들을 사용하기 위해선 다음과 같이 설정해주면 된다. 공식문서에서 주석을 달아놓은 부분이 있는데, `SimpleTemplateEngine` 에서는 `$` 를 파싱하는 부분에서 충돌이 발생할 수 있어 별도의 처리를 해야 한다고 명시되어 있다. 참고로 이 부분에서 실제 프로젝트에 적용시킬 때 문제가 조금 있었는데, 단순히 `expand(project.properties)` 만 하게 되면 모든 설정파일을 가져가게 된다. 파일들에 `$` 를 사용했다면 파싱을 하다가 깨질 수 있으니 escape 처리를 해주어야 하는데, 현재 상황은 내가 필요한 설정 파일만 가져가면 되기 때문에 내가 원하는 파일들만 expand 하도록 하자. 별도의 처리를 하지 않으면 에러를 내며 `processResources` 에서 작업이 멈춘다.  
+
+```bash
+:processResources FAILED
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':processResources'.
+> Could not copy file '/path/to/file/error.ftl' to '/path/to/file/build/resources/main/error.ftl'.
+```
+
+`filesMatching` 로 원하는 파일 포멧만 하도록 감싸주자. (실제 이 부분에서 적용하다가 에러를 발생해서 모든 `$` 에 escape 처리를 할까 하다가 그건 좀 아닌것 같아 아래와 같이 처리했다.)    
 
 `build.gradle`  
 
 ```
 processResources {
-    expand(project.properties)
+    filesMatching('**/application.yml') {
+        expand(project.properties)
+    }
 }
 ```
 
@@ -59,7 +73,7 @@ private String projectName;
 ```
 
 ```bash
-$ curl localhost:8080/main
+$ curl localhost:8081/main
 
 project name : teddy.bear, version : 1.0.1-SNAPSHOT
 ```
