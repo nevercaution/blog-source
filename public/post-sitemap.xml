@@ -7,8 +7,16 @@
     </url>
 
     <url>
+        <loc>https://nevercaution.github.io/2018/06/17/elasticsearch-java-high-level-client/</loc>
+        <lastmod>2018-06-28T12:38:42.678Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://nevercaution.github.io/2018/05/20/spring-boot-use-gradle-value/</loc>
-        <lastmod>2018-05-23T01:27:05.325Z</lastmod>
+        <lastmod>2018-06-07T07:47:27.858Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 

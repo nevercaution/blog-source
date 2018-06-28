@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword" content="">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          Elasticsearch Java Rest High Level Client 사용하기 - nevercaution
+        
+    </title>
+
+    <link rel="canonical" href="https://nevercaution.github.io/2018/06/17/elasticsearch-java-high-level-client/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <!-- <script></script> -->
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-100815581-1"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-100815581-1');
+    </script>
+
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('/img/header_img/bg.png')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header">
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#elasticsearch" title="elasticsearch">elasticsearch</a>
+                            
+                              <a class="tag" href="/tags/#resthighlevelclient" title="resthighlevelclient">resthighlevelclient</a>
+                            
+                              <a class="tag" href="/tags/#sptingboot" title="sptingboot">sptingboot</a>
+                            
+                              <a class="tag" href="/tags/#webflux" title="webflux">webflux</a>
+                            
+                              <a class="tag" href="/tags/#gradle" title="gradle">gradle</a>
+                            
+                        </div>
+                        <h1>Elasticsearch Java Rest High Level Client 사용하기</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by Teddy on
+                            2018-06-17
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">nevercaution</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h2><span id="elasticsearch-amp-spring-boot-amp-webflux">elasticsearch &amp; spring boot &amp; webflux</span></h2>
+<h3><span id="elasticsearch-630">elasticsearch 6.3.0</span></h3>
+<p>elasticsearch 가 <a href="https://www.elastic.co/blog/elasticsearch-6-3-0-released" rel="external nofollow noopener noreferrer" target="_blank">6.3.0</a>  으로 올라갔다. 여러가지 기능들이 추가되었는데, 흥미로운 부분은 내부 client 로 SQL 문법을 지원한다는것이다. 생각보다 놀랍게 동작한다! 메인 버전이 올라가면서 java client 버전도 함께 올라갔는데 드디어 java rest high level client 가 쓸만한 모듈이 되었다는 점이다. 예전까지는 java client 만 사용해왔었는데 이젠 슬슬 넘어갈 수 있을 것같아서 후딱 한번 사용해보았다.</p>
+<h3><span id="resthighlevelclient">RestHighLevelClient</span></h3>
+<p><a href="https://nevercaution.github.io/2018/03/15/elasticsearch-rest-client/">이전 포스트</a> 에서 살짝 훑어만 봤었는데 elasticsearch java client 가 6.3.0 으로 업데이트 되면서 대부분의 기능들을 사용할 수 있게 되었다. 언제나 릴리즈되나 눈빠지게 기다리고 있었는데 6.3.0 이 릴리즈 되자마자 한번 적용해보았다.</p>
+<h3><span id="async">async</span></h3>
+<p>RestHighLevelClient 에서는 대부분의 메소드에 async 를 지원한다. spring webFlux 를 공부하면서 elasticsearch 가 async 를 지원하지 않아서 반쪽짜리로 사용하고 있었는데, 함께 사용해보니 궁합이 꽤나 잘맞았다.</p>
+<h3><span id="오늘의-목표">오늘의 목표</span></h3>
+<p>이번 포스팅은 webFlux 와 elasticsearch 가 짬뽕이 되었다. 두 꼭지에서 꼭 알고 가야하는 부분만 짚고 가보자. 사용할 제원(?)은 다음과 같다.</p>
+<ol>
+<li>spring boot 2.0.3</li>
+<li>spring boot webFlux</li>
+<li>elasticsearch RestHighLevelClient (6.3.0)</li>
+</ol>
+<h2><span id="shut-up-and-code">shut up and code</span></h2>
+<h3><span id="setting">setting</span></h3>
+<p><code>build.gradle</code></p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">buildscript</span> &#123;</span><br><span class="line">    ext &#123;</span><br><span class="line">        springBootVersion = <span class="string">'2.0.3.RELEASE'</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">repositories</span> &#123;</span><br><span class="line">        mavenCentral()</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">dependencies</span> &#123;</span><br><span class="line">        <span class="keyword">classpath</span>(<span class="string">"org.springframework.boot:spring-boot-gradle-plugin:$&#123;springBootVersion&#125;"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line"><span class="keyword">dependencies</span> &#123;</span><br><span class="line">    <span class="comment">// for webFlux</span></span><br><span class="line">    <span class="keyword">compile</span>(<span class="string">'org.springframework.boot:spring-boot-starter'</span>)</span><br><span class="line">    <span class="keyword">compile</span>(<span class="string">'org.springframework.boot:spring-boot-starter-webflux'</span>) <span class="comment">// 1</span></span><br><span class="line">    compileOnly(<span class="string">"org.springframework.boot:spring-boot-configuration-processor"</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// for elasticsearch</span></span><br><span class="line">    <span class="keyword">compile</span>(<span class="string">'org.elasticsearch.client:elasticsearch-rest-high-level-client:6.3.0'</span>)</span><br><span class="line">    <span class="keyword">compile</span>(<span class="string">'org.apache.logging.log4j:log4j-core:2.9.1'</span>)</span><br><span class="line">    <span class="keyword">compile</span>(<span class="string">'org.elasticsearch:elasticsearch:6.3.0'</span>) <span class="comment">//2</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>프로젝트는 gradle 로 구성했다. 개인적으로는 maven 보다 가독성이 좋고 문법이 간결하다고 생각한다. xml 을 그닥 좋아하지 않는 경향도 있고, 뎁스가 깊어지거나 설정자체가 길어지면 한눈에 어떤 dependency 가 걸려있는지 파악하기가 쉽지 않기 때문이다. 위의 설정에서 짚고 넘어갈 부분이 있다.</p>
+<ol>
+<li>
+<p>spring boot starter 에는 web 과 webflux 가 있다. web 은 <code>org.springframework.boot:spring-boot-starter-web</code> 이렇게 사용하는데 web 은 기본적으로 tomcat 으로 동작하고, webflux 는 netty 로 was 가 동작한다. 여기에서 주의할 점은 web과 wenflux 를 함께 넣으면 기본적으로 web 으로 동작하고 webflux 는 무시된다. 해당 내용은 <a href="https://docs.spring.io/spring-boot/docs/current-SNAPSHOT/reference/htmlsingle/#boot-features-webflux" rel="external nofollow noopener noreferrer" target="_blank">여기</a> 에서 확인할 수 있다.</p>
+</li>
+<li>
+<p><code>org.elasticsearch.client:elasticsearch-rest-high-level-client:6.3.0</code> 만 추가하면 기본적으로 elasticsearch 5.6.x 버전의 client 가 dependency 로 따라온다. 기본적으로 사용함에 있어서는 큰 문제는 없지만 일부 기능들이 호환이 잘 안되서 엉뚱하게 동작하는 경우가 있다. 이는 rest client 로 사용했을 때에도 비슷한 상황이 있었는데 명시적으로 elasticsearch client 버전을 명시해주면 원하는 버전의 client 를 사용할 수 있다. 되도록 rest high level client 와 동일한 버전을 사용하는걸 추천한다.</p>
+</li>
+</ol>
+<p><code>ElasticsearchConfig.java</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ElasticsearchConfig</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> RestHighLevelClient <span class="title">client</span><span class="params">(ElasticsearchProperties properties)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> RestHighLevelClient(</span><br><span class="line">                RestClient.builder(properties.hosts())</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>configuration 의 기본 설정은 rest client 와 기본 골격은 비슷하게 생겼다. (설정이나 다른 부분들이 몇가지 있지만) 크게 다른 점을 하나 꼽자면 rest high level client 부터는 tcp connection 이 아닌 http connection 을 맺는다. 그래서 기본 (elasticsearch port 인) 9200 을 사용한다. rest client 에서는 <code>InetSocketTransportAddress</code> 를 생성해서 builder 에 전달을 했었지만 restHighLevelClient 부터는 <code>HttpHost</code> 를 전달해서 생성하는 부분도 눈여겨 볼만한 부분이다. elasticsearch 설정 관련 클래스는 ElasticsearchProperties 로 묶었다. <code>@Value</code> 나 <code>ConfigurationProperties</code> annotation 으로 configuration 에서 직접 설정도 가능하지만, 특정 설정값을 service 에서 사용하기 편하기 위해 클래스를 분리했다.</p>
+<p><code>ElasticsearchProperties.java</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="meta">@Setter</span></span><br><span class="line"><span class="meta">@ConfigurationProperties</span>(prefix = <span class="string">"elasticsearch"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ElasticsearchProperties</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> List&lt;String&gt; hosts;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> HttpHost[] hosts() &#123;</span><br><span class="line">        <span class="keyword">return</span> hosts.stream().map(HttpHost::create).toArray(HttpHost[]::<span class="keyword">new</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>@Value</code> annotation 으로 설정해주어도 되지만, 이름이 완전히 같을 때만 설정값을 읽어들인다. <code>@ConfigurationProperties</code> annotation 은 <a href="https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-external-config.html#boot-features-external-config-relaxed-binding" rel="external nofollow noopener noreferrer" target="_blank">Relaxed Binding</a> 이라는 느슨한(?) 룰이 있어 각자 입맛에 맞는 포멧으로 써도 properties class 에서 찰떡같이 알아 먹는다. (자신만의 스타일을 고집하는 팀에서는 나름 유용하게 사용될지는 모르겠지만 남용은 하지 말자. 버그가 생길 수 있는 포인트이다.)</p>
+<p><code>application.yml</code></p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">elasticsearch:</span></span><br><span class="line"><span class="attr">  hosts:</span> <span class="attr">http://localhost:9200</span></span><br></pre></td></tr></table></figure>
+<p>설정파일은 이전보다 심플해졌다. 심지어 cluster name 을 묻지도 따지지도 않는다. 연결을 맺을 때 굳이 너의 이름을 몰라도 상관없다는 뜻이였을까.</p>
+<h3><span id="service">service</span></h3>
+<p>document 의 생성과 조회를 만들어 보자. (update 와 delete 는 index 와 get/match 와 비슷하기 때문에 생략한다.)</p>
+<ul>
+<li><code>index</code></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Mono&lt;Void&gt; <span class="title">index</span><span class="params">(String index, String type, String userName, String message)</span> </span>&#123;</span><br><span class="line">        Gson gson = GsonUtil.gson();</span><br><span class="line"></span><br><span class="line">        User user = <span class="keyword">new</span> User();</span><br><span class="line">        user.setUser(userName);</span><br><span class="line">        user.setMessage(message);</span><br><span class="line">        user.setPostDate(<span class="keyword">new</span> Date());</span><br><span class="line"></span><br><span class="line">        IndexRequest indexRequest = <span class="keyword">new</span> IndexRequest(index, type);</span><br><span class="line">        indexRequest.source(gson.toJson(user), XContentType.JSON);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> Mono.create(sink -&gt; &#123;  <span class="comment">//1</span></span><br><span class="line">            restHighLevelClient.indexAsync(indexRequest, <span class="keyword">new</span> ActionListener&lt;IndexResponse&gt;() &#123;  <span class="comment">//2</span></span><br><span class="line">                <span class="meta">@Override</span></span><br><span class="line">                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onResponse</span><span class="params">(IndexResponse indexResponse)</span> </span>&#123;</span><br><span class="line">                    log.info(<span class="string">"index success : "</span>+indexResponse.toString());</span><br><span class="line">                    sink.success();</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="meta">@Override</span></span><br><span class="line">                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onFailure</span><span class="params">(Exception e)</span> </span>&#123;</span><br><span class="line">                    log.error(<span class="string">"index error "</span>, e);</span><br><span class="line">                    sink.error(e);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>index 메소드는 특정한 반환값을 필요로 하지 않기 때문에 <code>Mono&lt;Void&gt;</code> 를 사용한다. client 에서는 기존의 index 메소드와 indexAsync 를 제공한다. (대부분의 메소드들이 동일하게 제공) 위의 동작은 공식문서의 <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-index_.html#docs-index_" rel="external nofollow noopener noreferrer" target="_blank">index</a> 부분의 동작을 코드로 작성한 부분이다. url 로 풀어 쓰면 다음과 같다.</p>
+<figure class="highlight ada"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ curl -X PUT <span class="string">"localhost:9200/twitter/_doc/1"</span> -H <span class="symbol">'Content</span>-<span class="keyword">Type</span>: application/json' -d'</span><br><span class="line">&#123;</span><br><span class="line">    <span class="string">"user"</span> : "<span class="type">kimchy</span><span class="string">",</span></span><br><span class="line"><span class="string">    "</span>post_date<span class="string">" : "</span><span class="number">2009</span>-<span class="number">11</span>-<span class="number">15</span>T14:<span class="number">12</span>:<span class="number">12</span><span class="string">",</span></span><br><span class="line"><span class="string">    "</span>message<span class="string">" : "</span>trying <span class="keyword">out</span> Elasticsearch<span class="string">"</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string">'</span></span><br></pre></td></tr></table></figure>
+<p>indexAsync 메소드를 사용했고 이를 <a href="https://projectreactor.io/docs/core/release/api/index.html?reactor/core/publisher/Mono.html" rel="external nofollow noopener noreferrer" target="_blank">MonoSink</a> 로 감싸주었다. Mono 는 0…1 의 상태이므로 하나의 index 결과에 대한 성공여부를 publish 해준다. controller 에서는 다음과 같이 받아 처리해준다.</p>
+<p><code>controller.java</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping</span>(value = <span class="string">"/index/&#123;index&#125;/&#123;type&#125;"</span>, method = &#123;RequestMethod.POST&#125;)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Mono&lt;Void&gt; <span class="title">index</span><span class="params">(@PathVariable(<span class="string">"index"</span>)</span> String index,</span></span><br><span class="line"><span class="function">                            @<span class="title">PathVariable</span><span class="params">(<span class="string">"type"</span>)</span> String type,</span></span><br><span class="line"><span class="function">                            @<span class="title">RequestParam</span><span class="params">(value = <span class="string">"user_name"</span>)</span> String userName,</span></span><br><span class="line"><span class="function">                            @<span class="title">RequestParam</span><span class="params">(value = <span class="string">"message"</span>)</span> String message) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> elasticsearchService.index(index, type, userName, message)</span><br><span class="line">                .onErrorResume(error -&gt; &#123;</span><br><span class="line">                    log.error(<span class="string">"index error "</span>, error);</span><br><span class="line">            <span class="keyword">return</span> Mono.empty();</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>index 동작 이후 특정한 값을 반환하고자 한다면 Mono 안의 타입을 원하는 클래스를 정의해주자.</p>
+<ul>
+<li><code>get</code></li>
+</ul>
+<p>document 를 넣었으면 값이 잘 들어갔는지 확인이 필요하겠다. <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-get.html#docs-get" rel="external nofollow noopener noreferrer" target="_blank">get api</a> 를 추가해보자.</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ curl -X <span class="builtin-name">GET</span> <span class="string">"localhost:9200/twitter/_doc/0"</span></span><br></pre></td></tr></table></figure>
+<p>이 api 를 rest high level client 로 작성하면 아래와 같다.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Mono&lt;User&gt; <span class="title">getUser</span><span class="params">(String index, String type, String id)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">final</span> Gson gson = GsonUtil.gson();</span><br><span class="line">    GetRequest getRequest = <span class="keyword">new</span> GetRequest(index, type, id);</span><br><span class="line">    <span class="keyword">return</span> Mono.create(sink -&gt; &#123;</span><br><span class="line">        restHighLevelClient.getAsync(getRequest, <span class="keyword">new</span> ActionListener&lt;GetResponse&gt;() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onResponse</span><span class="params">(GetResponse documentFields)</span> </span>&#123;</span><br><span class="line">                User user = gson.fromJson(documentFields.getSourceAsString(), User.class);</span><br><span class="line">                sink.success(user);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onFailure</span><span class="params">(Exception e)</span> </span>&#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">                sink.error(e);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>index 에서와 같이 Mono 로 감싸서 반환을 하였고 이번에는 필요한 값인 User 객체를 사용하였다.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@GetMapping</span>(<span class="string">"get/&#123;index&#125;/&#123;type&#125;/&#123;id&#125;"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> Mono&lt;User&gt; <span class="title">getAsync</span><span class="params">(@PathVariable(<span class="string">"index"</span>)</span> String index,</span></span><br><span class="line"><span class="function">                           @<span class="title">PathVariable</span><span class="params">(<span class="string">"type"</span>)</span> String type,</span></span><br><span class="line"><span class="function">                           @<span class="title">PathVariable</span><span class="params">(<span class="string">"id"</span>)</span> String id) </span>&#123;</span><br><span class="line"></span><br><span class="line">   <span class="keyword">return</span> elasticsearchService.getUser(index, type, id)</span><br><span class="line">           .onErrorResume(error -&gt; &#123;</span><br><span class="line">               User defaultUser = <span class="keyword">new</span> User();</span><br><span class="line">               defaultUser.setUser(<span class="string">"default"</span>);</span><br><span class="line">               defaultUser.setPostDate(<span class="keyword">new</span> Date());</span><br><span class="line">               defaultUser.setMessage(<span class="string">"default message"</span>);</span><br><span class="line">               <span class="keyword">return</span> Mono.just(defaultUser);</span><br><span class="line">           &#125;)</span><br><span class="line">           .defaultIfEmpty(<span class="keyword">new</span> User());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>service 에서 <code>Mono&lt;User&gt;</code> 를 받아 반환을 해준다. <code>onErrorResume</code> 이나 <code>defaultIfEmpty</code> 는 service 에서 정상동작을 하지 않았을 경우의 후처리 이다. 여기에서 짚고 넘어갈 부분이라면, 우리는 restful Api 를 만들고 있기 때문에 controller 가 <code>@RestController</code> 이거나 mapping method 에 <code>@ResponseBody</code> annotation 이 걸려있으면 위와 같이 바로 <code>Mono</code> 를 반환해도 된다.<br>
+하지만 <code>@Controller</code> annotation 을 사용하고 있다면 http status 값이 넘어가지 않기 때문에 mapping method 에 <code>@ResponseBody</code> 를 걸어주거나 <code>ResponseEntity</code> 객체로 한번 더 감싸서 반환해주어야 한다. 다음과 같이 감싸줄 수 있겠다.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@GetMapping</span>(<span class="string">"get/&#123;index&#125;/&#123;type&#125;/&#123;id&#125;"</span>)</span><br><span class="line"><span class="keyword">public</span> Mono&lt;ResponseEntity&lt;User&gt;&gt; getAsync2(<span class="meta">@PathVariable</span>(<span class="string">"index"</span>) String index,</span><br><span class="line">                                           <span class="meta">@PathVariable</span>(<span class="string">"type"</span>) String type,</span><br><span class="line">                                           <span class="meta">@PathVariable</span>(<span class="string">"id"</span>) String id) &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> elasticsearchService.getUser(index, type, id)</span><br><span class="line">            .map(ResponseEntity::ok)</span><br><span class="line">            .onErrorResume(error -&gt; Mono.just(ResponseEntity.badRequest().build()))</span><br><span class="line">            .defaultIfEmpty(ResponseEntity.status(HttpStatus.OK).body(<span class="keyword">new</span> User()));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>취향과 상황에 맞게 선택하도록 하자.</p>
+<ul>
+<li><code>match all</code></li>
+</ul>
+<p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-match-all-query.html#query-dsl-match-all-query" rel="external nofollow noopener noreferrer" target="_blank">match all api</a> 도 추가해보자.</p>
+<figure class="highlight sml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ curl -<span class="type">X</span> <span class="type">GET</span> <span class="string">"localhost:9200/_search"</span> -<span class="type">H</span> <span class="symbol">'Content</span>-<span class="type">Type</span>: application/json' -d'</span><br><span class="line">&#123;</span><br><span class="line">    <span class="string">"query"</span>: &#123;</span><br><span class="line">        <span class="string">"match_all"</span>: &#123;&#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="string">'</span></span><br></pre></td></tr></table></figure>
+<p>코드로 작성하면 다음과 같다.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Flux&lt;User&gt; <span class="title">matchAll</span><span class="params">(String index)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">final</span> Gson gson = GsonUtil.gson();</span><br><span class="line"></span><br><span class="line">    SearchSourceBuilder searchSourceBuilder = <span class="keyword">new</span> SearchSourceBuilder();</span><br><span class="line">    searchSourceBuilder.query(QueryBuilders.matchAllQuery());</span><br><span class="line"></span><br><span class="line">    SearchRequest searchRequest = <span class="keyword">new</span> SearchRequest(index);</span><br><span class="line">    searchRequest.source(searchSourceBuilder);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> Flux.create((FluxSink&lt;User&gt; sink) -&gt; &#123;</span><br><span class="line">        restHighLevelClient.searchAsync(searchRequest, <span class="keyword">new</span> ActionListener&lt;SearchResponse&gt;() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onResponse</span><span class="params">(SearchResponse searchResponse)</span> </span>&#123;</span><br><span class="line">                searchResponse.getHits().forEach(item -&gt; &#123;</span><br><span class="line">                    User user = gson.fromJson(item.getSourceAsString(), User.class);</span><br><span class="line">                    sink.next(user);</span><br><span class="line">                &#125;);</span><br><span class="line">                sink.complete();</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onFailure</span><span class="params">(Exception e)</span> </span>&#123;</span><br><span class="line">                log.error(<span class="string">"matchAll error "</span>, e);</span><br><span class="line">                sink.error(e);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@GetMapping</span>(<span class="string">"/match_all/&#123;index&#125;"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> Flux&lt;User&gt; <span class="title">matchAll</span><span class="params">(@PathVariable(<span class="string">"index"</span>)</span> String index) </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> elasticsearchService.matchAll(index).onErrorResume((Throwable error) -&gt; &#123;</span><br><span class="line">        log.error(<span class="string">"err"</span>, error);</span><br><span class="line">        User user = <span class="keyword">new</span> User();</span><br><span class="line">        user.setPostDate(<span class="keyword">new</span> Date());</span><br><span class="line">        user.setUser(<span class="string">"default User"</span>);</span><br><span class="line">        user.setMessage(<span class="string">"default message"</span>);</span><br><span class="line">        <span class="keyword">return</span> Flux.just(user);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>복수개의 값을 반환할 수 있으므로 Flux 로 반환해준다. 물론 List 로 묶어서 Mono 로 반환해야할 수도 있다. MonoSink 와의 차이점은 next 로 데이터를 넘기다가 모든 데이터가 넘어가면 complete 를 호출 해주는 부분이다.</p>
+<h2><span id="결론">결론</span></h2>
+<p>webflux 와 restHighLevelClient 사용하여 비동기 api 를 제공해줄 수 있다. webflux 는 꽤나 멋지게 동작하지만 아직까지는 모든 서드파티들이 지원을 해주고 있지 않아 하드하게 사용하기에는 주저되는 부분이 있다. (jdbc 를 사용하지 않는다면 추천!)<br>
+restHighLevelClient 로 넘어오면서 각 클래스들의 역할이 명확해진 느낌이고 선언과 사용도 좀 더 명확해져서 편하다는 인상을 많이 받았다. 위의 예제코드는 <a href="https://github.com/nevercaution/elasticsearch_java_client" rel="external nofollow noopener noreferrer" target="_blank">여기</a> 에서 확인할 수 있다.</p>
+<h3><span id="여담">여담</span></h3>
+<p>elasticsearch 에 kibana 를 얹으면 devtool 을 이용해서 (무려 자동완성이 제공되는) 쿼리를 날려볼 수 있다. 지금껏 sense 나 다른 툴들을 조금은 불편하게 사용해왔었는데, 반길만한 부분이다. 다만 개인적으로는 redis-cli 처럼 CLI tool 이 제공되면 좋았을 거라는 생각에 <a href="https://github.com/nevercaution/elasticsearch-cli" rel="external nofollow noopener noreferrer" target="_blank">elasticsearch-cli</a> 를 만들어 보는 중이다. 물론 elastic 진영에서는 <a href="https://www.elastic.co/guide/en/elasticsearch/client/curator/current/about-cli.html" rel="external nofollow noopener noreferrer" target="_blank">curator</a> 을 제공해주고 있긴 하지만 모니터링 툴이라 간단한 match query 나 analyze 등을 사용할 수는 없다. 나름 일하면서 편하게 사용하는중이다. ㅎㅎ</p>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                    
+                        <li class="next">
+                            <a href="/2018/05/20/spring-boot-use-gradle-value/" data-toggle="tooltip" data-placement="top" title="Spring boot 에서 gradle 에 정의되어있는 정보 가져오기">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                    <div class="comment">
+                        <div id="disqus_thread" class="disqus-thread"></div>
+                    </div>
+                
+                <!-- disqus comment end -->
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">elasticsearch &amp; spring boot &amp; webflux</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">elasticsearch 6.3.0</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">RestHighLevelClient</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text">async</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.4.</span> <span class="toc-nav-text">오늘의 목표</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">shut up and code</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">2.1.</span> <span class="toc-nav-text">setting</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">2.2.</span> <span class="toc-nav-text">service</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">결론</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">3.1.</span> <span class="toc-nav-text">여담</span></a></li></ol></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#elasticsearch" title="elasticsearch">elasticsearch</a>
+                        
+                          <a class="tag" href="/tags/#resthighlevelclient" title="resthighlevelclient">resthighlevelclient</a>
+                        
+                          <a class="tag" href="/tags/#sptingboot" title="sptingboot">sptingboot</a>
+                        
+                          <a class="tag" href="/tags/#webflux" title="webflux">webflux</a>
+                        
+                          <a class="tag" href="/tags/#gradle" title="gradle">gradle</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus embedded js code start (one page only need to embed once) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "nevercaution";
+    var disqus_identifier = "https://nevercaution.github.io/2018/06/17/elasticsearch-java-high-level-client/";
+    var disqus_url = "https://nevercaution.github.io/2018/06/17/elasticsearch-java-high-level-client/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus embedded js code start end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/hoguen.yoon" rel="external nofollow noopener noreferrer">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://github.com/nevercaution" rel="external nofollow noopener noreferrer">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Teddy 2018 
+                    <br>
+                    Theme by <a href="http://huangxuan.me" rel="external nofollow noopener noreferrer" target="_blank">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    re-Ported by <a href="http://beantech.org" rel="external nofollow noopener noreferrer" target="_blank">BeanTech</a> | 
+                    <iframe style="margin-left: 2px; margin-bottom:-5px;" frameborder="0" scrolling="0" width="91px" height="20px" src="https://ghbtns.com/github-btn.html?user=YenYuHsuan&repo=hexo-theme-beantech&type=star&count=true">
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://nevercaution.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-100815581-1';
+    var _gaDomain = 'nevercaution.github.io';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async></script>
+<!-- Image to hack wechat -->
+<img src="https://nevercaution.github.io/img/icon_wechat.png" width="0" height="0">
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
