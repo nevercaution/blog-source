@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword" content="">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          spring boot 에서 redis pub/sub 을 이용해 동적으로 value 사용하기 - nevercaution
+        
+    </title>
+
+    <link rel="canonical" href="https://nevercaution.github.io/2018/07/16/spring-boot-redis-pub-sub/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <!-- <script></script> -->
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-100815581-1"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-100815581-1');
+    </script>
+
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('/img/header_img/bg.png')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header">
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#springboot" title="springboot">springboot</a>
+                            
+                              <a class="tag" href="/tags/#redis" title="redis">redis</a>
+                            
+                              <a class="tag" href="/tags/#pubsub" title="pubsub">pubsub</a>
+                            
+                              <a class="tag" href="/tags/#dynamicConfiguration" title="dynamicConfiguration">dynamicConfiguration</a>
+                            
+                              <a class="tag" href="/tags/#lettuce" title="lettuce">lettuce</a>
+                            
+                        </div>
+                        <h1>spring boot 에서 redis pub/sub 을 이용해 동적으로 value 사용하기</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by Teddy on
+                            2018-07-16
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">nevercaution</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <p>배포없이 설정값을 변경해야하는 일이 생겼다. 설정값 하나 때문에 전체 api 서버를 재배포 해야하는건 부담이 있었고 실시간으로 설정값을 변경해서 바로바로 코드에 반영해야 하는 일이었다. 이를 구현하기 위해서는 여러가지 방법이 있는데 그중에서 가장 손이 덜가면서 부하가 덜 드는 방법으로 구현을 하고자 했다. 이런 저런 방법을 찾아보면서 찾게 된 방법들이다.</p>
+<ol>
+<li><a href="https://redis.io/commands/get" rel="external nofollow noopener noreferrer" target="_blank">redis</a> 를 이용해 값을 가져오는 방식</li>
+<li><a href="http://projects.spring.io/spring-cloud/" rel="external nofollow noopener noreferrer" target="_blank">spring cloud</a> 를 이용해 설정값을 전파 방는 방식</li>
+<li><a href="https://commons.apache.org/proper/commons-configuration/" rel="external nofollow noopener noreferrer" target="_blank">Apache commons configuration</a> 을 이용해 외부파일에 설정값을 전파하는 방식</li>
+</ol>
+<p>1번의 경우는 구현이 가장 간단한 방식이다. key 값으로 원하는 설정값을 넣어 바로 꺼내어 사용하면 되기 때문이다. 하지만 redis 에 계속해서 조회를 하기 때문에 부하가 올라감 염려가 있다. 자주 불리는 endpoint 가 아니라면 괜찮지만 login 같이 조회수가 높은 endpoint 라면 단순한 로직 추가임에도 로드가 올라가 redis 에 부담을 줄 수가 있어 이 방법은 최후의 보루(?) 로 남겨두기로 했다.<br>
+2번의 경우는 spring cloud 를 사용해서 yml 파일들을 spring cloud config server 에 올려두고 spring cloud client 들이 해당 설정 파일을 받아가는 형식이라 지금 구현하고자 하는 바를 만족한다. 하지만 spring cloud 는 이런 기능 외에 훨씬 더 많은 기능들을 제공하고 있는데, 동적으로 설정값 하나 넣자고 배보다 배꼽이 더 큰 구현을 하기엔 부적합하다고 판단 되었다.<br>
+3번의 경우는 spring boot 외부에 설정파일을 따로 두어 파일을 읽어 값을 사용하는 방식이다. 역시 지금 구현하고자 하는 목표와 비슷하기도 하고 구현의 난이도나 범위가 크지 않았지만 파일을 주기적으로 읽어야 하는 부담 (file IO 는 부하가 크고 속도도 느린 편이다.) 이 있었고, 전체 api 서버에 변경된 설정값이 담긴 파일을 전파하려면 <a href="https://www.ansible.com/" rel="external nofollow noopener noreferrer" target="_blank">ansible</a> 이나 별도의 구현을 통해 전체 서버에 전달을 해주어야 하는데, 이 역시 구현체보다 구현을 해야하는 범위가 넘어서버리게 되어버려 마음에 들지 않았다.<br>
+마감 시간이 급박한건 아니었지만 그렇다고 해서 큰일을 벌일 정도의 규모의 일감이 아니었기 때문에 적당한 선에서 작업하고 넘어가는 것이 좋다고 생각했다. 회사 동료들과 어떻게 할까 고민하다가 문득 redis pub/sub 을 이용해 메모리에 설정값들을 가지고 있으면 어떨까 생각을 했다. 필요할 때만 redis litenser 가 사용되고 file IO 보다 가벼우며 과도하게 redis connection 을 맺지 않아 부하도 크지 않아 괜찮을거라 판단했다.<br>
+<s>다들 아시겠지만 Reactive 의 publisher subscriber 가 아니다!</s></p>
+<h2><span id="시나리오-순서">시나리오 순서</span></h2>
+<p>각 api 서버당 약속된 channel 로 redis 를 통해 subscribe 한다.<br>
+서버가 올라간 직후에는 로컬 메모리에 데이터가 없으니 redis 를 통해 publish 해준다.<br>
+로컬 메모리에 있는 설정값을 사용하고, 필요에 의해 변경될 사항이 있다면 다시 publish 해준다.<br>
+(사족) redis publish 당시에 value 값을 SET 해주고 로컬 메모리에서 접근이 실패했다면 redis 에서 key 값으로 GET 을 한다.</p>
+<p>방어코드는 짜기 나름이다. <code>사족</code> 부분에서의 동작은 넣어도 되고 안넣어도 그만이다. 서비스단에서 로컬 메모리에 key 에 대응하는 값이 없을 때에 대한 처리를 잘 해준다면 굳이 추가하지 않아도 되는 기능이다.</p>
+<h3><span id="환경-설정">환경 설정</span></h3>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">gradle</span> 4<span class="selector-class">.8</span><span class="selector-class">.1</span></span><br><span class="line"><span class="selector-tag">spring</span> <span class="selector-tag">boot</span> 2<span class="selector-class">.0</span><span class="selector-class">.3</span><span class="selector-class">.RELEASE</span></span><br><span class="line"><span class="selector-tag">redis</span> 3<span class="selector-class">.2</span><span class="selector-class">.3</span></span><br><span class="line"><span class="selector-tag">lettuce</span> 5<span class="selector-class">.0</span><span class="selector-class">.4</span><span class="selector-class">.RELEASE</span></span><br></pre></td></tr></table></figure>
+<p>redis java client 는 lettuce 를 사용하였다. 사내에서는 기본적으로 jedis 를 사용하는데, redis 의 버전 대응도 느린편이고 async 에 대한 지원도 아직 없는 상태이다. 이번 포스트에서는 redis 의 async 부분을 다루지는 않지만, (다른 포스트에서는 살짝 다룬 부분이 있다) 앞으로 redis client 를 사용할 때는 jedis 는 점점 더 손이 덜 갈듯 싶다.</p>
+<h3><span id="buildgradle">build.gradle</span></h3>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">dependencies</span> &#123;</span><br><span class="line">    <span class="keyword">compile</span>(<span class="string">'org.springframework.boot:spring-boot-starter'</span>)</span><br><span class="line">    <span class="keyword">compile</span>(<span class="string">'org.springframework.boot:spring-boot-starter-web'</span>)</span><br><span class="line">    <span class="keyword">compile</span>(<span class="string">'io.lettuce:lettuce-core'</span>)</span><br><span class="line">    <span class="keyword">compile</span>(<span class="string">'com.google.code.gson:gson:2.8.0'</span>)</span><br><span class="line">    <span class="keyword">compile</span>(<span class="string">'org.apache.logging.log4j:log4j-core:2.9.1'</span>)</span><br><span class="line">    compileOnly(<span class="string">'org.projectlombok:lombok'</span>)</span><br><span class="line"></span><br><span class="line">    testCompile(<span class="string">'org.springframework.boot:spring-boot-starter-test'</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>redis 와 이를 전달해 줄 수 있는 json 으로 gson 을 사용하기로 했다. 여기서도 역시 jackson 과의 비교가 들어가는데 이번에 구현해야할 기능에서는 간단한 기능들만 필요하므로 gson 을 사용하는 것으로 한다.<br>
+<a href="http://www.baeldung.com/jackson-vs-gson" rel="external nofollow noopener noreferrer" target="_blank">jackson vs gson</a> 에서 기능이나 사용에 대한 차이를 볼 수 있다.</p>
+<h2><span id="pubsub-을-이용해-데이터-갱신하기">pub/sub 을 이용해 데이터 갱신하기</span></h2>
+<h3><span id="thread-subscriber-초기화및-등록">thread, subscriber 초기화및 등록</span></h3>
+<p>로컬에 스레드와 subscriber 를 최초에 초기화 해주도록 한다.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> CustomSubscriber customSubscriber;</span><br><span class="line"><span class="keyword">private</span> Thread localThread;</span><br><span class="line"><span class="keyword">private</span> RedisService redisService;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> CustomSubscriber <span class="title">getCustomSubscriber</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (customSubscriber == <span class="keyword">null</span>) &#123;</span><br><span class="line">        customSubscriber = <span class="keyword">new</span> CustomSubscriber() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">message</span><span class="params">(String channel, String message)</span> </span>&#123;</span><br><span class="line">                update(message);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> customSubscriber;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@PostConstruct</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (localThread == <span class="keyword">null</span>) &#123;</span><br><span class="line">        localThread = <span class="keyword">new</span> Thread(() -&gt; redisService.subscribe(CHANNEL, getCustomSubscriber()));</span><br><span class="line">    &#125;</span><br><span class="line">    localThread.start();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@PreDestroy</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">destroy</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    redisService.unSubscribe(getCustomSubscriber());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>redis subscribe 을 하게 되면 blocking 이 걸리게 되므로 별도의 thread 를 생성해 subscribe 하도록 한다.</li>
+<li>localThread 는 최초에 하나의 subscriber 를 생성해 구독을 하고, destroy 될 때 구독을 해지한다.</li>
+<li>등록된 subscriber 에서는 받은 메세지를 <code>update</code> 메소드로 전달해준다.</li>
+</ul>
+<h3><span id="message-전달-및-데이터-갱신">message 전달 및 데이터 갱신</span></h3>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">update</span><span class="params">(String message)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        String[] split = message.split(<span class="string">"\\|"</span>);</span><br><span class="line">        String key = split[<span class="number">0</span>];</span><br><span class="line">        String value = split[<span class="number">1</span>];</span><br><span class="line">        <span class="keyword">this</span>.cacheMap.put(key, value);</span><br><span class="line">        log.debug(<span class="string">"update success : "</span> + message);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        log.warn(<span class="string">"update fail : "</span> + message, e);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">public</span> Long <span class="title">publish</span><span class="params">(String key, String value)</span> </span>&#123;</span><br><span class="line">    String message = key + <span class="string">"|"</span> + value;</span><br><span class="line">    Long publish = redisService.publish(CHANNEL, message);</span><br><span class="line">    <span class="keyword">return</span> publish;</span><br><span class="line">&#125;</span><br><span class="line">```  </span><br><span class="line"></span><br><span class="line">- publish 와 subscribe 에서는 약속된 메세지 포멧을 가지도록 한다. 여기서는 간단한 key, value 형태로만 가져할 수 있도록 message 를 `|` 를 구분자로 가져가기로 했다. 즉, `message = key|value` 로 약속을 하고 파싱을 해서 사용하도록 한다.  </span><br><span class="line">- subscribe 에서 받아온 message 를 `|` 구분자로 쪼개 key 와 value 를 가져와 로컬 메모리에 올리도록 한다. </span><br><span class="line"></span><br><span class="line">### 데이터 제공</span><br><span class="line"></span><br><span class="line">```java</span><br><span class="line"><span class="keyword">private</span> ConcurrentHashMap&lt;String, String&gt; cacheMap = <span class="keyword">new</span> ConcurrentHashMap&lt;&gt;();</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> Gson gson = <span class="keyword">new</span> GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)</span><br><span class="line">        .setDateFormat(<span class="string">"yyyy-MM-dd HH:mm:ss"</span>)</span><br><span class="line">        .disableHtmlEscaping()</span><br><span class="line">        .excludeFieldsWithModifiers(Modifier.TRANSIENT)</span><br><span class="line">        .create();</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> &lt;T&gt; <span class="function">T <span class="title">get</span><span class="params">(String key, Class&lt;T&gt; tClass)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        String valueString = <span class="keyword">this</span>.cacheMap.get(key);</span><br><span class="line">        <span class="keyword">return</span> gson.fromJson(valueString, tClass);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        log.warn(<span class="string">"get error &gt; key "</span> + key, e);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>get 함수를 통해 로컬 메모리에 있는 데이터를 제공해주는데, 데이터가 갱신되는 도중에 여러 스레드가 동시에 접근하면서 정합성을 맞춰주기 위해 <code>ConcurrentHashMap</code> 를 사용했다.</li>
+</ul>
+<p>참고로 <code>get</code> 메소드는 Optional 로 감싸주면 더욱 좋다. null 을 반환하는 것보다 Optional.empty() 를 반환해주는 모양이 외부에서도 사용할 때 좀 더 편하게 사용할 수 있을 것이다. 위의 <code>get</code> 메소드를 조금 고쳐보자.</p>
+<h3><span id="조금-더-편하게-데이터-제공">조금 더 편하게 데이터 제공</span></h3>
+<figure class="highlight processing"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> &lt;T&gt; Optional&lt;T&gt; <span class="built_in">get</span>(<span class="keyword">String</span> <span class="built_in">key</span>, Class&lt;T&gt; tClass) &#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">String</span> valueString = <span class="keyword">this</span>.cacheMap.<span class="built_in">get</span>(<span class="built_in">key</span>);</span><br><span class="line">        <span class="keyword">return</span> Optional.of(gson.fromJson(valueString, tClass));</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        <span class="built_in">log</span>.warn(<span class="string">"get error &gt; key "</span> + <span class="built_in">key</span>, e);</span><br><span class="line">        <span class="keyword">return</span> Optional.empty();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> &lt;T&gt; T <span class="built_in">get</span>(<span class="keyword">String</span> <span class="built_in">key</span>, Class&lt;T&gt; tClass, T defaultValue) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">get</span>(<span class="built_in">key</span>, tClass).orElse(defaultValue);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>추가적으로 메모리에 없는 key 값을 조회하고자 할 때 null 이나 Optional.empty() 를 반환하면 외부에서는 이에 대한 후속 처리를 해줘야 한다. 이 때 defaultValue 를 지정할 수 있게 해준다면 사용하는 쪽 로직이 좀 더 편해질 수 있다.</p>
+<h2><span id="결론">결론</span></h2>
+<p>이제 약속된 채널로 publish 를 하면 subscribe 하고 있는 모든 서버들에서 일괄적으로 특정 설정값을 바꿔 사용할 수 있다. 지금은 단순하게 key, value 값을 동적으로 변경하는 곳에 pub/sub 을 사용하였지만, 조금만 응용하면 여러가지 부분에 사용할 수 있을 것이다. 예제 소스는 <a href="https://github.com/nevercaution/spring-boot-redis-pub-sub" rel="external nofollow noopener noreferrer" target="_blank">여기</a> 에서 확인할 수 있다.</p>
+<h2><span id="추신">추신</span></h2>
+<p>redis pub/sub 을 이용하면 기존에 사용하고 있던 부분에서 전혀 다른 페러다임으로 동적인 데이터들을 갱신할 수 있다. 현재 사내에서는 레디스 데이터 캐싱을 시간단위로 기록하고 있는데, 잘 활용하면 실시간으로 캐시 데이터에 반영을 할 수도 있을거라 기대할 수 있다. 하지만 모든 과하면 안된다. publish 하는 채널들이 많아지고 subscribe 하는 구독자들이 많아지거나, redis cluster 에서 subscription 을 과도하게 한다면 오히려 안좋은 결과를 가져올 것이다. 그러므로 충분히 검토한 후 각자 목적에 맞는 곳에 사용하는 것이 좋다고 생각된다.</p>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                    
+                        <li class="next">
+                            <a href="/2018/06/17/elasticsearch-java-high-level-client/" data-toggle="tooltip" data-placement="top" title="Elasticsearch Java Rest High Level Client 사용하기">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                    <div class="comment">
+                        <div id="disqus_thread" class="disqus-thread"></div>
+                    </div>
+                
+                <!-- disqus comment end -->
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">시나리오 순서</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">환경 설정</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">build.gradle</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">pub/sub 을 이용해 데이터 갱신하기</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">2.1.</span> <span class="toc-nav-text">thread, subscriber 초기화및 등록</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">2.2.</span> <span class="toc-nav-text">message 전달 및 데이터 갱신</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">2.3.</span> <span class="toc-nav-text">조금 더 편하게 데이터 제공</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">결론</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">추신</span></a></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#springboot" title="springboot">springboot</a>
+                        
+                          <a class="tag" href="/tags/#redis" title="redis">redis</a>
+                        
+                          <a class="tag" href="/tags/#pubsub" title="pubsub">pubsub</a>
+                        
+                          <a class="tag" href="/tags/#dynamicConfiguration" title="dynamicConfiguration">dynamicConfiguration</a>
+                        
+                          <a class="tag" href="/tags/#lettuce" title="lettuce">lettuce</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus embedded js code start (one page only need to embed once) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "nevercaution";
+    var disqus_identifier = "https://nevercaution.github.io/2018/07/16/spring-boot-redis-pub-sub/";
+    var disqus_url = "https://nevercaution.github.io/2018/07/16/spring-boot-redis-pub-sub/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus embedded js code start end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/hoguen.yoon" rel="external nofollow noopener noreferrer">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://github.com/nevercaution" rel="external nofollow noopener noreferrer">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Teddy 2018 
+                    <br>
+                    Theme by <a href="http://huangxuan.me" rel="external nofollow noopener noreferrer" target="_blank">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    re-Ported by <a href="http://beantech.org" rel="external nofollow noopener noreferrer" target="_blank">BeanTech</a> | 
+                    <iframe style="margin-left: 2px; margin-bottom:-5px;" frameborder="0" scrolling="0" width="91px" height="20px" src="https://ghbtns.com/github-btn.html?user=YenYuHsuan&repo=hexo-theme-beantech&type=star&count=true">
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://nevercaution.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-100815581-1';
+    var _gaDomain = 'nevercaution.github.io';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async></script>
+<!-- Image to hack wechat -->
+<img src="https://nevercaution.github.io/img/icon_wechat.png" width="0" height="0">
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
