@@ -2,7 +2,7 @@
 <html lang="en">
 
 <!-- Head tag -->
-<head>
+<head><meta name="generator" content="Hexo 3.8.0">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
@@ -142,13 +142,6 @@
 
                         
                         <li>
-                            <a href="/archive/">Archives</a>
-                        </li>
-                        
-                    
-
-                        
-                        <li>
                             <a href="/about/">About</a>
                         </li>
                         
@@ -157,6 +150,13 @@
                         
                         <li>
                             <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
                         </li>
                         
                     
@@ -216,6 +216,41 @@
             
                 <!-- Main Content -->
 
+
+<div class="post-preview">
+
+    <a href="/2018/10/23/api-gateway-with-zuul/">
+        <h2 class="post-title">
+            API Gateway 구축하기 - Spring Cloud Zuul
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            api gatway 를 도입했다. 레거시 프로젝트를 정리하면서 msa 구조로 가게 되었고 필요에 따라 서비스들이 나뉘고 있어서 이를 한곳에서 관리해줄 필요가 있었다. 구조를 설계하면서 어느 레벨까지를 gateway 에서 처리할지에 대해 여러 고민이 있었고 너무나 크지 않은 선에서 일차적으로 도입을 하게 되었다.
+gateway 를 구성하기 위해 아래의 ......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by Teddy on
+            2018-10-23
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#springboot" title="springboot">springboot</a>
+            
+              <a href="/tags/#netflix-zuul" title="netflix-zuul">netflix-zuul</a>
+            
+              <a href="/tags/#spring-cloud" title="spring-cloud">spring-cloud</a>
+            
+              <a href="/tags/#api-gateway" title="api-gateway">api-gateway</a>
+            
+        </div>
+    
+
+</div>
+<hr>
 
 <div class="post-preview">
 
@@ -522,44 +557,13 @@ spring 을 사용하다가 spring boot 로 넘어오면서 front, back 을 나�
         </p>
         <div class="tags">
             
-              <a href="/tags/#python" title="python">python</a>
-            
               <a href="/tags/#django" title="django">django</a>
+            
+              <a href="/tags/#python" title="python">python</a>
             
               <a href="/tags/#orm" title="orm">orm</a>
             
               <a href="/tags/#docker" title="docker">docker</a>
-            
-        </div>
-    
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/2016/05/06/django-sso/">
-        <h2 class="post-title">
-            Django에서 SSO하기
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            회사에서 필요에 의해 Single Sign On을 구현해야 할 일이 있었다. 3개의 독립된 사이트가 있었고, 각자 로그인을 따로 해야 한다는 점이 사용자 입장에서는 번거로운 일이 될 수 있다는 이유에서 였다.
-3개의 사이트는 하나의 유저테이블을 바라보고 있었기 때문에 충분히 합당한 이유였다. 하지만 django에서 제공하는 기본 유저 테이블을 사용하지......
-        </div>
-    </a>
-    
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by Teddy on
-            2016-05-06
-        </p>
-        <div class="tags">
-            
-              <a href="/tags/#django" title="django">django</a>
-            
-              <a href="/tags/#sso" title="sso">sso</a>
             
         </div>
     
@@ -603,15 +607,7 @@ spring 을 사용하다가 spring boot 로 넘어오면서 front, back 을 나�
     <div class="tags">
         
             
-            <a href="/tags/#python" title="python" rel="2">python</a>
-            
-        
-            
             <a href="/tags/#django" title="django" rel="3">django</a>
-            
-        
-            
-        
             
         
             
@@ -631,9 +627,23 @@ spring 을 사용하다가 spring boot 로 넘어오면서 front, back 을 나�
             
         
             
+            <a href="/tags/#python" title="python" rel="2">python</a>
+            
         
             
-            <a href="/tags/#springboot" title="springboot" rel="6">springboot</a>
+        
+            
+        
+            
+        
+            
+            <a href="/tags/#springboot" title="springboot" rel="7">springboot</a>
+            
+        
+            
+        
+            
+        
             
         
             
@@ -731,6 +741,10 @@ spring 을 사용하다가 spring boot 로 넘어오면서 front, back 을 나�
     <ul>
       
         <li>
+          <a href="/2018/10/23/api-gateway-with-zuul/">API Gateway 구축하기 - Spring Cloud Zuul</a>
+        </li>
+      
+        <li>
           <a href="/2018/07/16/spring-boot-redis-pub-sub/">spring boot 에서 redis pub/sub 을 이용해 동적으로 value 사용하기</a>
         </li>
       
@@ -744,10 +758,6 @@ spring 을 사용하다가 spring boot 로 넘어오면서 front, back 을 나�
       
         <li>
           <a href="/2018/04/29/elasticsearch-with-kakaopage/">카카오페이지 검색 개발 후기</a>
-        </li>
-      
-        <li>
-          <a href="/2018/04/15/spring-boot-custom-annotation/">Spring boot Custom Annotation 사용하기</a>
         </li>
       
     </ul>

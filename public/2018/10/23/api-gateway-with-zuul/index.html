@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword" content="">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          API Gateway 구축하기 - Spring Cloud Zuul - nevercaution
+        
+    </title>
+
+    <link rel="canonical" href="https://nevercaution.github.io/2018/10/23/api-gateway-with-zuul/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <!-- <script></script> -->
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-100815581-1"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-100815581-1');
+    </script>
+
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('/img/header_img/bg.png')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header">
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#springboot" title="springboot">springboot</a>
+                            
+                              <a class="tag" href="/tags/#netflix-zuul" title="netflix-zuul">netflix-zuul</a>
+                            
+                              <a class="tag" href="/tags/#spring-cloud" title="spring-cloud">spring-cloud</a>
+                            
+                              <a class="tag" href="/tags/#api-gateway" title="api-gateway">api-gateway</a>
+                            
+                        </div>
+                        <h1>API Gateway 구축하기 - Spring Cloud Zuul</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by Teddy on
+                            2018-10-23
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">nevercaution</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <p>api gatway 를 도입했다. 레거시 프로젝트를 정리하면서 msa 구조로 가게 되었고 필요에 따라 서비스들이 나뉘고 있어서 이를 한곳에서 관리해줄 필요가 있었다. 구조를 설계하면서 어느 레벨까지를 gateway 에서 처리할지에 대해 여러 고민이 있었고 너무나 크지 않은 선에서 일차적으로 도입을 하게 되었다.<br>
+gateway 를 구성하기 위해 아래의 3개의 프로젝트를 설정한다.</p>
+<ol>
+<li>라우팅을 해줄 gateway (zuul gateway)</li>
+<li>gateway 와 zuul 설정을 연결해줄 중간자 (spring cloud config)</li>
+<li>zuul 설정을 저장할 저장소 (git)</li>
+</ol>
+<h3><span id="1-gateway-구성">1. gateway 구성</span></h3>
+<p>springboot, gradle 로 구성을 했고 버전은 2를 사용한다. spring cloud zuul 도 있지만 버전2에서는 아직 추가되지 않아 netflix zuul 을 사용하기로 한다.</p>
+<h4><span id="빌드-설정">빌드 설정</span></h4>
+<p><code>build.gradle</code></p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">buildscript</span> &#123;</span><br><span class="line">    ext &#123;</span><br><span class="line">        springBootVersion = <span class="string">'2.0.6.RELEASE'</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">repositories</span> &#123;</span><br><span class="line">        mavenCentral()</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">dependencies</span> &#123;</span><br><span class="line">        <span class="keyword">classpath</span>(<span class="string">"org.springframework.boot:spring-boot-gradle-plugin:$&#123;springBootVersion&#125;"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">apply plugin: <span class="string">'java'</span></span><br><span class="line">apply plugin: <span class="string">'eclipse'</span></span><br><span class="line">apply plugin: <span class="string">'groovy'</span></span><br><span class="line">apply plugin: <span class="string">'org.springframework.boot'</span></span><br><span class="line">apply plugin: <span class="string">'io.spring.dependency-management'</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">group</span> = <span class="string">'com.nevercaution'</span></span><br><span class="line">version = <span class="string">'0.0.1-SNAPSHOT'</span></span><br><span class="line"><span class="keyword">sourceCompatibility</span> = <span class="number">1.8</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">dependencies</span> &#123;</span><br><span class="line">    <span class="keyword">compile</span>(<span class="string">'org.springframework.cloud:spring-cloud-starter-netflix-zuul'</span>) </span><br><span class="line">    <span class="keyword">compile</span>(<span class="string">'org.springframework.cloud:spring-cloud-starter-config'</span>)</span><br><span class="line">    <span class="keyword">compile</span>(<span class="string">'org.codehaus.groovy:groovy-all'</span>)</span><br><span class="line">    <span class="keyword">compile</span>(<span class="string">'com.googlecode.json-simple:json-simple'</span>)</span><br><span class="line"> </span><br><span class="line">    testCompile(<span class="string">'org.springframework.boot:spring-boot-starter-test'</span>)</span><br><span class="line"> </span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">dependencyManagement &#123;</span><br><span class="line">    imports &#123;</span><br><span class="line">        mavenBom <span class="string">"org.springframework.cloud:spring-cloud-dependencies:Finchley.SR1"</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4><span id="프로젝트-설정">프로젝트 설정</span></h4>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">spring-cloud 를 사용할 때엔 application<span class="selector-class">.yml</span> 보다 bootstrap<span class="selector-class">.yml</span> 을 먼저 읽어 들인다.  </span><br><span class="line">먼저 읽은 값을 기반으로 application<span class="selector-class">.yml</span> 에 설정된 값들을 함께 사용하기 위함이다.</span><br></pre></td></tr></table></figure>
+<p><a href="http://application.name" rel="external nofollow noopener noreferrer" target="_blank">application.name</a> 과 spring.profiles.active 두 값으로 cloud config 에 정보를 요청한다. 이 값을 적지 않을 경우엔 값을 가져오지 못한다. 또한 profiles.active 를 명시해주지 않으면 기본적으로 default profile 로 로드를 시도한다.</p>
+<p><code>bootstrap.yml</code></p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line"><span class="attr">  profiles:</span></span><br><span class="line"><span class="attr">    active:</span> <span class="string">local</span></span><br><span class="line">  <span class="comment"># 이 이름으로 spring cloud config server 에서 정보를 가져온다.</span></span><br><span class="line"><span class="attr">  application:</span></span><br><span class="line"><span class="attr">    name:</span> <span class="string">gateway</span></span><br><span class="line"> </span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="comment">########################################</span></span><br><span class="line"><span class="comment">###              local               ###</span></span><br><span class="line"><span class="comment">########################################</span></span><br><span class="line"><span class="attr">spring:</span></span><br><span class="line"><span class="attr">  profiles:</span> <span class="string">local</span></span><br><span class="line"><span class="attr">  cloud:</span></span><br><span class="line"><span class="attr">    config:</span></span><br><span class="line"><span class="attr">      uri:</span> <span class="attr">http://localhost:8889</span></span><br><span class="line"><span class="meta">---</span></span><br></pre></td></tr></table></figure>
+<p>spring-cloud 에서 zuul route 설정들을 받아온다. 만약 spring-cloud 가 죽었을 경우를 대비해야 한다면 route 설정값들을 application.yml 에 해주면 된다.<br>
+참고로 spring-cloud-config 기본 주소는 localhost:8888 이다. 즉 8888포트로 사용할 거라면 따로 설정하지 않아도 기본으로 이 주소로 접근을 시도한다. 원하는 경로로 사용할 경우에는 반드시 명시해주어야 한다.</p>
+<p>필요에 따라 zuul 설정을 여기에서 해줘도 된다. 만약 cloud config 에서 값을 읽어들이지 못할 경우엔 여기에 있는 값을 사용하게 된다.</p>
+<p><code>application.yml</code></p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="comment"># groovy template 는 사용하지 않는다.</span></span><br><span class="line"><span class="attr">  groovy:</span></span><br><span class="line"><span class="attr">    template:</span></span><br><span class="line"><span class="attr">      cache:</span> <span class="literal">false</span></span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="comment"># 필요한 actuator end point 만 열어둔다.</span></span><br><span class="line"><span class="attr">management:</span></span><br><span class="line"><span class="attr">  endpoints:</span></span><br><span class="line"><span class="attr">    web:</span></span><br><span class="line"><span class="attr">      exposure:</span></span><br><span class="line">        <span class="comment"># 원하는 endpoint 를 추가할 수 있다.</span></span><br><span class="line"><span class="attr">        include:</span> <span class="string">info,</span> <span class="string">routes,</span> <span class="string">filters,</span> <span class="string">refresh</span></span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="comment">########################################</span></span><br><span class="line"><span class="comment">###              local               ###</span></span><br><span class="line"><span class="comment">########################################</span></span><br><span class="line"><span class="attr">spring:</span></span><br><span class="line"><span class="attr">  profiles:</span> <span class="string">local</span></span><br><span class="line"> </span><br><span class="line"><span class="attr">server:</span></span><br><span class="line"><span class="attr">  port:</span> <span class="number">8087</span></span><br><span class="line"> </span><br><span class="line"><span class="comment"># 여기서 설정도 가능하다. 우선순위는 cloud config 가 더 높다.</span></span><br><span class="line"><span class="comment">#zuul:</span></span><br><span class="line"><span class="comment">#  routes:</span></span><br><span class="line"><span class="comment">#    apiService:</span></span><br><span class="line"><span class="comment">#      stripPrefix: false</span></span><br><span class="line"><span class="comment">#      path: /api/**</span></span><br><span class="line"><span class="comment">#      url: https://new-api-service.com</span></span><br><span class="line"><span class="meta">---</span></span><br></pre></td></tr></table></figure>
+<p>application 에 @EnableZuulProxy 만 달아주면 gateway는 설정이 모두 끝난다.</p>
+<p><code>GatewayApplication.java</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.springframework.boot.SpringApplication;</span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.autoconfigure.SpringBootApplication;</span><br><span class="line"><span class="keyword">import</span> org.springframework.cloud.netflix.zuul.EnableZuulProxy;</span><br><span class="line"> </span><br><span class="line"><span class="meta">@EnableZuulProxy</span>  <span class="comment">// 이 annotation 만 추가하면 된다.</span></span><br><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GatewayApplication</span> </span>&#123;</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SpringApplication.run(GatewayApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3><span id="2-spring-cloud-config-server-설정">2. spring-cloud-config-server 설정</span></h3>
+<p>config-server 는 cloud-config 에 저장되어있는 설정들을 gateway 들이 가져갈 수 있도록 중간에서 설정값을 가져오는 역할을 한다.</p>
+<h4><span id="빌드설정">빌드설정</span></h4>
+<p><code>build.gradle</code></p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">buildscript</span> &#123;</span><br><span class="line">    ext &#123;</span><br><span class="line">        springBootVersion = <span class="string">'2.0.6.RELEASE'</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">repositories</span> &#123;</span><br><span class="line">        mavenCentral()</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">dependencies</span> &#123;</span><br><span class="line">        <span class="keyword">classpath</span>(<span class="string">"org.springframework.boot:spring-boot-gradle-plugin:$&#123;springBootVersion&#125;"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">apply plugin: <span class="string">'java'</span></span><br><span class="line">apply plugin: <span class="string">'eclipse'</span></span><br><span class="line">apply plugin: <span class="string">'org.springframework.boot'</span></span><br><span class="line">apply plugin: <span class="string">'io.spring.dependency-management'</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">group</span> = <span class="string">'com.nevercaution'</span></span><br><span class="line">version = <span class="string">'0.0.1-SNAPSHOT'</span></span><br><span class="line"><span class="keyword">sourceCompatibility</span> = <span class="number">1.8</span></span><br><span class="line"> </span><br><span class="line">ext &#123;</span><br><span class="line">    springCloudVersion = <span class="string">'Finchley.SR1'</span></span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">dependencies</span> &#123;</span><br><span class="line">    <span class="keyword">compile</span>(<span class="string">'org.springframework.cloud:spring-cloud-config-server'</span>)</span><br><span class="line">    testCompile(<span class="string">'org.springframework.boot:spring-boot-starter-test'</span>)</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">dependencyManagement &#123;</span><br><span class="line">    imports &#123;</span><br><span class="line">        mavenBom <span class="string">"org.springframework.cloud:spring-cloud-dependencies:$&#123;springCloudVersion&#125;"</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4><span id="프로젝트-설정">프로젝트 설정</span></h4>
+<p><code>application.yml</code></p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">server:</span></span><br><span class="line"><span class="attr">  port:</span> <span class="number">8889</span></span><br><span class="line"> </span><br><span class="line"><span class="attr">spring:</span></span><br><span class="line"><span class="attr">  cloud:</span></span><br><span class="line"><span class="attr">    config:</span></span><br><span class="line"><span class="attr">      server:</span></span><br><span class="line"><span class="attr">        git:</span></span><br><span class="line"><span class="attr">          uri:</span> <span class="attr">https://github.com/user/cloud-config/config.git</span></span><br><span class="line"><span class="attr">          username:</span> <span class="string">username</span></span><br><span class="line"><span class="attr">          password:</span> <span class="string">password</span></span><br></pre></td></tr></table></figure>
+<p>config-server 역시 application 에 @EnableConfigServer 달아주면 끝.<br>
+gateway 에서 필요한 값들은 config.git 에서 받아온다.</p>
+<p><code>Application.java</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"> </span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.SpringApplication;</span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.autoconfigure.SpringBootApplication;</span><br><span class="line"><span class="keyword">import</span> org.springframework.cloud.config.server.EnableConfigServer;</span><br><span class="line"> </span><br><span class="line"><span class="meta">@EnableConfigServer</span>  <span class="comment">// 이 annotation 만 적어주면 끝.</span></span><br><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MimirApplication</span> </span>&#123;</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SpringApplication.run(MimirApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3><span id="3-config-설정">3. config 설정</span></h3>
+<p>cloud-config 는 gateway 에서 사용할 zuul 에 관련된 설정들을 모아놓는 곳이다.</p>
+<p><code>gateway.yml</code></p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="comment">########################################</span></span><br><span class="line"><span class="comment">###              local               ###</span></span><br><span class="line"><span class="comment">########################################</span></span><br><span class="line"><span class="attr">spring:</span></span><br><span class="line"><span class="attr">  profiles:</span> <span class="string">local</span></span><br><span class="line"> </span><br><span class="line"><span class="comment"># zuul route 설정들. </span></span><br><span class="line"><span class="attr">zuul:</span></span><br><span class="line"><span class="attr">  routes:</span></span><br><span class="line"><span class="attr">    apiService:</span></span><br><span class="line"><span class="attr">      stripPrefix:</span> <span class="literal">false</span></span><br><span class="line"><span class="attr">      path:</span> <span class="string">/api/**</span></span><br><span class="line"><span class="attr">      url:</span> <span class="attr">https://new-api-service.com</span></span><br><span class="line"> </span><br><span class="line"><span class="comment"># groovy filter 가 있는 경로를 적어준다.</span></span><br><span class="line"><span class="attr">gateway:</span></span><br><span class="line"><span class="attr">  zuul:</span></span><br><span class="line"><span class="attr">    filters:</span></span><br><span class="line"><span class="attr">      base-path:</span> <span class="string">/path/to/filter/</span></span><br><span class="line"><span class="meta">---</span></span><br></pre></td></tr></table></figure>
+<h3><span id="정리하자면">정리하자면</span></h3>
+<p>gateway 에서는 zuul route 설정들을 이용해서 요청들을 받아서 처리해준다.<br>
+gateway 에서 route 설정들을 받아오기 위해서 spring-cloud-server 에 spring-cloud-config 정보를 요청한다.<br>
+spring-cloud-server 에서는 spring-cloud-config 에 있는 정보를 조회해서 gateway 에 내려준다.</p>
+<h3><span id="zuul-filter-사용">zuul filter 사용</span></h3>
+<p>특정 상황에 대처하기 위해 필터를 걸 수 있다. java 로 추가할 수도 있지만 내용이 변경시 서비스가 재기동되어야 하기 때문에 groovy 로 필터를 사용한다.<br>
+gateway 에서는 지정된 경로에 groovy filter 들을 로드 시킨다.<br>
+gateway 에서 gateway.zuul.filters.base-path 이 값은 spring-cloud-config 에서 받아와서 로드한다.<br>
+FileManager.init 에서 첫번째 파라미터는 이 경로에 몇초마다 파일들을 갱신할지 여부이다. 짧게 가져갈수록 부하가 있지만 대신 코드가 빠르게 적용된다.</p>
+<p><code>ZuulFilterCommandLineRunner.java</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> com.netflix.zuul.FilterFileManager;</span><br><span class="line"><span class="keyword">import</span> com.netflix.zuul.FilterLoader;</span><br><span class="line"><span class="keyword">import</span> com.netflix.zuul.groovy.GroovyCompiler;</span><br><span class="line"><span class="keyword">import</span> com.netflix.zuul.groovy.GroovyFileFilter;</span><br><span class="line"><span class="keyword">import</span> org.slf4j.Logger;</span><br><span class="line"><span class="keyword">import</span> org.slf4j.LoggerFactory;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Value;</span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.CommandLineRunner;</span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Component;</span><br><span class="line"> </span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ZuulFilterCommandLineRunner</span> <span class="keyword">implements</span> <span class="title">CommandLineRunner</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Logger log = LoggerFactory.getLogger(ZuulFilterCommandLineRunner.class);</span><br><span class="line">     </span><br><span class="line">    <span class="comment">// cloud config 에 정의된 경로에서 로드한다.</span></span><br><span class="line">    <span class="meta">@Value</span>(<span class="string">"$&#123;gateway.zuul.filters.base-path&#125;"</span>)</span><br><span class="line">    <span class="keyword">private</span> String filterBasePath;</span><br><span class="line"> </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">(String... args)</span> </span>&#123;</span><br><span class="line">        FilterLoader.getInstance().setCompiler(<span class="keyword">new</span> GroovyCompiler());</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            log.debug(<span class="string">"load try file : "</span> + filterBasePath);</span><br><span class="line">            FilterFileManager.setFilenameFilter(<span class="keyword">new</span> GroovyFileFilter());</span><br><span class="line">            FilterFileManager.init(<span class="number">1</span>, <span class="keyword">this</span>.filterBasePath + <span class="string">"pre"</span>, <span class="keyword">this</span>.filterBasePath + <span class="string">"route"</span>, <span class="keyword">this</span>.filterBasePath + <span class="string">"post"</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            log.error(<span class="string">"load fail "</span> + filterBasePath, e);</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(e);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>뒤에 파일 경로는 성격에 따라 pre, route, post 폴더들로 구분이 된다. 자세한 정보는 <a href="https://cloud.spring.io/spring-cloud-netflix/multi/multi__router_and_filter_zuul.html#_custom_zuul_filter_examples" rel="external nofollow noopener noreferrer" target="_blank">zuul filter</a> 문서 에서 확인할 수 있다.</p>
+<p>groovy filter 는 ZuulFilter 를 상속받아서 구현한다.</p>
+<p><code>Route.groovy</code></p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> com.netflix.zuul.ZuulFilter</span><br><span class="line"><span class="keyword">import</span> com.netflix.zuul.context.RequestContext</span><br><span class="line"><span class="keyword">import</span> com.netflix.zuul.exception.ZuulException</span><br><span class="line"><span class="keyword">import</span> org.slf4j.Logger</span><br><span class="line"><span class="keyword">import</span> org.slf4j.LoggerFactory</span><br><span class="line"> </span><br><span class="line"><span class="keyword">import</span> <span class="keyword">static</span> org.springframework.cloud.netflix.zuul.filters.support.FilterConstants.PROXY_KEY</span><br><span class="line"><span class="keyword">import</span> <span class="keyword">static</span> org.springframework.cloud.netflix.zuul.filters.support.FilterConstants.SIMPLE_HOST_ROUTING_FILTER_ORDER</span><br><span class="line"> </span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SimpleRoute</span> <span class="keyword">extends</span> <span class="title">ZuulFilter</span> &#123;</span></span><br><span class="line"> </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Logger logger = LoggerFactory.getLogger(SimpleRoute.<span class="keyword">class</span>);</span><br><span class="line"> </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    String filterType() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"route"</span></span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">int</span> filterOrder() &#123;</span><br><span class="line">        <span class="keyword">return</span> SIMPLE_HOST_ROUTING_FILTER_ORDER - <span class="number">1</span></span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">boolean</span> shouldFilter() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    Object run() <span class="keyword">throws</span> ZuulException &#123;</span><br><span class="line">        <span class="keyword">def</span> ctx = RequestContext.getCurrentContext()</span><br><span class="line">        <span class="keyword">def</span> req = ctx.getRequest()</span><br><span class="line"> </span><br><span class="line">        <span class="keyword">def</span> host = ctx.getRouteHost()</span><br><span class="line">         </span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line"> </span><br><span class="line">            RequestContext.currentContext.setRouteHost(<span class="keyword">new</span> URL(<span class="string">"https://another-new-api-service.com"</span>))</span><br><span class="line">             </span><br><span class="line">            logger.info(<span class="string">"REQUEST:: "</span> + req.getScheme() + <span class="string">" "</span> + req.getRemoteAddr() + <span class="string">":"</span> + req.getRemotePort())</span><br><span class="line"> </span><br><span class="line">            logger.info(<span class="string">"REQUEST:: &gt; "</span> + req.getMethod() + <span class="string">" "</span> + req.getRequestURI() + <span class="string">" "</span> + req.getProtocol())</span><br><span class="line">        &#125; <span class="keyword">catch</span>(Exception e) &#123;</span><br><span class="line">            logger.error(<span class="string">"errer handling"</span>)</span><br><span class="line">            ctx.setRouteHost(host)</span><br><span class="line">        &#125;</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">        <span class="keyword">return</span> <span class="literal">null</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3><span id="zuul-route-동적으로-변경하기">zuul route 동적으로 변경하기</span></h3>
+<p>zuul route 정보들은 동적으로 추가하거나 변경할 수 있다. spring-cloud-config 에서 설정값을 추가하거나 변경을 하고 gateway 에서 actuator 를 이용해서 갱신을 시켜주면 route 설정들이 동적으로 갱신된다.</p>
+<p>route 설정을 편집하거나 추가하는 상황이다.</p>
+<h4><span id="1-route-설정-편집과-추가-하기">1. route 설정 편집과 추가 하기</span></h4>
+<p><code>gateway.yml</code></p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">########################################</span></span><br><span class="line"><span class="comment">###              local               ###</span></span><br><span class="line"><span class="comment">########################################</span></span><br><span class="line"><span class="attr">spring:</span></span><br><span class="line"><span class="attr">  profiles:</span> <span class="string">local</span></span><br><span class="line"></span><br><span class="line"><span class="attr">zuul:</span></span><br><span class="line"><span class="attr">  routes:</span></span><br><span class="line"><span class="attr">    apiService:</span></span><br><span class="line"><span class="attr">      stripPrefix:</span> <span class="literal">false</span></span><br><span class="line"><span class="attr">      path:</span> <span class="string">/api/**</span></span><br><span class="line">      <span class="comment"># 1. 기존 경로를 변경</span></span><br><span class="line"><span class="attr">      url:</span> <span class="attr">https://some-api-service.com</span></span><br><span class="line">    <span class="comment"># 2. 새로추가되는 서비스</span></span><br><span class="line"><span class="attr">    searchService:</span></span><br><span class="line"><span class="attr">      stripPrefix:</span> <span class="literal">false</span></span><br><span class="line"><span class="attr">      path:</span> <span class="string">/search/**</span></span><br><span class="line"><span class="attr">      url:</span> <span class="attr">https://search-api-service.com</span></span><br><span class="line"> </span><br><span class="line"><span class="comment"># groovy filter 가 있는 경로를 적어줍니다.</span></span><br><span class="line"><span class="attr">gateway:</span></span><br><span class="line"><span class="attr">  zuul:</span></span><br><span class="line"><span class="attr">    filters:</span></span><br><span class="line"><span class="attr">      base-path:</span> <span class="string">/path/to/filter/</span></span><br></pre></td></tr></table></figure>
+<p>1 번 주석 부분은 기존에 api 라는 경로로 들어왔을 때 <a href="http://new-api-service.com" rel="external nofollow noopener noreferrer" target="_blank">new-api-service.com</a> 에서 <a href="http://some-api-service.com" rel="external nofollow noopener noreferrer" target="_blank">some-api-service.com</a> 으로 변경을 해주었다.<br>
+2 번 주석 부분은 새로 추가되는 경로이다.<br>
+이렇게 추가와 수정을 해주고 commit/push 를 해준다. push 를 한다고 해서 바로 변경점이 반영되지 않는다.</p>
+<h4><span id="2-gateway-에서-refresh">2. gateway 에서 refresh</span></h4>
+<p>zuul 은 내부적으로 spring-boot-actuator 가 의존성으로 걸려있다. actuator 를 이용해서 spring-cloud-server 를 통해 spring-cloud-config 값들을 동적으로 가져올 수 있다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ curl -XPOST localhost:8080/actuator/refresh</span><br><span class="line">[<span class="string">"config.client.version"</span>,<span class="string">"zuul.routes.apiService.url"</span>,<span class="string">"zuul.routes.searchService.path"</span>,<span class="string">"zuul.routes.searchService.stripPrefix"</span>,<span class="string">"zuul.routes.searchService.url"</span>]</span><br></pre></td></tr></table></figure>
+<p>gateway 에서 /refresh 를 호출하게 되면 처음에 받아왔던 정보에서 변경점들만 가져와서 다시 로딩한다.</p>
+<h2><span id="결론">결론</span></h2>
+<h3><span id="route-동적-편집-가능">route 동적 편집 가능</span></h3>
+<p>zuul 을 이용해서 경로에 따라 원하는 도메인으로 routing 을 해줄 수 있다. 이 설정값들은 spring-cloud-config 에 저장되어 있는데 이 값들을 동적으로 편집할 수 있다. 이 동작은 spring-actuator 을 이용한다.</p>
+<p>post 요청으로 <code>/actuator/refresh</code> 를 gateway 에 호출하면 반영이 된다.</p>
+<h3><span id="filter-동적-편집-가능">filter 동적 편집 가능</span></h3>
+<p>filter 역시 동적으로 편집하거나 추가할 수 있는데, 이는 zuul file manager 를 통해 특정 경로에 있는 groovy filter file 들을 로드해서 읽어서 사용한다. file manager 가 주기적으로 파일의 동기화를 하고 있으므로 파일을 수정하면 지정된 시간마다 동기화를 한다.</p>
+<p>gateway 를 도입하고나서 추가적으로 할 수 있는 것들이 생겼다. 화이트리스트를 만들어 특정 서버군으로 보낼 수도 있고 사용자별로 A/B 테스트를 해볼 수도 있을 것이다. 블랙리스트들도 걸러줄 수 있게 된다. (nginx 에서도 처리가 가능하지만 좀 더 동적으로 가능하고 형상관리도 가능하겠다.) 추가적으로 로그를 모으거나 springboot admin 등을 통해서 gateway 상태도 살펴볼 수있을듯 하다. 예제코드는 <a href="https://github.com/nevercaution/spring-cloud-zuul-example" rel="external nofollow noopener noreferrer" target="_blank">여기</a> 에서 확인할 수 있다.</p>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                    
+                        <li class="next">
+                            <a href="/2018/07/16/spring-boot-redis-pub-sub/" data-toggle="tooltip" data-placement="top" title="spring boot 에서 redis pub/sub 을 이용해 동적으로 value 사용하기">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                    <div class="comment">
+                        <div id="disqus_thread" class="disqus-thread"></div>
+                    </div>
+                
+                <!-- disqus comment end -->
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">1. gateway 구성</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">빌드 설정</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">프로젝트 설정</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">2. spring-cloud-config-server 설정</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">2.1.</span> <span class="toc-nav-text">빌드설정</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">2.2.</span> <span class="toc-nav-text">프로젝트 설정</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">3. config 설정</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">정리하자면</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">5.</span> <span class="toc-nav-text">zuul filter 사용</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">6.</span> <span class="toc-nav-text">zuul route 동적으로 변경하기</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">6.1.</span> <span class="toc-nav-text">1. route 설정 편집과 추가 하기</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">6.2.</span> <span class="toc-nav-text">2. gateway 에서 refresh</span></a></li></ol></li></ol><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number"></span> <span class="toc-nav-text">결론</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">route 동적 편집 가능</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">filter 동적 편집 가능</span></a></li></ol>
+        
+        </li></div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#springboot" title="springboot">springboot</a>
+                        
+                          <a class="tag" href="/tags/#netflix-zuul" title="netflix-zuul">netflix-zuul</a>
+                        
+                          <a class="tag" href="/tags/#spring-cloud" title="spring-cloud">spring-cloud</a>
+                        
+                          <a class="tag" href="/tags/#api-gateway" title="api-gateway">api-gateway</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus embedded js code start (one page only need to embed once) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "nevercaution";
+    var disqus_identifier = "https://nevercaution.github.io/2018/10/23/api-gateway-with-zuul/";
+    var disqus_url = "https://nevercaution.github.io/2018/10/23/api-gateway-with-zuul/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus embedded js code start end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/hoguen.yoon" rel="external nofollow noopener noreferrer">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://github.com/nevercaution" rel="external nofollow noopener noreferrer">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Teddy 2018 
+                    <br>
+                    Theme by <a href="http://huangxuan.me" rel="external nofollow noopener noreferrer" target="_blank">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    re-Ported by <a href="http://beantech.org" rel="external nofollow noopener noreferrer" target="_blank">BeanTech</a> | 
+                    <iframe style="margin-left: 2px; margin-bottom:-5px;" frameborder="0" scrolling="0" width="91px" height="20px" src="https://ghbtns.com/github-btn.html?user=YenYuHsuan&repo=hexo-theme-beantech&type=star&count=true">
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://nevercaution.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-100815581-1';
+    var _gaDomain = 'nevercaution.github.io';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async></script>
+<!-- Image to hack wechat -->
+<img src="https://nevercaution.github.io/img/icon_wechat.png" width="0" height="0">
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

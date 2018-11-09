@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type="text/xsl" href="sitemap.xsl"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
     <url>
         <loc>https://nevercaution.github.io</loc>
         <changefreq>daily</changefreq>
         <priority>1</priority>
+    </url>
+
+    <url>
+        <loc>https://nevercaution.github.io/2018/10/23/api-gateway-with-zuul/</loc>
+        <lastmod>2018-11-09T05:26:36.267Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
     </url>
 
     <url>
@@ -63,7 +72,7 @@
     </url>
 
     <url>
-        <loc>https://nevercaution.github.io/2018/03/24/spring-boot-actuator/</loc>
+        <loc>https://nevercaution.github.io/2018/03/15/elasticsearch-rest-client/</loc>
         <lastmod>2018-04-30T00:14:37.403Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
@@ -71,7 +80,7 @@
     </url>
 
     <url>
-        <loc>https://nevercaution.github.io/2018/03/15/elasticsearch-rest-client/</loc>
+        <loc>https://nevercaution.github.io/2018/03/24/spring-boot-actuator/</loc>
         <lastmod>2018-04-30T00:14:37.403Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
@@ -87,7 +96,7 @@
     </url>
 
     <url>
-        <loc>https://nevercaution.github.io/2017/06/23/django-orm-standalone/</loc>
+        <loc>https://nevercaution.github.io/2016/03/27/django-ajax/</loc>
         <lastmod>2018-04-30T00:14:37.400Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
@@ -95,7 +104,7 @@
     </url>
 
     <url>
-        <loc>https://nevercaution.github.io/2016/03/27/django-ajax/</loc>
+        <loc>https://nevercaution.github.io/2017/06/23/django-orm-standalone/</loc>
         <lastmod>2018-04-30T00:14:37.400Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>

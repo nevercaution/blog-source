@@ -2,7 +2,7 @@
 <html lang="en">
 
 <!-- Head tag -->
-<head>
+<head><meta name="generator" content="Hexo 3.8.0">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
@@ -152,13 +152,6 @@
 
                         
                         <li>
-                            <a href="/archive/">Archives</a>
-                        </li>
-                        
-                    
-
-                        
-                        <li>
                             <a href="/about/">About</a>
                         </li>
                         
@@ -167,6 +160,13 @@
                         
                         <li>
                             <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
                         </li>
                         
                     
@@ -288,7 +288,7 @@ rest framework 의 <u>permission</u> class 에서 해당 유저가 기능에 접
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">python</span> 3<span class="selector-class">.4</span><span class="selector-class">.3</span></span><br><span class="line"><span class="selector-tag">django</span> 1<span class="selector-class">.8</span><span class="selector-class">.4</span></span><br><span class="line"><span class="selector-tag">djangorestframework</span> 3<span class="selector-class">.3</span><span class="selector-class">.0</span></span><br></pre></td></tr></table></figure>
 <p>하나씩 시작해보자.</p>
 <h3><span id="패키지-추가하기">패키지 추가하기</span></h3>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> pip install djangorestframework-jwt</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ pip <span class="keyword">install</span> djangorestframework-jwt</span><br></pre></td></tr></table></figure>
 <h3><span id="로그인-하기">로그인 하기</span></h3>
 <h4><span id="토큰-생성하기">토큰 생성하기</span></h4>
 <p>유저 정보가 맞을 경우 이 정보를 토대로 jwt token을 생성해준다.<br>
@@ -347,9 +347,9 @@ jwt_util.py</p>
 <figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LogoutView</span>(<span class="title">View</span>):</span></span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get</span><span class="params">(<span class="keyword">self</span>, request)</span></span><span class="symbol">:</span></span><br><span class="line">        response = HttpResponseRedirect(reverse(<span class="string">'login'</span>))</span><br><span class="line">        response.delete_cookie(<span class="string">'token'</span>, domain=settings.COOKIE_DOMAIN)</span><br><span class="line">        <span class="keyword">return</span> response</span><br></pre></td></tr></table></figure>
 <h4><span id="요약">요약</span></h4>
 <p>지금까지 추가된 파일들과 클래스를 정리하자면 다음과 같다.</p>
-<figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">common/utils/custom_exception_handler.py</span><br><span class="line">    -<span class="ruby"> custom_exception_handler</span></span><br><span class="line"><span class="ruby">common/utils/authentication.py</span></span><br><span class="line"><span class="ruby">    - CustomAuthentication</span></span><br><span class="line"><span class="ruby">common/utils/permission.py</span></span><br><span class="line"><span class="ruby">    - CustomerPermission</span></span><br><span class="line"><span class="ruby">common/utils/jwt_util.py</span></span><br><span class="line"><span class="ruby">    - obtain_token</span></span><br><span class="line"><span class="ruby">    - obtain_user</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">common/utils/custom_exception_handler.py</span><br><span class="line">    - custom_exception_handler</span><br><span class="line">common/utils/authentication.py</span><br><span class="line">    - CustomAuthentication</span><br><span class="line">common/utils/permission.py</span><br><span class="line">    - CustomerPermission</span><br><span class="line">common/utils/jwt_util.py</span><br><span class="line">    - obtain_token</span><br><span class="line">    - obtain_user</span><br></pre></td></tr></table></figure>
 <p>여기까지 따라왔다면 sso를 완성 할 수 있다. 하나의 사이트에서 동작하는지 여부를 검사하고 싶다면 hosts 에 도메인을 추가해서 테스트 해보자.</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> sudo vim /etc/hosts</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo vim <span class="regexp">/etc/</span>hosts</span><br></pre></td></tr></table></figure>
 <p>/etc/hosts</p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">127<span class="selector-class">.0</span><span class="selector-class">.0</span><span class="selector-class">.1</span>   <span class="selector-tag">alpha</span><span class="selector-class">.mysite</span><span class="selector-class">.com</span></span><br><span class="line">127<span class="selector-class">.0</span><span class="selector-class">.0</span><span class="selector-class">.1</span>   <span class="selector-tag">beta</span><span class="selector-class">.mysite</span><span class="selector-class">.com</span></span><br></pre></td></tr></table></figure>
 <p>위와 같이 추가하고 테스트를 해볼 수 있다.</p>
