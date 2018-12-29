@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type="text/xsl" href="sitemap.xsl"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-
     <url>
         <loc>https://nevercaution.github.io</loc>
         <changefreq>daily</changefreq>
@@ -8,29 +7,29 @@
     </url>
     
     <url>
-        <loc>https://nevercaution.github.io/about/</loc>
-        <lastmod>2018-03-15T11:00:51.204Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>https://nevercaution.github.io/404.html</loc>
-        <lastmod>2018-02-21T01:55:17.776Z</lastmod>
+        <loc>https://nevercaution.github.io/tags/</loc>
+        <lastmod>2018-03-24T06:18:46.279Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     
     <url>
         <loc>https://nevercaution.github.io/archive/</loc>
-        <lastmod>2018-02-21T01:53:48.273Z</lastmod>
+        <lastmod>2018-03-24T06:18:46.268Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     
     <url>
-        <loc>https://nevercaution.github.io/tags/</loc>
-        <lastmod>2018-02-21T01:53:35.505Z</lastmod>
+        <loc>https://nevercaution.github.io/about/</loc>
+        <lastmod>2018-03-24T06:18:46.267Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://nevercaution.github.io/404.html</loc>
+        <lastmod>2018-03-24T06:18:46.259Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>

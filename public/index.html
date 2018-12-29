@@ -2,7 +2,7 @@
 <html lang="en">
 
 <!-- Head tag -->
-<head><meta name="generator" content="Hexo 3.8.0">
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
@@ -149,14 +149,14 @@
 
                         
                         <li>
-                            <a href="/tags/">Tags</a>
+                            <a href="/archive/">Archives</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/archive/">Archives</a>
+                            <a href="/tags/">Tags</a>
                         </li>
                         
                     
@@ -219,6 +219,41 @@
 
 <div class="post-preview">
 
+    <a href="/2018/12/29/retrofit-with-spring-boot/">
+        <h2 class="post-title">
+            spring boot 에서 Retrofit 사용해보기
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            Retrofit 을 사용기 전에
+REST 호출을 해야할 때 보통 spring 에서 기본적으로 제공해주는 RestTemplate 을 사용했었다. 간단하게 사용할 수 있고 spring-boot-starter-web 내부에 포함되어 있어 다른 의존성이 없어도 된다. 제공되는 method 도 많은데, 워낙 사용이 자유로워서 프로젝트에서 여러 사람의 손을 타다......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by Teddy on
+            2018-12-29
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#springboot" title="springboot">springboot</a>
+            
+              <a href="/tags/#retrofit2" title="retrofit2">retrofit2</a>
+            
+              <a href="/tags/#okhttp3" title="okhttp3">okhttp3</a>
+            
+              <a href="/tags/#async" title="async">async</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
     <a href="/2018/10/23/api-gateway-with-zuul/">
         <h2 class="post-title">
             API Gateway 구축하기 - Spring Cloud Zuul
@@ -238,9 +273,9 @@ gateway 를 구성하기 위해 아래의 ......
         </p>
         <div class="tags">
             
-              <a href="/tags/#springboot" title="springboot">springboot</a>
-            
               <a href="/tags/#netflix-zuul" title="netflix-zuul">netflix-zuul</a>
+            
+              <a href="/tags/#springboot" title="springboot">springboot</a>
             
               <a href="/tags/#spring-cloud" title="spring-cloud">spring-cloud</a>
             
@@ -347,9 +382,9 @@ elasticsearch 가 6.3.0  으로 올라갔다. 여러가지 기능들이 추가�
         </p>
         <div class="tags">
             
-              <a href="/tags/#gradle" title="gradle">gradle</a>
-            
               <a href="/tags/#springboot" title="springboot">springboot</a>
+            
+              <a href="/tags/#gradle" title="gradle">gradle</a>
             
               <a href="/tags/#logging" title="logging">logging</a>
             
@@ -448,9 +483,9 @@ elasticsearch 가 6.3.0  으로 올라갔다. 여러가지 기능들이 추가�
         </p>
         <div class="tags">
             
-              <a href="/tags/#gradle" title="gradle">gradle</a>
-            
               <a href="/tags/#springboot" title="springboot">springboot</a>
+            
+              <a href="/tags/#gradle" title="gradle">gradle</a>
             
               <a href="/tags/#spring-boot-actuator" title="spring-boot-actuator">spring-boot-actuator</a>
             
@@ -483,9 +518,9 @@ spring boot 에 연동했는데 spring-boot-data-elasticsearch-starter 는 (글�
         </p>
         <div class="tags">
             
-              <a href="/tags/#elasticsearch" title="elasticsearch">elasticsearch</a>
-            
               <a href="/tags/#springboot" title="springboot">springboot</a>
+            
+              <a href="/tags/#elasticsearch" title="elasticsearch">elasticsearch</a>
             
               <a href="/tags/#restclient" title="restclient">restclient</a>
             
@@ -520,50 +555,13 @@ spring 을 사용하다가 spring boot 로 넘어오면서 front, back 을 나�
         </p>
         <div class="tags">
             
-              <a href="/tags/#gradle" title="gradle">gradle</a>
-            
               <a href="/tags/#springboot" title="springboot">springboot</a>
+            
+              <a href="/tags/#gradle" title="gradle">gradle</a>
             
               <a href="/tags/#jsp" title="jsp">jsp</a>
             
               <a href="/tags/#freemarker" title="freemarker">freemarker</a>
-            
-        </div>
-    
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/2017/06/23/django-orm-standalone/">
-        <h2 class="post-title">
-            Django orm standalone feat(docker)
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            필요에 의해서 배치 작업을 만들어야 했다.
-간단하게 python으로 만들까 했는데, 단순 cursor로 사용하지 않고 django orm 으로 만들어 보고 싶은 생각이 들었다.
-이미 작업하고 있는 django project 가 있었고, 그 안에서 사용하는 모델들을 사용해서 스크립트들을 만들면 좋겠다 생각이 들었다.
-이미 django 구조에 익숙한 사람......
-        </div>
-    </a>
-    
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by Teddy on
-            2017-06-23
-        </p>
-        <div class="tags">
-            
-              <a href="/tags/#django" title="django">django</a>
-            
-              <a href="/tags/#python" title="python">python</a>
-            
-              <a href="/tags/#orm" title="orm">orm</a>
-            
-              <a href="/tags/#docker" title="docker">docker</a>
             
         </div>
     
@@ -607,7 +605,27 @@ spring 을 사용하다가 spring boot 로 넘어오면서 front, back 을 나�
     <div class="tags">
         
             
+        
+            
+            <a href="/tags/#springboot" title="springboot" rel="8">springboot</a>
+            
+        
+            
+        
+            
+        
+            
+            <a href="/tags/#python" title="python" rel="2">python</a>
+            
+        
+            
             <a href="/tags/#django" title="django" rel="3">django</a>
+            
+        
+            
+        
+            
+        
             
         
             
@@ -623,27 +641,13 @@ spring 을 사용하다가 spring boot 로 넘어오면서 front, back 을 나�
             
         
             
+        
+            
+        
+            
+        
+            
             <a href="/tags/#gradle" title="gradle" rel="4">gradle</a>
-            
-        
-            
-            <a href="/tags/#python" title="python" rel="2">python</a>
-            
-        
-            
-        
-            
-        
-            
-        
-            
-            <a href="/tags/#springboot" title="springboot" rel="7">springboot</a>
-            
-        
-            
-        
-            
-        
             
         
             
@@ -741,6 +745,10 @@ spring 을 사용하다가 spring boot 로 넘어오면서 front, back 을 나�
     <ul>
       
         <li>
+          <a href="/2018/12/29/retrofit-with-spring-boot/">spring boot 에서 Retrofit 사용해보기</a>
+        </li>
+      
+        <li>
           <a href="/2018/10/23/api-gateway-with-zuul/">API Gateway 구축하기 - Spring Cloud Zuul</a>
         </li>
       
@@ -754,10 +762,6 @@ spring 을 사용하다가 spring boot 로 넘어오면서 front, back 을 나�
       
         <li>
           <a href="/2018/05/20/spring-boot-use-gradle-value/">Spring boot 에서 gradle 에 정의되어있는 정보 가져오기</a>
-        </li>
-      
-        <li>
-          <a href="/2018/04/29/elasticsearch-with-kakaopage/">카카오페이지 검색 개발 후기</a>
         </li>
       
     </ul>

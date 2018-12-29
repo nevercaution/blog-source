@@ -2,7 +2,7 @@
 <html lang="en">
 
 <!-- Head tag -->
-<head><meta name="generator" content="Hexo 3.8.0">
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
@@ -149,14 +149,14 @@
 
                         
                         <li>
-                            <a href="/tags/">Tags</a>
+                            <a href="/archive/">Archives</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/archive/">Archives</a>
+                            <a href="/tags/">Tags</a>
                         </li>
                         
                     
@@ -231,6 +231,21 @@
                     <span class="tag-text">2018</span>
                 </span>
                 <ul>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <li>
+                    12-29
+                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                    <a href="/2018/12/29/retrofit-with-spring-boot/" style="color: #0085a1">
+                        <span>
+                            spring boot 에서 Retrofit 사용해보기
+                        </span>
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </li>
                 
                   <!-- <li class="listing-item">
                   <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
@@ -475,7 +490,27 @@
     <div class="tags">
         
             
+        
+            
+            <a href="/tags/#springboot" title="springboot" rel="8">springboot</a>
+            
+        
+            
+        
+            
+        
+            
+            <a href="/tags/#python" title="python" rel="2">python</a>
+            
+        
+            
             <a href="/tags/#django" title="django" rel="3">django</a>
+            
+        
+            
+        
+            
+        
             
         
             
@@ -491,27 +526,13 @@
             
         
             
+        
+            
+        
+            
+        
+            
             <a href="/tags/#gradle" title="gradle" rel="4">gradle</a>
-            
-        
-            
-            <a href="/tags/#python" title="python" rel="2">python</a>
-            
-        
-            
-        
-            
-        
-            
-        
-            
-            <a href="/tags/#springboot" title="springboot" rel="7">springboot</a>
-            
-        
-            
-        
-            
-        
             
         
             
@@ -609,6 +630,10 @@
     <ul>
       
         <li>
+          <a href="/2018/12/29/retrofit-with-spring-boot/">spring boot 에서 Retrofit 사용해보기</a>
+        </li>
+      
+        <li>
           <a href="/2018/10/23/api-gateway-with-zuul/">API Gateway 구축하기 - Spring Cloud Zuul</a>
         </li>
       
@@ -622,10 +647,6 @@
       
         <li>
           <a href="/2018/05/20/spring-boot-use-gradle-value/">Spring boot 에서 gradle 에 정의되어있는 정보 가져오기</a>
-        </li>
-      
-        <li>
-          <a href="/2018/04/29/elasticsearch-with-kakaopage/">카카오페이지 검색 개발 후기</a>
         </li>
       
     </ul>

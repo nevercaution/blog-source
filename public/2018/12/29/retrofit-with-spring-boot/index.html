@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword" content="">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          spring boot 에서 Retrofit 사용해보기 - nevercaution
+        
+    </title>
+
+    <link rel="canonical" href="https://nevercaution.github.io/2018/12/29/retrofit-with-spring-boot/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <!-- <script></script> -->
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-100815581-1"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-100815581-1');
+    </script>
+
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('/img/header_img/bg.png')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header">
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#springboot" title="springboot">springboot</a>
+                            
+                              <a class="tag" href="/tags/#retrofit2" title="retrofit2">retrofit2</a>
+                            
+                              <a class="tag" href="/tags/#okhttp3" title="okhttp3">okhttp3</a>
+                            
+                              <a class="tag" href="/tags/#async" title="async">async</a>
+                            
+                        </div>
+                        <h1>spring boot 에서 Retrofit 사용해보기</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by Teddy on
+                            2018-12-29
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">nevercaution</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h3><span id="retrofit-을-사용기-전에">Retrofit 을 사용기 전에</span></h3>
+<p>REST 호출을 해야할 때 보통 spring 에서 기본적으로 제공해주는 <a href="https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/web/client/RestTemplate.html" rel="external nofollow noopener noreferrer" target="_blank">RestTemplate</a> 을 사용했었다. 간단하게 사용할 수 있고 <code>spring-boot-starter-web</code> 내부에 포함되어 있어 다른 의존성이 없어도 된다. 제공되는 method 도 많은데, 워낙 사용이 자유로워서 프로젝트에서 여러 사람의 손을 타다보면 사용하는 방식이 제각각이다. 여기저기서 가이드 없이 사용하다 보니 어떤 api 를 호출하는지 정리가 잘 안되서 리팩토링을 하거나 api 정의가 바뀔 경우 불필요하게 손이 가게 된다. 그리고 호출객체와 응답 객체를 일일이 변환해서 써야 하기 때문에 요청 작업 외적으로 구현해 줘야 하는 부분이 있다.</p>
+<h2><span id="retrofit">Retrofit</span></h2>
+<p>요청은 sync 와 async 로 할 수 있다. 간단한 api 를 만들어서 양쪽 모두 호출을 하게 만들어 보자.</p>
+<h3><span id="프로젝트-설정">프로젝트 설정</span></h3>
+<p><code>build.gradle</code></p>
+ <figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">compile</span>(<span class="string">'com.squareup.retrofit2:retrofit:2.3.0'</span>)</span><br><span class="line"><span class="keyword">compile</span>(<span class="string">'com.squareup.retrofit2:converter-gson:2.3.0'</span>)</span><br><span class="line"><span class="keyword">compile</span>(<span class="string">'com.squareup.okhttp3:logging-interceptor:3.9.0'</span>)</span><br></pre></td></tr></table></figure>
+<p>gradle 에 retrofit 을 추가해준다.</p>
+<h3><span id="model">model</span></h3>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="meta">@AllArgsConstructor</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> Integer age;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3><span id="interface">interface</span></h3>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">PersonAPI</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GET</span>(<span class="string">"/persons"</span>)</span><br><span class="line">    Call&lt;List&lt;Person&gt;&gt; getPersonList();</span><br><span class="line"></span><br><span class="line">    <span class="meta">@POST</span>(<span class="string">"/person"</span>)</span><br><span class="line">    <span class="function">Call&lt;Person&gt; <span class="title">getPerson</span><span class="params">(@Query(value = <span class="string">"name"</span>)</span> String name)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>사용해보면서 가장 마음에 들었던 부분인데 api 요청들을 한곳에 모아서 볼 수 있게 되어 있다.<br>
+파라미터들은 path, parameter, form 에 따라 제공되는 annotation 를 붙여주면 된다. 기본적인 사용법은 다음과 같다.</p>
+<ul>
+<li><code>/person/{name}</code> 일 경우엔 <code>@Path</code> 를 사용한다.</li>
+<li><code>/person?name={name}</code> 일 경우엔 <code>@Query</code> 를 사용한다.</li>
+<li>form 에 담아 요청을 할 경우엔 <code>@Field</code> 로 호출한다.</li>
+</ul>
+<p>자세한 내용은 <a href="https://square.github.io/retrofit/" rel="external nofollow noopener noreferrer" target="_blank">공식 가이드</a> 에서 설명해준다.</p>
+<h3><span id="retrofit-service">retrofit service</span></h3>
+<p>retrofit 는 사용할 api 를 등록하고 사용한다. 사용하기 편하게 util 로 만들어줄 수 있다.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">RequestUtil</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 1. 호출할  도메인</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String BASE_URL = <span class="string">"http://localhost:8080/"</span>;</span><br><span class="line">    <span class="comment">// 2. log interceptor</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> HttpLoggingInterceptor loggingInterceptor = <span class="keyword">new</span> HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY);</span><br><span class="line">    <span class="comment">// 3. 사용할 http client</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> OkHttpClient.Builder httpClient = <span class="keyword">new</span> OkHttpClient.Builder()</span><br><span class="line">            .addInterceptor(loggingInterceptor);</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Retrofit retrofit = <span class="keyword">new</span> Retrofit.Builder()</span><br><span class="line">            .baseUrl(BASE_URL)</span><br><span class="line">            .addConverterFactory(GsonConverterFactory.create())</span><br><span class="line">            .client(httpClient.build())</span><br><span class="line">            .build();</span><br><span class="line">	</span><br><span class="line">    <span class="comment">// 4. 서비스 등록</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="function">T <span class="title">createService</span><span class="params">(Class&lt;T&gt; sClass)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> retrofit.create(sClass);</span><br><span class="line">    &#125;</span><br><span class="line">	</span><br><span class="line">    <span class="comment">// 5. 서비스 호출</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="function">Optional&lt;T&gt; <span class="title">requestSync</span><span class="params">(Call&lt;T&gt; call)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Response&lt;T&gt; execute = call.execute();</span><br><span class="line">            System.out.println(<span class="string">"execute = "</span> + execute);</span><br><span class="line">            <span class="keyword">if</span> (execute.isSuccessful()) &#123;</span><br><span class="line">                <span class="keyword">return</span> Optional.ofNullable(execute.body());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> Optional.empty();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="function"><span class="keyword">void</span> <span class="title">requestAsync</span><span class="params">(Call&lt;T&gt; call, CustomCallback&lt;T&gt; callback)</span> </span>&#123;</span><br><span class="line">        call.enqueue(callback);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>호출할 도메인이다. 객체가 생성될 때 넣어준다. 만약 호출해야할 서비스가 여러개일 경우엔 추가로 받아서 등록해줄 수 있다.</li>
+<li>원하는 로그레벨을 걸어 필요한 값들을 모두 확인해볼 수 있다. default 값은 INFO 이다.</li>
+<li>http client 로 okhttp 를 사용했다. 다른 client 를 사용할 수도 있지만 같은 회사에서 만들어서 서로의 궁합이 좋다.</li>
+<li>interface 로 정의한 서비스를 등록하는 부분이다.</li>
+<li>등록된 서비스에서 Call 객체가 나오는데, 이를 호출해준다. sync/async 모두 호출이 가능하다.</li>
+</ol>
+<p>비동기 호출시에 기본적으로 <code>Calback&lt;T&gt;</code> 를 받아서 처리하는데 사용의 편의를 위해 <code>CustomCallback</code> 을 만들어서 사용할 수 있다. 추가적으로 로그를 남길 수 있고 코드가 좀 더 깔끔해진다.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">CustomCallback</span>&lt;<span class="title">T</span>&gt; <span class="keyword">implements</span> <span class="title">Callback</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onResponse</span><span class="params">(Call&lt;T&gt; call, Response&lt;T&gt; response)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"response = "</span> + response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onFailure</span><span class="params">(Call&lt;T&gt; call, Throwable t)</span> </span>&#123;</span><br><span class="line">        t.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2><span id="service">service</span></h2>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PersonAPI personAPI = RequestUtil.createService(PersonAPI.class);</span><br></pre></td></tr></table></figure>
+<p>위에서 정의해준 interface 를 retrofit 에 등록해주고 호출을 할 수 있다. personAPI 객체에서 정의된 api 를 호출하면 Call 객체가 반환되는데 이를 요청하면 된다.</p>
+<h4><span id="sync-호출시">sync 호출시</span></h4>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Call&lt;List&lt;Person&gt;&gt; personList = personAPI.getPersonList();</span><br><span class="line">RequestUtil.requestSync(personList);</span><br></pre></td></tr></table></figure>
+<p>호출하고 반환받을 객체를 Call 로 감싸서 반환된다.</p>
+<h4><span id="async-호출시">async 호출시</span></h4>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">RequestUtil.requestAsync(personAPI.getPersonList(), <span class="keyword">new</span> CustomCallback&lt;List&lt;Person&gt;&gt;() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onResponse</span><span class="params">(Call&lt;List&lt;Person&gt;&gt; call, Response&lt;List&lt;Person&gt;&gt; response)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onResponse(call, response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onFailure</span><span class="params">(Call&lt;List&lt;Person&gt;&gt; call, Throwable t)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onFailure(call, t);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>비동기 호출시엔 enqueue 로 호출하고 응답받을 callback 을 등록해주면 된다. callback 내부에서는 성공과 실패시 메소드를 제공한다. 각자 응답에 따라 필요한 처리를 해주면 된다. 비동기 호출에 대해 응답을 받아주기 위해 <code>Mono</code> 로 감싸서 사용할 수 있다.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">Mono&lt;List&lt;Person&gt;&gt; mono = Mono.create(sink -&gt; &#123;</span><br><span class="line">    RequestUtil.requestAsync(personAPI.getPersonList(), <span class="keyword">new</span> CustomCallback&lt;List&lt;Person&gt;&gt;() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onResponse</span><span class="params">(Call&lt;List&lt;Person&gt;&gt; call, Response&lt;List&lt;Person&gt;&gt; response)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">if</span> (!response.isSuccessful()) &#123;</span><br><span class="line">                sink.error(<span class="keyword">new</span> Exception(<span class="string">"response is empty"</span>));</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            sink.success(Objects.requireNonNull(response.body()));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;);</span><br><span class="line"><span class="keyword">return</span> mono;</span><br></pre></td></tr></table></figure>
+<h2><span id="결론">결론</span></h2>
+<p>사용하고 있는 api 들을 한곳에 정리할 수 있고 필요한 파라미터 값들이 코드로 작성되기 때문에 api 문서를 확인하지 않아도 편하게 확인할 수 있다. 스타일이 어느정도 강제가 되어 있긴 하지만 보다 명확하게 명세를 정의할 수 있어 마음에 들었다. 조만간 retrofit 으로 모든 요청들을 정리해 볼 생각이다. <a href="https://github.com/nevercaution/retrofitDemo" rel="external nofollow noopener noreferrer" target="_blank">예제코드</a> 에서 위의 코드들을 확인해볼 수 있다.</p>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                    
+                        <li class="next">
+                            <a href="/2018/10/23/api-gateway-with-zuul/" data-toggle="tooltip" data-placement="top" title="API Gateway 구축하기 - Spring Cloud Zuul">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                    <div class="comment">
+                        <div id="disqus_thread" class="disqus-thread"></div>
+                    </div>
+                
+                <!-- disqus comment end -->
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">Retrofit 을 사용기 전에</span></a></li></ol><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number"></span> <span class="toc-nav-text">Retrofit</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">프로젝트 설정</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">model</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">interface</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">retrofit service</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number"></span> <span class="toc-nav-text">service</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">0.1.</span> <span class="toc-nav-text">sync 호출시</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">0.2.</span> <span class="toc-nav-text">async 호출시</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number"></span> <span class="toc-nav-text">결론</span></a>
+        
+        </li></div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#springboot" title="springboot">springboot</a>
+                        
+                          <a class="tag" href="/tags/#retrofit2" title="retrofit2">retrofit2</a>
+                        
+                          <a class="tag" href="/tags/#okhttp3" title="okhttp3">okhttp3</a>
+                        
+                          <a class="tag" href="/tags/#async" title="async">async</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus embedded js code start (one page only need to embed once) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "nevercaution";
+    var disqus_identifier = "https://nevercaution.github.io/2018/12/29/retrofit-with-spring-boot/";
+    var disqus_url = "https://nevercaution.github.io/2018/12/29/retrofit-with-spring-boot/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus embedded js code start end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/hoguen.yoon" rel="external nofollow noopener noreferrer">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://github.com/nevercaution" rel="external nofollow noopener noreferrer">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Teddy 2018 
+                    <br>
+                    Theme by <a href="http://huangxuan.me" rel="external nofollow noopener noreferrer" target="_blank">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    re-Ported by <a href="http://beantech.org" rel="external nofollow noopener noreferrer" target="_blank">BeanTech</a> | 
+                    <iframe style="margin-left: 2px; margin-bottom:-5px;" frameborder="0" scrolling="0" width="91px" height="20px" src="https://ghbtns.com/github-btn.html?user=YenYuHsuan&repo=hexo-theme-beantech&type=star&count=true">
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://nevercaution.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-100815581-1';
+    var _gaDomain = 'nevercaution.github.io';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async></script>
+<!-- Image to hack wechat -->
+<img src="https://nevercaution.github.io/img/icon_wechat.png" width="0" height="0">
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
