@@ -170,13 +170,6 @@
     </url>
 
     <url>
-        <loc>https://nevercaution.github.io/tags/gradle/</loc>
-        <lastmod>2018-06-28T12:38:42.678Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>https://nevercaution.github.io/tags/netflix-zuul/</loc>
         <lastmod>2018-12-24T04:50:49.958Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -193,13 +186,6 @@
     <url>
         <loc>https://nevercaution.github.io/tags/api-gateway/</loc>
         <lastmod>2018-12-24T04:50:49.958Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://nevercaution.github.io/tags/redis/</loc>
-        <lastmod>2018-12-24T04:50:49.960Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
@@ -226,13 +212,6 @@
     </url>
 
     <url>
-        <loc>https://nevercaution.github.io/tags/springboot/</loc>
-        <lastmod>2018-12-29T09:19:38.509Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>https://nevercaution.github.io/tags/retrofit2/</loc>
         <lastmod>2018-12-29T09:19:38.509Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -249,6 +228,48 @@
     <url>
         <loc>https://nevercaution.github.io/tags/async/</loc>
         <lastmod>2018-12-29T09:19:38.509Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://nevercaution.github.io/tags/springboot/</loc>
+        <lastmod>2019-02-03T09:14:20.465Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://nevercaution.github.io/tags/redis/</loc>
+        <lastmod>2019-02-03T09:14:20.465Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://nevercaution.github.io/tags/jedis/</loc>
+        <lastmod>2019-02-03T09:14:20.465Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://nevercaution.github.io/tags/customannotation/</loc>
+        <lastmod>2019-02-03T09:14:20.465Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://nevercaution.github.io/tags/aspect/</loc>
+        <lastmod>2019-02-03T09:14:20.465Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://nevercaution.github.io/tags/gradle/</loc>
+        <lastmod>2019-02-03T09:14:20.465Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>

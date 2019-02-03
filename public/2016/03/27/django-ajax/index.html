@@ -257,7 +257,7 @@ APIVIew, View 두개의 경우를 살펴보자.<br>
 <ul>
 <li>api_settings.py</li>
 </ul>
-<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'DEFAULT_PERMISSION_CLASSES'</span>: (</span><br><span class="line">    <span class="string">'rest_framework.permissions.AllowAny'</span>,</span><br><span class="line">),</span><br></pre></td></tr></table></figure>
+<figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">'DEFAULT_PERMISSION_CLASSES': (</span><br><span class="line">    'rest_framework.permissions.AllowAny',</span><br><span class="line">),</span><br></pre></td></tr></table></figure>
 <p>AllowAny Class는 permission요청에 대해 무조건 True를 반환해주므로, APIView의 check_permissions 메소드에서 권한 체크를 할 때 권한이 있다고 판단을 한다.</p>
 <ul>
 <li><a href="http://permissions.py" rel="external nofollow noopener noreferrer" target="_blank">permissions.py</a></li>
@@ -277,7 +277,7 @@ ajax를 통해 View class에 메소드를 호출하는 경우는 많지는 않�
 위의 tempalate에서 입력받은 데이터를 통해 ajax로 호출을 한다. 이 때 호출되는 class는 View를 상속받은 class 이다. form의 submit으로 호출을 한 경우인데 form에 {% csrf_token %}이 들어가있기 때문에 post요청을 날릴 경우엔 403이 떨어진다.(get요청은 안넣어도 상관없다.)
 이런 경우를 방지하기 위해 data필드에 csrf token 을 넣어준다.
 
-<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"csrfmiddlewaretoken"</span>: <span class="string">"&#123;&#123; csrf_token &#125;&#125;"</span>,</span><br></pre></td></tr></table></figure>
+<figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"csrfmiddlewaretoken"</span>: <span class="string">"&#123;&#123; csrf_token &#125;&#125;"</span>,</span><br></pre></td></tr></table></figure>
 <p>요청을 받고 데이터를 만들고 나면 TemplateResponse를 사용하여 분리되어 생성된 페이지를 반환하게 된다.</p>
 <ul>
 <li><a href="http://view.py" rel="external nofollow noopener noreferrer" target="_blank">view.py</a></li>
@@ -459,7 +459,7 @@ ajax를 통해 View class에 메소드를 호출하는 경우는 많지는 않�
 
                 </ul>
                 <p class="copyright text-muted">
-                    Copyright &copy; Teddy 2018 
+                    Copyright &copy; Teddy 2019 
                     <br>
                     Theme by <a href="http://huangxuan.me" rel="external nofollow noopener noreferrer" target="_blank">Hux</a> 
                     <span style="display: inline-block; margin: 0 5px;">

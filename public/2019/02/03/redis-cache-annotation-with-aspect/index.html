@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword" content="">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          redis cache 를 @annotation 으로 하기 (with @Aspect) - nevercaution
+        
+    </title>
+
+    <link rel="canonical" href="https://nevercaution.github.io/2019/02/03/redis-cache-annotation-with-aspect/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <!-- <script></script> -->
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-100815581-1"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-100815581-1');
+    </script>
+
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('/img/header_img/bg.png')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header">
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#springboot" title="springboot">springboot</a>
+                            
+                              <a class="tag" href="/tags/#redis" title="redis">redis</a>
+                            
+                              <a class="tag" href="/tags/#jedis" title="jedis">jedis</a>
+                            
+                              <a class="tag" href="/tags/#customannotation" title="customannotation">customannotation</a>
+                            
+                              <a class="tag" href="/tags/#aspect" title="aspect">aspect</a>
+                            
+                              <a class="tag" href="/tags/#gradle" title="gradle">gradle</a>
+                            
+                        </div>
+                        <h1>redis cache 를 @annotation 으로 하기 (with @Aspect)</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by Teddy on
+                            2019-02-03
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">nevercaution</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h3><span id="왜-만들었냐면">왜 만들었냐면…</span></h3>
+<p>이미 spring 에서 제공하는 <a href="https://docs.spring.io/spring/docs/4.1.x/spring-framework-reference/html/cache.html" rel="external nofollow noopener noreferrer" target="_blank">@Cacheable</a> 이 있다. 기능도 다양하고 <a href="https://docs.spring.io/spring/docs/4.3.10.RELEASE/spring-framework-reference/html/expressions.html" rel="external nofollow noopener noreferrer" target="_blank">Spel</a> 를 제공해서 좀 더 동적으로 캐싱을 할 수 있다. 캐싱을 받아주는 구현체만 추가해주면 되는데 redis 의 경우엔 <a href="https://docs.spring.io/spring-data/data-redis/docs/current/reference/html/" rel="external nofollow noopener noreferrer" target="_blank">spring-data-redis</a> 를 함께 사용하면 된다.<br>
+처음에는 @Cacheable 를 사용해 구현해볼까 했는데 도입을 고려하는 시점에 있어 몇가지 사용의 불편함이 있었다.</p>
+<h4><span id="현재-사내에서-사용하고-있는-캐싱키처럼의-생성이-까다롭다">현재 사내에서 사용하고 있는 캐싱키처럼의 생성이 까다롭다.</span></h4>
+<p>코드에서 동적으로 캐싱키를 만들어서 사용하고 있는데, 규격에 맞게 키가 생성되기 때문에 바로 도입시 중복되는 키가 두배로 많아져 부하가 생길 수 있다.</p>
+<h4><span id="만료-시간을-캐시별로-주기가-어렵다">만료 시간을 캐시별로 주기가 어렵다.</span></h4>
+<p>@Cacheable 은 추상화되어 있는 구현체이다. redis 를 client 로 바로 사용은 가능하지만 나머지 부분은 일일히 설정을 해주거나 구현을 해주어야 한다. <a href="https://stackoverflow.com/questions/8181768/can-i-set-a-ttl-for-cacheable" rel="external nofollow noopener noreferrer" target="_blank">https://stackoverflow.com/questions/8181768/can-i-set-a-ttl-for-cacheable</a> 에서 보면 client 의 설정으로 가능하다고는 하지만 애초에 ttl 에 대한 구현은 따로 없기 때문에 우회하거나 획일화된 시간뿐이 줄 수 없다.</p>
+<h4><span id="캐싱-로직을-가져갈-수-없다">캐싱 로직을 가져갈 수 없다.</span></h4>
+<p>당연한 얘기겠지만 @Cacheable 을 사용하면 캐싱이 되는 로직은 사용자가 고려하지 않아도 된다. 문제는 여기 있는데 캐싱 로직에 원하는 코드를 추가하거나 수정할 수 없기 때문에 문제가 생기거나 로직이 변경되었을 때 대처가 불가능하다. 물론 애초에 @Cacheable 을 사용했다면 큰 문제가 없었겠지만 입맛에 맞게 캐싱 로직을 편하게 만들 필요가 있었다.</p>
+<p>기존에 사용하고 있는 캐싱 로직이 있다. method 를 invoke 해서 method 키값으로 결과물들을 redis 에 담아서 사용하고 있었는데, 이를 좀 더 사용하기 편하게 하기 위해 custom annotation 를 만들어서 사용하고자 했다.<br>
+(결국 @Cacheable 를 뜯어보다가 필요한 부분만 뽑아서 따로 만들게 되었다.)</p>
+<h3><span id="구현-목적">구현 목적</span></h3>
+<p>@RedisCached annotation 이 붙은 method 들에 대해 설정된 값에 따라 캐싱을 할 수 있고 필요에 따라 파라미터 값들도 함께 사용해야 한다면 @RedisCachedKeyParam 를 사용해서 method 의 parameter 와 value 를 함께 cache key 로 사용할 수 있다. 사용예제는 다음과 같다.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PersonService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RedisCached</span>(key = <span class="string">"person"</span>, expire = <span class="number">300</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Person <span class="title">getPerson</span><span class="params">(@RedisCachedKeyParam(key = <span class="string">"name"</span>)</span> String name) </span>&#123;</span><br><span class="line">        <span class="comment">// do make cache jobs</span></span><br><span class="line">        Person person = <span class="keyword">new</span> Person(name, <span class="number">10</span>);</span><br><span class="line">        System.out.println(<span class="string">"person = "</span> + person);</span><br><span class="line">        <span class="keyword">return</span> person;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>method 내부에서는 db job 이나 비용이 큰 작업들을 처리해주고 cache 대한 처리는 annotation 으로 처리한다.</p>
+<h3><span id="구현해보자">구현해보자.</span></h3>
+<p>####1. build.gradle</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">...</span><br><span class="line"><span class="keyword">dependencies</span> &#123;</span><br><span class="line">    <span class="keyword">compile</span>(<span class="string">"org.springframework.boot:spring-boot-starter-web"</span>)</span><br><span class="line">    <span class="keyword">compile</span>(<span class="string">'org.springframework:spring-aspects'</span>)</span><br><span class="line">    compileOnly(<span class="string">'org.projectlombok:lombok'</span>)</span><br><span class="line">    <span class="keyword">compile</span>(<span class="string">'redis.clients:jedis:3.0.1'</span>)</span><br><span class="line">    <span class="keyword">compile</span>(<span class="string">'com.google.code.gson:gson:2.8.0'</span>)</span><br><span class="line">    <span class="keyword">compile</span>(<span class="string">'com.google.guava:guava:22.0'</span>)</span><br><span class="line">    testCompile(<span class="string">'org.springframework.boot:spring-boot-starter-test'</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>sprong-aop 를 사용해서 @RedisCached annotation 이 붙은 method 들을 가져와서 캐싱 로직을 태울 수 있다.</p>
+<h4><span id="rediscached">@RedisCached</span></h4>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Target</span>(value = ElementType.METHOD)</span><br><span class="line"><span class="meta">@Retention</span>(RetentionPolicy.RUNTIME)</span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> RedisCached &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * main cache key name</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function">String <span class="title">key</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * expire time</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">expire</span><span class="params">()</span> <span class="keyword">default</span> 1800</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * force proceed method</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">replace</span><span class="params">()</span> <span class="keyword">default</span> <span class="keyword">false</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>key : 캐싱이 되는 메인 키값을 줄 수 있다.</li>
+<li>expire : 만료가 되는 시점을 줄 수 있다. 기본설정은 1800초이다.</li>
+<li>replace : 캐싱 값을 덮어씌울지 여부이다. 필요에 따라 레디스에 저장되어 있는 값들을 override 해줄 때 사용한다.</li>
+</ul>
+<h4><span id="rediscachedkeyparam">@RedisCachedKeyParam</span></h4>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Target</span>(ElementType.PARAMETER)</span><br><span class="line"><span class="meta">@Retention</span>(RetentionPolicy.RUNTIME)</span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> RedisCachedKeyParam &#123;</span><br><span class="line"></span><br><span class="line">    <span class="function">String <span class="title">key</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>method parameter 에 붙여서 사용한다. @RedisCached.key 와 더불어 캐싱키값을 만들고자 할 때 사용한다.</p>
+<h4><span id="rediscacheaspectclass">RedisCacheAspect.class</span></h4>
+<figure class="highlight processing"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">@Component</span><br><span class="line">@Aspect</span><br><span class="line"><span class="keyword">public</span> class RedisCacheAspect &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Map&lt;<span class="keyword">String</span>, RedisCacheParameterMethodInfo&gt; cacheParameterMethodInfoMap = <span class="keyword">new</span> <span class="keyword">HashMap</span>&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    @Autowired</span><br><span class="line">    <span class="keyword">private</span> RedisDB redisDB;</span><br><span class="line">        </span><br><span class="line">    <span class="comment">// point1</span></span><br><span class="line">    @Around(value = <span class="string">"execution(* *(..)) &amp;&amp; @annotation(redisCached)"</span>)</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">Object</span> aroundAspect(ProceedingJoinPoint joinPoint, RedisCached redisCached) &#123;</span><br><span class="line"></span><br><span class="line">        MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();</span><br><span class="line">        Method method = methodSignature.getMethod();</span><br><span class="line">        <span class="keyword">String</span> methodName = method.getName();</span><br><span class="line"></span><br><span class="line">        Class returnType = methodSignature.getReturnType();</span><br><span class="line">    </span><br><span class="line">        <span class="comment">// point2</span></span><br><span class="line">        <span class="keyword">String</span> <span class="built_in">key</span> = redisCached.<span class="built_in">key</span>();</span><br><span class="line">        <span class="built_in">int</span> expire = redisCached.expire();</span><br><span class="line">        <span class="built_in">boolean</span> replace = redisCached.replace();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// point3</span></span><br><span class="line">        <span class="comment">// reflect caching key from parameter</span></span><br><span class="line">        List&lt;<span class="keyword">String</span>&gt; parameterKeyList = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        <span class="keyword">Object</span>[] args = joinPoint.getArgs();</span><br><span class="line">        RedisCacheParameterMethodInfo methodInfo = cacheParameterMethodInfoMap.<span class="built_in">get</span>(methodName);</span><br><span class="line">        <span class="keyword">if</span> (methodInfo != <span class="keyword">null</span>) &#123;</span><br><span class="line">            List&lt;RedisCacheParameterMethodInfo.IndexInfo&gt; indexInfoList = methodInfo.getIndexInfoList();</span><br><span class="line">            indexInfoList.forEach(info -&gt;</span><br><span class="line">                    parameterKeyList.<span class="built_in">add</span>(makeCacheKey(info.getAnnotation(), args[info.getIndex()].toString())));</span><br><span class="line"></span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            methodInfo = <span class="keyword">new</span> RedisCacheParameterMethodInfo();</span><br><span class="line">            Annotation[][] parameterAnnotations = method.getParameterAnnotations();</span><br><span class="line">            <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; parameterAnnotations.length; i++) &#123;</span><br><span class="line">                <span class="keyword">for</span> (Annotation annotation : parameterAnnotations[i]) &#123;</span><br><span class="line">                    <span class="keyword">if</span> (annotation <span class="keyword">instanceof</span> RedisCachedKeyParam) &#123;</span><br><span class="line">                        RedisCachedKeyParam keyParam = (RedisCachedKeyParam)annotation;</span><br><span class="line">                        parameterKeyList.<span class="built_in">add</span>(makeCacheKey(keyParam, args[i].toString()));</span><br><span class="line">                        methodInfo.addInfo(keyParam, i);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            cacheParameterMethodInfoMap.put(methodName, methodInfo);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// point5</span></span><br><span class="line">        <span class="comment">// make cache key</span></span><br><span class="line">        StringBuilder cacheKeyBuilder = <span class="keyword">new</span> StringBuilder()</span><br><span class="line">                .<span class="built_in">append</span>(<span class="built_in">key</span>).<span class="built_in">append</span>(<span class="string">"/"</span>).<span class="built_in">append</span>(methodName).<span class="built_in">append</span>(<span class="string">"/"</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (!CollectionUtils.isEmpty(parameterKeyList)) &#123;</span><br><span class="line">            cacheKeyBuilder.<span class="built_in">append</span>(Joiner.on(<span class="string">","</span>).<span class="built_in">join</span>(parameterKeyList));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">String</span> cacheKey = cacheKeyBuilder.toString();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">Object</span> result;</span><br><span class="line">            <span class="comment">// point6</span></span><br><span class="line">            <span class="keyword">if</span> (!replace) &#123;</span><br><span class="line">                Long ttl = redisDB.ttl(cacheKey);</span><br><span class="line">                <span class="keyword">if</span> (ttl &gt; <span class="number">0</span>) &#123;</span><br><span class="line"></span><br><span class="line">                    result = redisDB.<span class="built_in">get</span>(cacheKey, returnType);</span><br><span class="line">                    <span class="keyword">return</span> result;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            <span class="comment">// point7</span></span><br><span class="line">            result = joinPoint.proceed();</span><br><span class="line">            redisDB.<span class="built_in">set</span>(cacheKey, result, returnType);</span><br><span class="line">            redisDB.expire(cacheKey, expire);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">return</span> result;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Throwable t) &#123;</span><br><span class="line">            t.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// point 4</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">String</span> makeCacheKey(RedisCachedKeyParam keyParam, <span class="keyword">String</span> value ) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">String</span>.format(<span class="string">"%s=%s"</span>, keyParam.<span class="built_in">key</span>(), value);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>핵심이 되는 캐싱 구현로직이다. 포인트 별로 살펴보자.</p>
+<ul>
+<li>point1 : spring-aop 를 사용해서 @Around 로 묶어서 사용한다. @RedisCached 가 붙어 있는 method 들에 대해 캐싱 로직을 태운다.</li>
+<li>point2 : @RedisCached 에 있는 값들을 가져와서 캐시키나 만료에 대한 정보들을 가져온다.</li>
+<li>point3 : cacheKey 를 만들어 줄때 method 에 들어있는 parameter 들을 가져와서 만들어주는데 이를 매번 joinPoint 에서 가져와서 reflect 할 필요는 없다. 별도의 hashMap 을 갖고 이미 reflect 된 method 들에 대해서는 갖고 있는 값을 사용하도록 한다.</li>
+<li>point4 : method 에서 parameter 들을 가져와서 @RedisCachedKeyParam 와 연결을 시켜 캐싱키를 만들어 준다.</li>
+<li>point5 : 캐싱키는 <code>person/getPerson/name=teddy</code> 와 같이 사용하고 있다. @RedisCached.key 와 methodName, @RedisCachedKeyParam 에 설정되어 있는 key, value 를 붙여서 사용하고 있는데 이를 만들어 주는 과정이다.</li>
+<li>point6 : @RedisCached.replace 로 이미 캐시가 되어 있는 값을 덮어 쓸지 여부에 대한 로직이다. 주기적으로 갱신이 필요한 캐싱들에 대해 값을 덮어 써줄 수 있다. point6 의 분기를 타지 않으면 proceed() 된 값을 cacheKey 에 덮어씌운다.</li>
+<li>point7 : 실제 redis 에 캐싱이 되는 부분이다. 이미 캐싱이 되어 있다면 point6 의 분기에서 redis 의 저장되어 있는 값을 반환한다.</li>
+</ul>
+<h3><span id="사용해보기">사용해보기</span></h3>
+<pre><code class="language-bash">$❯ curl localhost:8080/person/teddy
+{&quot;name&quot;:&quot;teddy&quot;,&quot;age&quot;:10}
+
+-- log
+
+// call mapping
+person = Person(name=teddy, age=10)
+// make cache
+getPerson = Person(name=teddy, age=10)
+// use cache
+getPerson = Person(name=teddy, age=10)
+
+-- redis
+127.0.0.1:6379&gt; get person/getPerson/name=teddy
+&quot;{\&quot;name\&quot;:\&quot;teddy\&quot;,\&quot;age\&quot;:10}&quot;
+127.0.0.1:6379&gt; ttl person/getPerson/name=teddy
+(integer) 187
+</code></pre>
+<p>api 콜을 하면 redis 에 저장되어 있는지 여부를 검사하고 해당 키값으로 값이 없으면 캐싱을 하고 돌려준다. 그 다음부터 호출을 하면 redis 에 저장되어 있는 값을 돌려준다.</p>
+<h3><span id="한계가-있다">한계가 있다!</span></h3>
+<p>spring-aop 를 사용하고 있는데 proxy 기반으로 동작하기 때문에 inner method 호출은 먹지 않는다. <a href="https://stackoverflow.com/questions/13564627/spring-aop-not-working-for-method-call-inside-another-method" rel="external nofollow noopener noreferrer" target="_blank">https://stackoverflow.com/questions/13564627/spring-aop-not-working-for-method-call-inside-another-method</a> 에서 보면 우회적으로 해결할 수 있는 방법들이 있는데 좋아보이지는 않는다. 아예 aspectJ 를 이용해서 구현해볼까도 생각중이긴 한데 아직 완전한 해결방법은 찾이 못했다. 이는 interface 로 캐싱 로직을 따로 빼거나 우회적인 방법으로 임시적인 해결을 할 수는 있지만 여전히 inner method call 이 안되는건 마음에 들지 않는다.</p>
+<h3><span id="결론">결론</span></h3>
+<p>@RedisCached 를 이용해서 기존의 캐시 전략을 따라가면서 조금 더 사용이 편한 방법으로 구현이 되었다. 다만 명확한 한계점이 있어 반쪽짜리 캐시긴 하지만… <a href="https://medium.com/chequer/spring-transactional-caching-%EA%B7%B8%EB%A6%AC%EA%B3%A0-aspectj-2%ED%8E%B8-aspectj-689319db329f" rel="external nofollow noopener noreferrer" target="_blank">LTW 사용하기</a> 와 같은 좋은 블로그등을 참고해서 해결방안을 모색중이다. 위의 예제코드는 <a href="https://github.com/nevercaution/cachedTest" rel="external nofollow noopener noreferrer" target="_blank">Example code</a> 에서 확인할 수 있다.</p>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                    
+                        <li class="next">
+                            <a href="/2018/12/29/retrofit-with-spring-boot/" data-toggle="tooltip" data-placement="top" title="spring boot 에서 Retrofit 사용해보기">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                    <div class="comment">
+                        <div id="disqus_thread" class="disqus-thread"></div>
+                    </div>
+                
+                <!-- disqus comment end -->
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">왜 만들었냐면…</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">현재 사내에서 사용하고 있는 캐싱키처럼의 생성이 까다롭다.</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">만료 시간을 캐시별로 주기가 어렵다.</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text">캐싱 로직을 가져갈 수 없다.</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">구현 목적</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">구현해보자.</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">3.1.</span> <span class="toc-nav-text">@RedisCached</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">3.2.</span> <span class="toc-nav-text">@RedisCachedKeyParam</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">3.3.</span> <span class="toc-nav-text">RedisCacheAspect.class</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">사용해보기</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">5.</span> <span class="toc-nav-text">한계가 있다!</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">6.</span> <span class="toc-nav-text">결론</span></a></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#springboot" title="springboot">springboot</a>
+                        
+                          <a class="tag" href="/tags/#redis" title="redis">redis</a>
+                        
+                          <a class="tag" href="/tags/#jedis" title="jedis">jedis</a>
+                        
+                          <a class="tag" href="/tags/#customannotation" title="customannotation">customannotation</a>
+                        
+                          <a class="tag" href="/tags/#aspect" title="aspect">aspect</a>
+                        
+                          <a class="tag" href="/tags/#gradle" title="gradle">gradle</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus embedded js code start (one page only need to embed once) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "nevercaution";
+    var disqus_identifier = "https://nevercaution.github.io/2019/02/03/redis-cache-annotation-with-aspect/";
+    var disqus_url = "https://nevercaution.github.io/2019/02/03/redis-cache-annotation-with-aspect/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus embedded js code start end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/hoguen.yoon" rel="external nofollow noopener noreferrer">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://github.com/nevercaution" rel="external nofollow noopener noreferrer">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Teddy 2019 
+                    <br>
+                    Theme by <a href="http://huangxuan.me" rel="external nofollow noopener noreferrer" target="_blank">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    re-Ported by <a href="http://beantech.org" rel="external nofollow noopener noreferrer" target="_blank">BeanTech</a> | 
+                    <iframe style="margin-left: 2px; margin-bottom:-5px;" frameborder="0" scrolling="0" width="91px" height="20px" src="https://ghbtns.com/github-btn.html?user=YenYuHsuan&repo=hexo-theme-beantech&type=star&count=true">
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://nevercaution.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-100815581-1';
+    var _gaDomain = 'nevercaution.github.io';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async></script>
+<!-- Image to hack wechat -->
+<img src="https://nevercaution.github.io/img/icon_wechat.png" width="0" height="0">
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

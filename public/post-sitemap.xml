@@ -7,6 +7,14 @@
     </url>
 
     <url>
+        <loc>https://nevercaution.github.io/2019/02/03/redis-cache-annotation-with-aspect/</loc>
+        <lastmod>2019-02-03T09:14:20.465Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://nevercaution.github.io/2018/12/29/retrofit-with-spring-boot/</loc>
         <lastmod>2018-12-29T09:19:38.509Z</lastmod>
         <changefreq>weekly</changefreq>
