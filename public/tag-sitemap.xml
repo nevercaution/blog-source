@@ -269,28 +269,49 @@
 
     <url>
         <loc>https://nevercaution.github.io/tags/springboot/</loc>
-        <lastmod>2019-10-04T03:02:42.854Z</lastmod>
+        <lastmod>2019-10-04T03:11:35.332Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>https://nevercaution.github.io/tags/maven/</loc>
-        <lastmod>2019-10-04T03:02:42.854Z</lastmod>
+        <lastmod>2019-10-04T03:11:35.332Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>https://nevercaution.github.io/tags/spring/</loc>
-        <lastmod>2019-10-04T03:02:42.854Z</lastmod>
+        <lastmod>2019-10-04T03:11:35.332Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>https://nevercaution.github.io/tags/autoconfigure/</loc>
-        <lastmod>2019-10-04T03:02:42.854Z</lastmod>
+        <lastmod>2019-10-04T03:11:35.332Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://nevercaution.github.io/tags/boot/</loc>
+        <lastmod>2019-10-04T03:11:35.332Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://nevercaution.github.io/tags/custom/</loc>
+        <lastmod>2019-10-04T03:11:35.332Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://nevercaution.github.io/tags/spring-boot-starter-custom/</loc>
+        <lastmod>2019-10-04T03:11:35.332Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>

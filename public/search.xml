@@ -19,6 +19,12 @@
             
             <tag> autoconfigure </tag>
             
+            <tag> boot </tag>
+            
+            <tag> custom </tag>
+            
+            <tag> spring-boot-starter-custom </tag>
+            
         </tags>
       
     </entry>

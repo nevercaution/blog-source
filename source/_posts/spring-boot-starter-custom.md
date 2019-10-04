@@ -9,6 +9,9 @@ tags:
 - maven
 - spring
 - autoconfigure
+- boot
+- custom
+- spring-boot-starter-custom
 ---
 
 ## spring boot starter
