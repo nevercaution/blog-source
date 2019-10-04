@@ -154,13 +154,6 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
-                        </li>
-                        
-                    
-
-                        
-                        <li>
                             <a href="/archive/">Archives</a>
                         </li>
                         
@@ -169,6 +162,13 @@
                         
                         <li>
                             <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -251,7 +251,7 @@
 <p>여러 정보들을 작은 작업으로 제공해준다니 내가 찾고 있던 것이 틀림없다. 기본적으로 여러 endpoint 들을 제공하고 있고 info 뿐만 아니라 health 나 metrics 등 여러 기능들을 제공하고 있다. 지금 필요한건 버전에 대한 정보들만 표시할 수있으면 되기 때문에 옆길로 새지말고 직진하도록 하자.<br>
 아무런 설정을 하고 않고 빌드를 하게 되면 build.gradle 에 명시되어 있는 버전 정보들은 빠지고 빌드가 되게 된다. actuator 을 추가해보자.</p>
 <p><code>build.gradle</code></p>
-<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 1 </span></span><br><span class="line">ext &#123;</span><br><span class="line">   baseName = <span class="string">'api'</span></span><br><span class="line">   version = <span class="string">'9.2.8-SNAPSHOT'</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">dependencies &#123;</span><br><span class="line">	...</span><br><span class="line">	<span class="comment">// 2</span></span><br><span class="line">	compile <span class="string">'org.springframework.boot:spring-boot-starter-actuator'</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 3</span></span><br><span class="line">springBoot&#123;</span><br><span class="line">    buildInfo &#123;</span><br><span class="line">        additionalProperties = [</span><br><span class="line">                <span class="string">'version'</span>: <span class="string">"<span class="subst">$&#123;project.ext.version&#125;</span>"</span>,</span><br><span class="line">                <span class="string">'name'</span>: <span class="string">"<span class="subst">$&#123;project.ext.baseName&#125;</span>"</span></span><br><span class="line">        ]</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 1 </span></span><br><span class="line">ext &#123;</span><br><span class="line">   baseName = <span class="string">'api'</span></span><br><span class="line">   version = <span class="string">'9.2.8-SNAPSHOT'</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">dependencies</span> &#123;</span><br><span class="line">	...</span><br><span class="line">	<span class="comment">// 2</span></span><br><span class="line">	<span class="keyword">compile</span> <span class="string">'org.springframework.boot:spring-boot-starter-actuator'</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 3</span></span><br><span class="line">springBoot&#123;</span><br><span class="line">    buildInfo &#123;</span><br><span class="line">        additionalProperties = [</span><br><span class="line">                <span class="string">'version'</span>: <span class="string">"$&#123;project.ext.version&#125;"</span>,</span><br><span class="line">                <span class="string">'name'</span>: <span class="string">"$&#123;project.ext.baseName&#125;"</span></span><br><span class="line">        ]</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <ol>
 <li><code>ext</code>에는 해당 모듈의 이름과 버전 정보가 들어가게 된다. 클라이언트와 QA가 원하는 값은 저 버전 정보이다.</li>
 <li>모듈을 추가만 해주면 끝이다. 이제 여러 정보들을 endpoint 로 제공받을 수 있다. 하지만 이번 포스팅에서는 다른 기능들을 알아보는건 스킵하도록 한다. (조금 써보았는데 굉장히 많은 정보들을 제공해주고 있다. 나중에 좀 더 깊게 살펴보는게 좋겠다.)</li>

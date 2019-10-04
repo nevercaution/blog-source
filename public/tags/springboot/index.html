@@ -142,13 +142,6 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
-                        </li>
-                        
-                    
-
-                        
-                        <li>
                             <a href="/archive/">Archives</a>
                         </li>
                         
@@ -157,6 +150,13 @@
                         
                         <li>
                             <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -231,6 +231,21 @@
                     <span class="tag-text">2019</span>
                 </span>
                 <ul>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <li>
+                    10-02
+                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                    <a href="/2019/10/02/spring-boot-starter-custom/" style="color: #0085a1">
+                        <span>
+                            Spring Boot Starter Customize 하기
+                        </span>
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </li>
                 
                   <!-- <li class="listing-item">
                   <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
@@ -514,6 +529,16 @@
     <div class="tags">
         
             
+        
+            
+            <a href="/tags/#springboot" title="springboot" rel="10">springboot</a>
+            
+        
+            
+        
+            
+        
+            
             <a href="/tags/#django" title="django" rel="3">django</a>
             
         
@@ -530,17 +555,13 @@
             
         
             
-        
-            
-            <a href="/tags/#springboot" title="springboot" rel="9">springboot</a>
+            <a href="/tags/#elasticsearch" title="elasticsearch" rel="3">elasticsearch</a>
             
         
             
         
             
         
-            
-            <a href="/tags/#redis" title="redis" rel="2">redis</a>
             
         
             
@@ -558,9 +579,9 @@
             
         
             
-        
+            <a href="/tags/#redis" title="redis" rel="2">redis</a>
             
-            <a href="/tags/#elasticsearch" title="elasticsearch" rel="3">elasticsearch</a>
+        
             
         
             
@@ -662,6 +683,10 @@
     <ul>
       
         <li>
+          <a href="/2019/10/02/spring-boot-starter-custom/">Spring Boot Starter Customize 하기</a>
+        </li>
+      
+        <li>
           <a href="/2019/02/03/redis-cache-annotation-with-aspect/">redis cache 를 @annotation 으로 하기 (with @Aspect)</a>
         </li>
       
@@ -675,10 +700,6 @@
       
         <li>
           <a href="/2018/07/16/spring-boot-redis-pub-sub/">spring boot 에서 redis pub/sub 을 이용해 동적으로 value 사용하기</a>
-        </li>
-      
-        <li>
-          <a href="/2018/06/17/elasticsearch-java-high-level-client/">Elasticsearch Java Rest High Level Client 사용하기</a>
         </li>
       
     </ul>
